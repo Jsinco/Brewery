@@ -31,37 +31,37 @@ import org.jetbrains.annotations.NotNull;
  * <p>Cancelling this will silently fail the Barrel creation
  */
 public class BarrelCreateEvent extends BarrelEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final Player player;
-	private boolean cancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
+    private boolean cancelled;
 
-	public BarrelCreateEvent(Barrel barrel, Player player) {
-		super(barrel);
-		this.player = player;
-	}
+    public BarrelCreateEvent(Barrel barrel, Player player) {
+        super(barrel);
+        this.player = player;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
+    public Player getPlayer() {
+        return player;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	@NotNull
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	// Required by Bukkit
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    // Required by Bukkit
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

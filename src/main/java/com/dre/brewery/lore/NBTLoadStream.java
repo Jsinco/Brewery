@@ -28,30 +28,30 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.io.ByteArrayInputStream;
 
 public class NBTLoadStream extends ByteArrayInputStream {
-	private static final String TAG = "brewdata";
-	private static final NamespacedKey KEY = new NamespacedKey(BreweryPlugin.getInstance(), TAG);
-	private static final NamespacedKey LEGACY_KEY = new NamespacedKey("brewery", TAG.toLowerCase());
+    private static final String TAG = "brewdata";
+    private static final NamespacedKey KEY = new NamespacedKey(BreweryPlugin.getInstance(), TAG);
+    private static final NamespacedKey LEGACY_KEY = new NamespacedKey("brewery", TAG.toLowerCase());
 
-	public NBTLoadStream(ItemMeta meta) {
-		super(getNBTBytes(meta));
-	}
+    public NBTLoadStream(ItemMeta meta) {
+        super(getNBTBytes(meta));
+    }
 
-	private static byte[] getNBTBytes(ItemMeta meta) {
-		byte[] bytes = NBTUtil.readBytesItem(meta, KEY);
-		if (bytes == null) {
-			bytes = NBTUtil.readBytesItem(meta, LEGACY_KEY);
-		}
-		if (bytes == null) {
-			return new byte[0];
-		}
-		return bytes;
-	}
+    private static byte[] getNBTBytes(ItemMeta meta) {
+        byte[] bytes = NBTUtil.readBytesItem(meta, KEY);
+        if (bytes == null) {
+            bytes = NBTUtil.readBytesItem(meta, LEGACY_KEY);
+        }
+        if (bytes == null) {
+            return new byte[0];
+        }
+        return bytes;
+    }
 
-	public boolean hasData() {
-		return count > 0;
-	}
+    public boolean hasData() {
+        return count > 0;
+    }
 
-	public static boolean hasDataInMeta(ItemMeta meta) {
-		return NBTUtil.hasBytesItem(meta, KEY) || NBTUtil.hasBytesItem(meta, LEGACY_KEY);
-	}
+    public static boolean hasDataInMeta(ItemMeta meta) {
+        return NBTUtil.hasBytesItem(meta, KEY) || NBTUtil.hasBytesItem(meta, LEGACY_KEY);
+    }
 }

@@ -34,62 +34,62 @@ import org.jetbrains.annotations.NotNull;
  * <p>Can be cancelled to silently deny opening the Barrel
  */
 public class BarrelAccessEvent extends BarrelEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final Player player;
-	private final Block clickedBlock;
-	private final BlockFace clickedBlockFace;
-	private boolean isCancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
+    private final Block clickedBlock;
+    private final BlockFace clickedBlockFace;
+    private boolean isCancelled;
 
-	public BarrelAccessEvent(Barrel barrel, Player player, Block clickedBlock) {
-		this(barrel, player, clickedBlock, BlockFace.UP);
-	}
+    public BarrelAccessEvent(Barrel barrel, Player player, Block clickedBlock) {
+        this(barrel, player, clickedBlock, BlockFace.UP);
+    }
 
-	public BarrelAccessEvent(Barrel barrel, Player player, Block clickedBlock, BlockFace clickedBlockFace) {
-		super(barrel);
-		this.player = player;
-		this.clickedBlock = clickedBlock;
-		this.clickedBlockFace = clickedBlockFace;
-	}
+    public BarrelAccessEvent(Barrel barrel, Player player, Block clickedBlock, BlockFace clickedBlockFace) {
+        super(barrel);
+        this.player = player;
+        this.clickedBlock = clickedBlock;
+        this.clickedBlockFace = clickedBlockFace;
+    }
 
-	/**
-	 * Gets the Block that was actually clicked.
-	 * <p>For access Permissions getSpigot() should be used
-	 */
-	public Block getClickedBlock() {
-		return clickedBlock;
-	}
+    /**
+     * Gets the Block that was actually clicked.
+     * <p>For access Permissions getSpigot() should be used
+     */
+    public Block getClickedBlock() {
+        return clickedBlock;
+    }
 
-	/**
-	 * Get the clicked Block Face when clicking on the Barrel Block
-	 *
-	 * @since v3.0 (Api 3)
-	 */
-	public BlockFace getClickedBlockFace() {
-		return clickedBlockFace;
-	}
+    /**
+     * Get the clicked Block Face when clicking on the Barrel Block
+     *
+     * @since v3.0 (Api 3)
+     */
+    public BlockFace getClickedBlockFace() {
+        return clickedBlockFace;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return isCancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return isCancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		isCancelled = cancelled;
-	}
+    @Override
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
+    }
 
-	public Player getPlayer() {
-		return player;
-	}
+    public Player getPlayer() {
+        return player;
+    }
 
-	@NotNull
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	// Required by Bukkit
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    // Required by Bukkit
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

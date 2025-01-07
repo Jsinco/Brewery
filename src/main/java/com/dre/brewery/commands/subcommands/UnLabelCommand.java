@@ -58,7 +58,8 @@ public class UnLabelCommand implements SubCommand {
                     lang.sendEntry(sender, "CMD_UnLabel");
                 } else {
                     lang.sendEntry(sender, "Error_AlreadyUnlabeled");
-                } return;
+                }
+                return;
             }
         }
         lang.sendEntry(sender, "Error_ItemNotPotion");

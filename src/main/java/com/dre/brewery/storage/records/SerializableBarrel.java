@@ -32,14 +32,16 @@ import java.util.List;
 
 /**
  * Represents a barrel that can be serialized.
- * @param id The UUID of the barrel
+ *
+ * @param id                 The UUID of the barrel
  * @param serializedLocation The Block/Location of the Spigot of the barrel
- * @param bounds The bounds of the barrel
- * @param time no idea
- * @param sign The sign byte offset the barrel
- * @param serializedItems Serialized ItemStacks 'BukkitSerialization.itemStackArrayToBase64(ItemStack[])'
+ * @param bounds             The bounds of the barrel
+ * @param time               no idea
+ * @param sign               The sign byte offset the barrel
+ * @param serializedItems    Serialized ItemStacks 'BukkitSerialization.itemStackArrayToBase64(ItemStack[])'
  */
-public record SerializableBarrel(String id, String serializedLocation, List<Integer> bounds, float time, byte sign, String serializedItems) implements SerializableThing {
+public record SerializableBarrel(String id, String serializedLocation, List<Integer> bounds, float time, byte sign,
+                                 String serializedItems) implements SerializableThing {
     public SerializableBarrel(Barrel barrel) {
         this(barrel.getId().toString(), DataManager.serializeLocation(barrel.getSpigot().getLocation()), barrel.getBounds().serializeToIntList(), barrel.getTime(), barrel.getSignoffset(), BukkitSerialization.itemStackArrayToBase64(barrel.getInventory().getContents()));
     }

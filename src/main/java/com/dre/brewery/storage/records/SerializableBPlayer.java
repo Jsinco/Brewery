@@ -25,12 +25,14 @@ import com.dre.brewery.storage.interfaces.SerializableThing;
 
 /**
  * Represents a player that can be serialized.
- * @param id The UUID of the player
- * @param quality The quality of the player
- * @param drunkenness The drunkenness of the player
+ *
+ * @param id                 The UUID of the player
+ * @param quality            The quality of the player
+ * @param drunkenness        The drunkenness of the player
  * @param offlineDrunkenness The offline drunkenness of the player
  */
-public record SerializableBPlayer(String id, int quality, int drunkenness, int offlineDrunkenness) implements SerializableThing {
+public record SerializableBPlayer(String id, int quality, int drunkenness,
+                                  int offlineDrunkenness) implements SerializableThing {
     public SerializableBPlayer(BPlayer player) {
         this(player.getUuid(), player.getQuality(), player.getDrunkeness(), player.getOfflineDrunkeness());
     }

@@ -27,13 +27,8 @@ import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.storage.DataManager;
 import com.dre.brewery.storage.StorageInitException;
-import com.dre.brewery.storage.records.BreweryMiscData;
-import com.dre.brewery.storage.records.SerializableBPlayer;
-import com.dre.brewery.storage.records.SerializableBarrel;
-import com.dre.brewery.storage.records.SerializableCauldron;
 import com.dre.brewery.storage.interfaces.SerializableThing;
-import com.dre.brewery.storage.records.SerializableWakeup;
-import com.dre.brewery.utility.Logging;
+import com.dre.brewery.storage.records.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -44,11 +39,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MongoDBStorage extends DataManager {
@@ -117,6 +108,7 @@ public class MongoDBStorage extends DataManager {
         MongoCollection<T> mongoCollection = mongoDatabase.getCollection(collectionPrefix + collection, type);
         return mongoCollection.find(Filters.eq(MONGO_ID, id)).first();
     }
+
     private <T extends SerializableThing> T getGeneric(UUID id, String collection, Class<T> type) {
         return getGeneric(id.toString(), collection, type);
     }
@@ -168,16 +160,16 @@ public class MongoDBStorage extends DataManager {
     @Override
     public Collection<Barrel> getAllBarrels() {
         return getAllGeneric("barrels", SerializableBarrel.class).stream()
-                .map(SerializableBarrel::toBarrel)
-                .toList();
+            .map(SerializableBarrel::toBarrel)
+            .toList();
     }
 
     @Override
     public void saveAllBarrels(Collection<Barrel> barrels, boolean overwrite) {
         List<SerializableBarrel> serializableBarrels = barrels.stream()
-                .filter(it -> it.getBounds() != null)
-                .map(SerializableBarrel::new)
-                .toList();
+            .filter(it -> it.getBounds() != null)
+            .map(SerializableBarrel::new)
+            .toList();
         saveAllGeneric(serializableBarrels, "barrels", overwrite, SerializableBarrel.class);
     }
 
@@ -203,15 +195,15 @@ public class MongoDBStorage extends DataManager {
     @Override
     public Collection<BCauldron> getAllCauldrons() {
         return getAllGeneric("cauldrons", SerializableCauldron.class).stream()
-                .map(SerializableCauldron::toCauldron)
-                .toList();
+            .map(SerializableCauldron::toCauldron)
+            .toList();
     }
 
     @Override
     public void saveAllCauldrons(Collection<BCauldron> cauldrons, boolean overwrite) {
         List<SerializableCauldron> serializableCauldrons = cauldrons.stream()
-                .map(SerializableCauldron::new)
-                .toList();
+            .map(SerializableCauldron::new)
+            .toList();
         saveAllGeneric(serializableCauldrons, "cauldrons", overwrite, SerializableCauldron.class);
     }
 
@@ -237,15 +229,15 @@ public class MongoDBStorage extends DataManager {
     @Override
     public Collection<BPlayer> getAllPlayers() {
         return getAllGeneric("players", SerializableBPlayer.class).stream()
-                .map(SerializableBPlayer::toBPlayer)
-                .toList();
+            .map(SerializableBPlayer::toBPlayer)
+            .toList();
     }
 
     @Override
     public void saveAllPlayers(Collection<BPlayer> players, boolean overwrite) {
         List<SerializableBPlayer> serializableBPlayers = players.stream()
-                .map(SerializableBPlayer::new)
-                .toList();
+            .map(SerializableBPlayer::new)
+            .toList();
         saveAllGeneric(serializableBPlayers, "players", overwrite, SerializableBPlayer.class);
     }
 
@@ -271,15 +263,15 @@ public class MongoDBStorage extends DataManager {
     @Override
     public Collection<Wakeup> getAllWakeups() {
         return getAllGeneric("wakeups", SerializableWakeup.class).stream()
-                .map(SerializableWakeup::toWakeup)
-                .toList();
+            .map(SerializableWakeup::toWakeup)
+            .toList();
     }
 
     @Override
     public void saveAllWakeups(Collection<Wakeup> wakeups, boolean overwrite) {
         List<SerializableWakeup> serializableWakeups = wakeups.stream()
-                .map(SerializableWakeup::new)
-                .toList();
+            .map(SerializableWakeup::new)
+            .toList();
         saveAllGeneric(serializableWakeups, "wakeups", overwrite, SerializableWakeup.class);
     }
 

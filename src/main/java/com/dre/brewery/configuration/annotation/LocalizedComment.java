@@ -27,10 +27,11 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation for declaring comments which change based on the selected language.
+ *
  * @see com.dre.brewery.configuration.configurer.BreweryXConfigurer
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LocalizedComment {
-	String[] value();
+    String[] value();
 }

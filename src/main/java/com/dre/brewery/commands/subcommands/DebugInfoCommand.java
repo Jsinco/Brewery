@@ -104,7 +104,7 @@ public class DebugInfoCommand implements SubCommand {
                 int cookQ = ingredients.getCookingQuality(recipe, false);
                 int cookDistQ = ingredients.getCookingQuality(recipe, true);
                 int ageQ = ingredients.getAgeQuality(recipe, brew.getAgeTime());
-                Logging.log("ingQlty: " + ingQ + ", cookQlty:" + cookQ + ", cook+DistQlty: " + cookDistQ  + ", ageQlty: " + ageQ);
+                Logging.log("ingQlty: " + ingQ + ", cookQlty:" + cookQ + ", cook+DistQlty: " + cookDistQ + ", ageQlty: " + ageQ);
             }
 
             Logging.msg(player, "Debug Info for item written into Log");

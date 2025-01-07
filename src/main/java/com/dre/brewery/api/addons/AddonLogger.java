@@ -31,27 +31,27 @@ public class AddonLogger {
 
     private final String prefix;
 
-	public AddonLogger(Class<? extends BreweryAddon> addonUninstantiated) {
-		this.prefix = "&2[" + addonUninstantiated.getSimpleName() + "] &r";
-	}
+    public AddonLogger(Class<? extends BreweryAddon> addonUninstantiated) {
+        this.prefix = "&2[" + addonUninstantiated.getSimpleName() + "] &r";
+    }
 
-	public AddonLogger(AddonInfo addonInfo) {
-		this.prefix = "&2[" + addonInfo.name() + "] &r";
-	}
+    public AddonLogger(AddonInfo addonInfo) {
+        this.prefix = "&2[" + addonInfo.name() + "] &r";
+    }
 
-	public void info(String message) {
-		Logging.log(prefix + message);
-	}
+    public void info(String message) {
+        Logging.log(prefix + message);
+    }
 
-	public void warning(String message) {
-		Logging.warningLog(prefix + message);
-	}
+    public void warning(String message) {
+        Logging.warningLog(prefix + message);
+    }
 
-	public void severe(String message) {
-		Logging.errorLog(prefix + message);
-	}
+    public void severe(String message) {
+        Logging.errorLog(prefix + message);
+    }
 
-	public void severe(String message, Throwable throwable) {
-		Logging.errorLog(prefix + message, throwable);
-	}
+    public void severe(String message, Throwable throwable) {
+        Logging.errorLog(prefix + message, throwable);
+    }
 }

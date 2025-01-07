@@ -33,57 +33,57 @@ import org.jetbrains.annotations.NotNull;
  * <p>Number of items to drop can be changed with count
  */
 public class PlayerPukeEvent extends PlayerEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private int count;
-	private boolean cancelled;
-	private BPlayer bPlayer;
+    private static final HandlerList handlers = new HandlerList();
+    private int count;
+    private boolean cancelled;
+    private BPlayer bPlayer;
 
 
-	public PlayerPukeEvent(Player who, int count) {
-		super(who);
-		this.count = count;
-	}
+    public PlayerPukeEvent(Player who, int count) {
+        super(who);
+        this.count = count;
+    }
 
-	/**
-	 * Get the Amount of items being dropped this time
-	 */
-	public int getCount() {
-		return count;
-	}
+    /**
+     * Get the Amount of items being dropped this time
+     */
+    public int getCount() {
+        return count;
+    }
 
-	/**
-	 * Set the amount of items being dropped this time
-	 */
-	public void setCount(int count) {
-		this.count = count;
-	}
+    /**
+     * Set the amount of items being dropped this time
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
 
-	public BPlayer getBPlayer() {
-		if (bPlayer == null) {
-			bPlayer = BPlayer.get(player);
-		}
-		return bPlayer;
-	}
+    public BPlayer getBPlayer() {
+        if (bPlayer == null) {
+            bPlayer = BPlayer.get(player);
+        }
+        return bPlayer;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	@NotNull
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	// Required by Bukkit
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    // Required by Bukkit
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
 }

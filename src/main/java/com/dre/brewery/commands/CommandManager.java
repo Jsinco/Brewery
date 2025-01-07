@@ -21,25 +21,7 @@
 package com.dre.brewery.commands;
 
 import com.dre.brewery.BreweryPlugin;
-import com.dre.brewery.commands.subcommands.CopyCommand;
-import com.dre.brewery.commands.subcommands.CreateCommand;
-import com.dre.brewery.commands.subcommands.DataManagerCommand;
-import com.dre.brewery.commands.subcommands.DebugInfoCommand;
-import com.dre.brewery.commands.subcommands.DeleteCommand;
-import com.dre.brewery.commands.subcommands.DrinkCommand;
-import com.dre.brewery.commands.subcommands.HelpCommand;
-import com.dre.brewery.commands.subcommands.InfoCommand;
-import com.dre.brewery.commands.subcommands.ItemName;
-import com.dre.brewery.commands.subcommands.PukeCommand;
-import com.dre.brewery.commands.subcommands.ReloadAddonsCommand;
-import com.dre.brewery.commands.subcommands.ReloadCommand;
-import com.dre.brewery.commands.subcommands.SealCommand;
-import com.dre.brewery.commands.subcommands.SetCommand;
-import com.dre.brewery.commands.subcommands.ShowStatsCommand;
-import com.dre.brewery.commands.subcommands.StaticCommand;
-import com.dre.brewery.commands.subcommands.UnLabelCommand;
-import com.dre.brewery.commands.subcommands.VersionCommand;
-import com.dre.brewery.commands.subcommands.WakeupCommand;
+import com.dre.brewery.commands.subcommands.*;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.utility.Logging;
@@ -133,12 +115,12 @@ public class CommandManager implements TabExecutor {
         return null;
     }
 
-	public static void addSubCommand(String name, SubCommand subCommand) {
+    public static void addSubCommand(String name, SubCommand subCommand) {
         if (subCommands.containsKey(name)) {
             Logging.warningLog("SubCommand with name: &6" + name + " &ealready exists! It's being overwritten!");
         }
-		subCommands.put(name, subCommand);
-	}
+        subCommands.put(name, subCommand);
+    }
 
     public static void addSubCommand(SubCommand subCommand, String... names) {
         for (String name : names) {
@@ -146,9 +128,9 @@ public class CommandManager implements TabExecutor {
         }
     }
 
-	public static void removeSubCommand(String name) {
-		subCommands.remove(name);
-	}
+    public static void removeSubCommand(String name) {
+        subCommands.remove(name);
+    }
 
     public static void removeSubCommand(String... names) {
         for (String name : names) {
@@ -170,7 +152,7 @@ public class CommandManager implements TabExecutor {
 
     public static void execute(Class<? extends SubCommand> clazz, CommandSender sender, String label, String[] args) {
         subCommands.values().stream()
-                .filter(subCommand -> subCommand.getClass().equals(clazz))
-                .forEach(subCommand -> subCommand.execute(plugin, lang, sender, label, args));
+            .filter(subCommand -> subCommand.getClass().equals(clazz))
+            .forEach(subCommand -> subCommand.execute(plugin, lang, sender, label, args));
     }
 }

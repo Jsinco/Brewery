@@ -20,13 +20,10 @@
 
 package com.dre.brewery.utility;
 
-import com.avaje.ebean.LogLevel;
-import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.commands.subcommands.ReloadCommand;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import io.papermc.lib.PaperLib;
-import io.papermc.lib.environments.Environment;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;

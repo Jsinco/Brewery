@@ -33,15 +33,15 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Translation {
 
-	// Languages added should have a config and a lang translation (resources/config-langs/, resources/languages/)
+    // Languages added should have a config and a lang translation (resources/config-langs/, resources/languages/)
 
-	EN("en.yml"),
-	DE("de.yml"),
-	ES("es.yml"),
-	FR("fr.yml"),
-	IT("it.yml"),
-	RU("ru.yml"),
-	ZH("zh.yml");
+    EN("en.yml"),
+    DE("de.yml"),
+    ES("es.yml"),
+    FR("fr.yml"),
+    IT("it.yml"),
+    RU("ru.yml"),
+    ZH("zh.yml");
 
-	private final String filename;
+    private final String filename;
 }

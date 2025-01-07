@@ -34,17 +34,17 @@ public class BreweryPluginItem extends PluginItem {
 // We're calling this as server start:
 // PluginItem.registerForConfig("brewery", BreweryPluginItem::new);
 
-	@Override
-	public boolean matches(ItemStack item) {
-		Brew brew = Brew.get(item);
-		if (brew == null) {
-			return false;
-		}
+    @Override
+    public boolean matches(ItemStack item) {
+        Brew brew = Brew.get(item);
+        if (brew == null) {
+            return false;
+        }
 
-		BRecipe recipe = brew.getCurrentRecipe();
-		if (recipe != null) {
-			return this.getItemId().equalsIgnoreCase(recipe.getId());
-		}
-		return false;
-	}
+        BRecipe recipe = brew.getCurrentRecipe();
+        if (recipe != null) {
+            return this.getItemId().equalsIgnoreCase(recipe.getId());
+        }
+        return false;
+    }
 }

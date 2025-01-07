@@ -41,95 +41,96 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @Setter
 public class BrewModifyEvent extends BrewEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final Type type;
-	private boolean cancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final Type type;
+    private boolean cancelled;
 
-	@Nullable
-	private Player player;
+    @Nullable
+    private Player player;
 
 
-	public BrewModifyEvent(@NotNull Brew brew, @NotNull ItemMeta meta, @NotNull Type type) {
-		super(brew, meta);
-		this.type = type;
-	}
-	public BrewModifyEvent(@NotNull Brew brew, @NotNull ItemMeta meta, @NotNull Type type, @Nullable Player player) {
-		this(brew, meta, type);
-		this.player = player;
-	}
+    public BrewModifyEvent(@NotNull Brew brew, @NotNull ItemMeta meta, @NotNull Type type) {
+        super(brew, meta);
+        this.type = type;
+    }
 
-	/**
-	 * Get the BrewLore to modify lore on the Brew
-	 */
-	@NotNull
-	public BrewLore getLore() {
-		return new BrewLore(getBrew(), (PotionMeta) getItemMeta());
-	}
+    public BrewModifyEvent(@NotNull Brew brew, @NotNull ItemMeta meta, @NotNull Type type, @Nullable Player player) {
+        this(brew, meta, type);
+        this.player = player;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    /**
+     * Get the BrewLore to modify lore on the Brew
+     */
+    @NotNull
+    public BrewLore getLore() {
+        return new BrewLore(getBrew(), (PotionMeta) getItemMeta());
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@NotNull
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	// Required by Bukkit
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * The Type of Modification being applied to the Brew.
-	 */
-	public enum Type {
-		/**
-		 * A new Brew is created with arbitrary ways, like the create command.
-		 * <p>Cancelling this will disallow the creation
-		 */
-		CREATE,
+    // Required by Bukkit
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 
-		/**
-		 * Filled from a Cauldron into a new Brew.
-		 */
-		FILL,
+    /**
+     * The Type of Modification being applied to the Brew.
+     */
+    public enum Type {
+        /**
+         * A new Brew is created with arbitrary ways, like the create command.
+         * <p>Cancelling this will disallow the creation
+         */
+        CREATE,
 
-		/**
-		 * Distilled in the Brewing stand.
-		 */
-		DISTILL,
+        /**
+         * Filled from a Cauldron into a new Brew.
+         */
+        FILL,
 
-		/**
-		 * Aged in a Barrel.
-		 */
-		AGE,
+        /**
+         * Distilled in the Brewing stand.
+         */
+        DISTILL,
 
-		/**
-		 *  Unlabeling Brew with command.
-		 */
-		UNLABEL,
+        /**
+         * Aged in a Barrel.
+         */
+        AGE,
 
-		/**
-		 * Making Brew static with command.
-		 */
-		STATIC,
+        /**
+         * Unlabeling Brew with command.
+         */
+        UNLABEL,
 
-		/**
-		 * Sealing the Brew (unlabel &amp; static &amp; stripped) With Command or Machine
-		 */
-		SEAL,
+        /**
+         * Making Brew static with command.
+         */
+        STATIC,
 
-		/**
-		 * Unknown modification, unused.
-		 */
-		UNKNOWN
-	}
+        /**
+         * Sealing the Brew (unlabel &amp; static &amp; stripped) With Command or Machine
+         */
+        SEAL,
+
+        /**
+         * Unknown modification, unused.
+         */
+        UNKNOWN
+    }
 }

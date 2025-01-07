@@ -42,81 +42,81 @@ import org.bukkit.plugin.RegisteredListener;
 public class LWCBarrel {
 
 
-	public static boolean denyDestroy(Player player, Barrel barrel) {
-		LWC lwc = LWC.getInstance();
-		Block sign = barrel.getSignOfSpigot();
-		//if (!Boolean.parseBoolean(lwc.resolveProtectionConfiguration(sign, "ignoreBlockDestruction"))) {
-			Protection protection = lwc.findProtection(sign);
-			if (protection != null) {
-				boolean canAccess = lwc.canAccessProtection(player, protection);
-				boolean canAdmin = lwc.canAdminProtection(player, protection);
+    public static boolean denyDestroy(Player player, Barrel barrel) {
+        LWC lwc = LWC.getInstance();
+        Block sign = barrel.getSignOfSpigot();
+        //if (!Boolean.parseBoolean(lwc.resolveProtectionConfiguration(sign, "ignoreBlockDestruction"))) {
+        Protection protection = lwc.findProtection(sign);
+        if (protection != null) {
+            boolean canAccess = lwc.canAccessProtection(player, protection);
+            boolean canAdmin = lwc.canAdminProtection(player, protection);
 
-				try {
-					LWCProtectionDestroyEvent evt = new LWCProtectionDestroyEvent(player, protection, LWCProtectionDestroyEvent.Method.BLOCK_DESTRUCTION, canAccess, canAdmin);
-					lwc.getModuleLoader().dispatchEvent(evt);
+            try {
+                LWCProtectionDestroyEvent evt = new LWCProtectionDestroyEvent(player, protection, LWCProtectionDestroyEvent.Method.BLOCK_DESTRUCTION, canAccess, canAdmin);
+                lwc.getModuleLoader().dispatchEvent(evt);
 
-					if (evt.isCancelled()) {
-						return true;
-					}
-				} catch (Exception e) {
-					lwc.sendLocale(player, "protection.internalerror", "id", "BLOCK_BREAK");
-					Logging.errorLog("Failed to dispatch LWCProtectionDestroyEvent", e);
-					return true;
-				}
-			}
-		//}
+                if (evt.isCancelled()) {
+                    return true;
+                }
+            } catch (Exception e) {
+                lwc.sendLocale(player, "protection.internalerror", "id", "BLOCK_BREAK");
+                Logging.errorLog("Failed to dispatch LWCProtectionDestroyEvent", e);
+                return true;
+            }
+        }
+        //}
 
-		return false;
-	}
+        return false;
+    }
 
-	public static boolean checkAccess(Player player, Block sign, Plugin plugin) {
-		LWC lwc = LWC.getInstance();
+    public static boolean checkAccess(Player player, Block sign, Plugin plugin) {
+        LWC lwc = LWC.getInstance();
 
-		// Disallow Chest Access with these permissions
-		if (!lwc.hasPermission(player, "lwc.protect") && lwc.hasPermission(player, "lwc.deny") && !lwc.isAdmin(player) && !lwc.isMod(player)) {
-			lwc.sendLocale(player, "protection.interact.error.blocked");
-			return false;
-		}
+        // Disallow Chest Access with these permissions
+        if (!lwc.hasPermission(player, "lwc.protect") && lwc.hasPermission(player, "lwc.deny") && !lwc.isAdmin(player) && !lwc.isMod(player)) {
+            lwc.sendLocale(player, "protection.interact.error.blocked");
+            return false;
+        }
 
-		// We just fake a BlockInteractEvent on the Sign for LWC, it handles it nicely. Otherwise we could copy LWCs listener in here...
-		PlayerInteractEvent lwcEvent = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), sign, BlockFace.EAST);
-		for (RegisteredListener listener : HandlerList.getRegisteredListeners(plugin)) {
-			if (listener.getListener() instanceof LWCPlayerListener) {
-				try {
-					listener.callEvent(lwcEvent);
-					//noinspection deprecation
-					if (lwcEvent.isCancelled()) {
-						return false;
-					}
-				} catch (EventException e) {
-					lwc.sendLocale(player, "protection.internalerror", "id", "PLAYER_INTERACT");
-					Logging.errorLog("Block Interact could not be passed to LWC", e);
+        // We just fake a BlockInteractEvent on the Sign for LWC, it handles it nicely. Otherwise we could copy LWCs listener in here...
+        PlayerInteractEvent lwcEvent = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK, new ItemStack(Material.AIR), sign, BlockFace.EAST);
+        for (RegisteredListener listener : HandlerList.getRegisteredListeners(plugin)) {
+            if (listener.getListener() instanceof LWCPlayerListener) {
+                try {
+                    listener.callEvent(lwcEvent);
+                    //noinspection deprecation
+                    if (lwcEvent.isCancelled()) {
+                        return false;
+                    }
+                } catch (EventException e) {
+                    lwc.sendLocale(player, "protection.internalerror", "id", "PLAYER_INTERACT");
+                    Logging.errorLog("Block Interact could not be passed to LWC", e);
 
-					return false;
-				}
-			}
-		}
+                    return false;
+                }
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	// If a Barrel is destroyed without player
-	public static void remove(Barrel barrel) {
-		Protection protection = LWC.getInstance().findProtection(barrel.getSignOfSpigot());
-		if (protection != null) {
-			protection.remove();
-		}
-	}
+    // If a Barrel is destroyed without player
+    public static void remove(Barrel barrel) {
+        Protection protection = LWC.getInstance().findProtection(barrel.getSignOfSpigot());
+        if (protection != null) {
+            protection.remove();
+        }
+    }
 
-	// Returns true if the block that exploded should not be removed
-	public static boolean denyExplosion(Barrel barrel) {
-		Protection protection = LWC.getInstance().findProtection(barrel.getSignOfSpigot());
+    // Returns true if the block that exploded should not be removed
+    public static boolean denyExplosion(Barrel barrel) {
+        Protection protection = LWC.getInstance().findProtection(barrel.getSignOfSpigot());
 
-		return protection != null && !protection.hasFlag(Flag.Type.ALLOWEXPLOSIONS);
-	}
+        return protection != null && !protection.hasFlag(Flag.Type.ALLOWEXPLOSIONS);
+    }
 
-	// Returns true if the block that was destroyed should not be removed
-	public static boolean denyDestroyOther(Barrel barrel) {
-		return LWC.getInstance().findProtection(barrel.getSignOfSpigot()) != null;
-	}
+    // Returns true if the block that was destroyed should not be removed
+    public static boolean denyDestroyOther(Barrel barrel) {
+        return LWC.getInstance().findProtection(barrel.getSignOfSpigot()) != null;
+    }
 }

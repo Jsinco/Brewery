@@ -20,24 +20,18 @@
 
 package com.dre.brewery.storage;
 
-import com.dre.brewery.BCauldron;
-import com.dre.brewery.BPlayer;
-import com.dre.brewery.Barrel;
-import com.dre.brewery.Brew;
-import com.dre.brewery.BreweryPlugin;
-import com.dre.brewery.MCBarrel;
-import com.dre.brewery.Wakeup;
+import com.dre.brewery.*;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.integration.bstats.BreweryStats;
-import com.dre.brewery.storage.interfaces.ExternallyAutoSavable;
 import com.dre.brewery.storage.impls.FlatFileStorage;
 import com.dre.brewery.storage.impls.MongoDBStorage;
 import com.dre.brewery.storage.impls.MySQLStorage;
 import com.dre.brewery.storage.impls.SQLiteStorage;
-import com.dre.brewery.storage.records.BreweryMiscData;
+import com.dre.brewery.storage.interfaces.ExternallyAutoSavable;
 import com.dre.brewery.storage.interfaces.SerializableThing;
+import com.dre.brewery.storage.records.BreweryMiscData;
 import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.Logging;
 import lombok.Getter;
@@ -46,12 +40,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public abstract class DataManager {
@@ -69,43 +58,65 @@ public abstract class DataManager {
     // Child methods
 
     public abstract boolean createTable(String name, int maxIdLength);
+
     public abstract boolean dropTable(String name);
 
     public abstract <T extends SerializableThing> T getGeneric(String id, String table, Class<T> type);
+
     public abstract <T extends SerializableThing> List<T> getAllGeneric(String table, Class<T> type);
+
     public abstract <T extends SerializableThing> void saveAllGeneric(List<T> serializableThings, String table, boolean overwrite, @Nullable Class<T> type);
+
     public abstract <T extends SerializableThing> void saveGeneric(T serializableThing, String table);
+
     public abstract void deleteGeneric(String id, String table);
 
     public abstract Barrel getBarrel(UUID id);
+
     public abstract Collection<Barrel> getAllBarrels();
+
     public abstract void saveAllBarrels(Collection<Barrel> barrels, boolean overwrite);
+
     public abstract void saveBarrel(Barrel barrel);
+
     public abstract void deleteBarrel(UUID id);
 
 
     public abstract BCauldron getCauldron(UUID id);
+
     public abstract Collection<BCauldron> getAllCauldrons();
+
     public abstract void saveAllCauldrons(Collection<BCauldron> cauldrons, boolean overwrite);
+
     public abstract void saveCauldron(BCauldron cauldron);
+
     public abstract void deleteCauldron(UUID id);
 
 
     public abstract BPlayer getPlayer(UUID playerUUID);
+
     public abstract Collection<BPlayer> getAllPlayers();
+
     public abstract void saveAllPlayers(Collection<BPlayer> players, boolean overwrite);
+
     public abstract void savePlayer(BPlayer player);
+
     public abstract void deletePlayer(UUID playerUUID);
 
 
     public abstract Wakeup getWakeup(UUID id);
+
     public abstract Collection<Wakeup> getAllWakeups();
+
     public abstract void saveAllWakeups(Collection<Wakeup> wakeups, boolean overwrite);
+
     public abstract void saveWakeup(Wakeup wakeup);
+
     public abstract void deleteWakeup(UUID id);
 
 
     public abstract BreweryMiscData getBreweryMiscData();
+
     public abstract void saveBreweryMiscData(BreweryMiscData data);
 
     protected void closeConnection() {
@@ -207,7 +218,7 @@ public abstract class DataManager {
             dataManager.saveAll(false);
 
             Logging.log("&5Finished migrating legacy data! Took&7: &a" + (System.currentTimeMillis() - start) + "ms&5! Join our discord if you need assistance: &ahttps://discord.gg/3FkNaNDnta");
-			Logging.warningLog("BreweryX can only load legacy data from worlds that exist. If you're trying to migrate old cauldrons, barrels, etc. And the worlds they're in don't exist, you'll need to migrate manually.");
+            Logging.warningLog("BreweryX can only load legacy data from worlds that exist. If you're trying to migrate old cauldrons, barrels, etc. And the worlds they're in don't exist, you'll need to migrate manually.");
         }
 
         // DataManager has been reloaded and may have swapped to a new implementation.
@@ -220,7 +231,6 @@ public abstract class DataManager {
         Logging.log("DataManager created&7:&a " + record.getType().getFormattedName());
         return dataManager;
     }
-
 
 
     // Utility
@@ -261,11 +271,11 @@ public abstract class DataManager {
 
 
         return new BreweryMiscData(
-                Brew.installTime,
-                MCBarrel.mcBarrelTime,
-                Brew.getPrevSeeds(),
-                brewsCreated,
-                brewsCreated.hashCode()
+            Brew.installTime,
+            MCBarrel.mcBarrelTime,
+            Brew.getPrevSeeds(),
+            brewsCreated,
+            brewsCreated.hashCode()
         );
     }
 

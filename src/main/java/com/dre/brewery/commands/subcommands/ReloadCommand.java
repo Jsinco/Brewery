@@ -40,74 +40,74 @@ import java.util.List;
 
 public class ReloadCommand implements SubCommand {
 
-	@Getter
-	private static CommandSender reloader;
+    @Getter
+    private static CommandSender reloader;
 
     @Override
     public void execute(BreweryPlugin breweryPlugin, Lang lang, CommandSender sender, String label, String[] args) {
-		if (!sender.equals(Bukkit.getConsoleSender())) {
-			reloader = sender;
-		}
+        if (!sender.equals(Bukkit.getConsoleSender())) {
+            reloader = sender;
+        }
 
 
-		try {
-			// Reload translation manager
-			TranslationManager.newInstance(breweryPlugin.getDataFolder());
-			TranslationManager.getInstance().updateTranslationFiles();
+        try {
+            // Reload translation manager
+            TranslationManager.newInstance(breweryPlugin.getDataFolder());
+            TranslationManager.getInstance().updateTranslationFiles();
 
-			// Reload each config
-			for (var file : ConfigManager.LOADED_CONFIGS.values()) {
-				try {
-					file.reload();
-				} catch (Throwable e) {
-					Logging.errorLog("Something went wrong trying to load " + file.getBindFile().getFileName() + "!", e);
-				}
-			}
+            // Reload each config
+            for (var file : ConfigManager.LOADED_CONFIGS.values()) {
+                try {
+                    file.reload();
+                } catch (Throwable e) {
+                    Logging.errorLog("Something went wrong trying to load " + file.getBindFile().getFileName() + "!", e);
+                }
+            }
 
-			// Reload Cauldron Ingredients
-			ConfigManager.loadCauldronIngredients();
-			// Reload Recipes
-			ConfigManager.loadRecipes();
+            // Reload Cauldron Ingredients
+            ConfigManager.loadCauldronIngredients();
+            // Reload Recipes
+            ConfigManager.loadRecipes();
 
-			// Reload Cauldron Particle Recipes
-			BCauldron.reload();
+            // Reload Cauldron Particle Recipes
+            BCauldron.reload();
 
-			// Clear Recipe completions
-			CommandUtil.reloadTabCompleter();
+            // Clear Recipe completions
+            CommandUtil.reloadTabCompleter();
 
-			// Sealing table recipe
-			BSealer.registerRecipe();
+            // Sealing table recipe
+            BSealer.registerRecipe();
 
-			// Let addons know this command was executed
-			BreweryPlugin.getAddonManager().reloadAddons();
+            // Let addons know this command was executed
+            BreweryPlugin.getAddonManager().reloadAddons();
 
-			// Reload Recipes <-- TODO: Not really sure what this is doing...? - Jsinco
-			boolean successful = true;
-			for (Brew brew : Brew.legacyPotions.values()) {
-				if (!brew.reloadRecipe()) {
-					successful = false;
-				}
-			}
+            // Reload Recipes <-- TODO: Not really sure what this is doing...? - Jsinco
+            boolean successful = true;
+            for (Brew brew : Brew.legacyPotions.values()) {
+                if (!brew.reloadRecipe()) {
+                    successful = false;
+                }
+            }
 
-			if (!successful) {
-				lang.sendEntry(sender, "Error_Recipeload");
-			} else {
-				lang.sendEntry(sender, "CMD_Reload");
-			}
+            if (!successful) {
+                lang.sendEntry(sender, "Error_Recipeload");
+            } else {
+                lang.sendEntry(sender, "CMD_Reload");
+            }
 
-			ReleaseChecker releaseChecker = ReleaseChecker.getInstance(true);
-			releaseChecker.checkForUpdate().thenAccept(updateAvailable -> {
-				if (!(sender instanceof ConsoleCommandSender consoleSender)) {
-					releaseChecker.notify(sender);
-				} else {
-					releaseChecker.notify(consoleSender);
-				}
-			});
-		} catch (Throwable e) {
-			Logging.errorLog("Something went wrong trying to reload Brewery!", e);
-		}
-		// Make sure this reloader is set to null after
-		reloader = null;
+            ReleaseChecker releaseChecker = ReleaseChecker.getInstance(true);
+            releaseChecker.checkForUpdate().thenAccept(updateAvailable -> {
+                if (!(sender instanceof ConsoleCommandSender consoleSender)) {
+                    releaseChecker.notify(sender);
+                } else {
+                    releaseChecker.notify(consoleSender);
+                }
+            });
+        } catch (Throwable e) {
+            Logging.errorLog("Something went wrong trying to reload Brewery!", e);
+        }
+        // Make sure this reloader is set to null after
+        reloader = null;
     }
 
     @Override

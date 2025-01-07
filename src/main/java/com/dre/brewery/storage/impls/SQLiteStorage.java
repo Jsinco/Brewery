@@ -27,22 +27,14 @@ import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.storage.DataManager;
 import com.dre.brewery.storage.StorageInitException;
-import com.dre.brewery.storage.records.BreweryMiscData;
-import com.dre.brewery.storage.records.SerializableBPlayer;
-import com.dre.brewery.storage.records.SerializableBarrel;
-import com.dre.brewery.storage.records.SerializableCauldron;
 import com.dre.brewery.storage.interfaces.SerializableThing;
-import com.dre.brewery.storage.records.SerializableWakeup;
+import com.dre.brewery.storage.records.*;
 import com.dre.brewery.storage.serialization.SQLDataSerializer;
 import com.dre.brewery.utility.Logging;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,11 +45,11 @@ public class SQLiteStorage extends DataManager {
 
     private static final String URL = "jdbc:sqlite:";
     private static final String[] TABLES = {
-            "misc (id VARCHAR(4) PRIMARY KEY, data LONGTEXT);",
-            "barrels (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
-            "cauldrons (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
-            "players (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
-            "wakeups (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);"
+        "misc (id VARCHAR(4) PRIMARY KEY, data LONGTEXT);",
+        "barrels (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
+        "cauldrons (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
+        "players (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
+        "wakeups (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);"
     };
 
     private final Connection connection;
@@ -179,6 +171,7 @@ public class SQLiteStorage extends DataManager {
             Logging.errorLog("Failed to save objects to SQLite!", e);
         }
     }
+
     private <T extends SerializableThing> void saveAllGeneric(List<T> serializableThings, String table, boolean overwrite) {
         saveAllGeneric(serializableThings, table, overwrite, null);
     }
@@ -219,16 +212,16 @@ public class SQLiteStorage extends DataManager {
     @Override
     public Collection<Barrel> getAllBarrels() {
         return getAllGeneric("barrels", SerializableBarrel.class).stream()
-                .map(SerializableBarrel::toBarrel)
-                .toList();
+            .map(SerializableBarrel::toBarrel)
+            .toList();
     }
 
     @Override
     public void saveAllBarrels(Collection<Barrel> barrels, boolean overwrite) {
         List<SerializableBarrel> serializableBarrels = barrels.stream()
-                .filter(it -> it.getBounds() != null)
-                .map(SerializableBarrel::new)
-                .toList();
+            .filter(it -> it.getBounds() != null)
+            .map(SerializableBarrel::new)
+            .toList();
         saveAllGeneric(serializableBarrels, "barrels", overwrite);
     }
 
@@ -254,15 +247,15 @@ public class SQLiteStorage extends DataManager {
     @Override
     public Collection<BCauldron> getAllCauldrons() {
         return getAllGeneric("cauldrons", SerializableCauldron.class).stream()
-                .map(SerializableCauldron::toCauldron)
-                .toList();
+            .map(SerializableCauldron::toCauldron)
+            .toList();
     }
 
     @Override
     public void saveAllCauldrons(Collection<BCauldron> cauldrons, boolean overwrite) {
         List<SerializableCauldron> serializableCauldrons = cauldrons.stream()
-                .map(SerializableCauldron::new)
-                .toList();
+            .map(SerializableCauldron::new)
+            .toList();
         saveAllGeneric(serializableCauldrons, "cauldrons", overwrite);
     }
 
@@ -288,15 +281,15 @@ public class SQLiteStorage extends DataManager {
     @Override
     public Collection<BPlayer> getAllPlayers() {
         return getAllGeneric("players", SerializableBPlayer.class).stream()
-                .map(SerializableBPlayer::toBPlayer)
-                .toList();
+            .map(SerializableBPlayer::toBPlayer)
+            .toList();
     }
 
     @Override
     public void saveAllPlayers(Collection<BPlayer> players, boolean overwrite) {
         List<SerializableBPlayer> serializableBPlayers = players.stream()
-                .map(SerializableBPlayer::new)
-                .toList();
+            .map(SerializableBPlayer::new)
+            .toList();
         saveAllGeneric(serializableBPlayers, "players", overwrite);
     }
 
@@ -322,15 +315,15 @@ public class SQLiteStorage extends DataManager {
     @Override
     public Collection<Wakeup> getAllWakeups() {
         return getAllGeneric("wakeups", SerializableWakeup.class).stream()
-                .map(SerializableWakeup::toWakeup)
-                .toList();
+            .map(SerializableWakeup::toWakeup)
+            .toList();
     }
 
     @Override
     public void saveAllWakeups(Collection<Wakeup> wakeups, boolean overwrite) {
         List<SerializableWakeup> serializableWakeups = wakeups.stream()
-                .map(SerializableWakeup::new)
-                .toList();
+            .map(SerializableWakeup::new)
+            .toList();
         saveAllGeneric(serializableWakeups, "wakeups", overwrite);
     }
 

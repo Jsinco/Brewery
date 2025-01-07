@@ -24,7 +24,6 @@ import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.releases.ReleaseChecker;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
 import java.net.URI;
@@ -53,9 +52,9 @@ public class GitHubReleaseChecker extends ReleaseChecker {
     public CompletableFuture<String> resolveLatest() {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(link))
-                .GET()
-                .build();
+            .uri(URI.create(link))
+            .GET()
+            .build();
 
         return CompletableFuture.supplyAsync(() -> {
             try {

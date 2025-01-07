@@ -26,6 +26,7 @@ import com.dre.brewery.configuration.annotation.OkaeriConfigFileOptions;
 /**
  * An abstract class for addon config files.
  * Addon config files must be annotated with {@link OkaeriConfigFileOptions} and extend this class.
+ *
  * @see AbstractOkaeriConfigFile
  * @see OkaeriConfigFileOptions
  * @see AddonConfigManager#getConfig(Class)

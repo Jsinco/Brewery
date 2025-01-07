@@ -31,16 +31,17 @@ import org.bukkit.plugin.Plugin;
 
 public class WGBarrel6 implements WGBarrel {
 
-	public boolean checkAccess(Player player, Block spigot, Plugin plugin) {
-		WorldGuardPlugin wg = (WorldGuardPlugin) plugin;
+    public boolean checkAccess(Player player, Block spigot, Plugin plugin) {
+        WorldGuardPlugin wg = (WorldGuardPlugin) plugin;
 
-		if (!wg.getGlobalStateManager().get(spigot.getWorld()).useRegions) return true; // Region support disabled
-		if (new RegionPermissionModel(wg, player).mayIgnoreRegionProtection(spigot.getWorld())) return true; // Whitelisted cause
+        if (!wg.getGlobalStateManager().get(spigot.getWorld()).useRegions) return true; // Region support disabled
+        if (new RegionPermissionModel(wg, player).mayIgnoreRegionProtection(spigot.getWorld()))
+            return true; // Whitelisted cause
 
-		RegionQuery query = wg.getRegionContainer().createQuery();
+        RegionQuery query = wg.getRegionContainer().createQuery();
 
-		return query.testBuild(spigot.getLocation(), player, DefaultFlag.USE, DefaultFlag.CHEST_ACCESS);
+        return query.testBuild(spigot.getLocation(), player, DefaultFlag.USE, DefaultFlag.CHEST_ACCESS);
 
-	}
+    }
 
 }

@@ -42,7 +42,7 @@ public class WakeupCommand implements SubCommand {
 
             Wakeup.set(sender);
 
-        } else if (args[1].equalsIgnoreCase("list")){
+        } else if (args[1].equalsIgnoreCase("list")) {
 
             int page = 1;
             String world = null;
@@ -54,7 +54,7 @@ public class WakeupCommand implements SubCommand {
             }
             Wakeup.list(sender, page, world);
 
-        } else if (args[1].equalsIgnoreCase("remove")){
+        } else if (args[1].equalsIgnoreCase("remove")) {
 
             if (args.length > 2) {
                 int id = BUtil.parseInt(args[2]);
@@ -64,7 +64,7 @@ public class WakeupCommand implements SubCommand {
                 lang.sendEntry(sender, "Help_WakeupRemove");
             }
 
-        } else if (args[1].equalsIgnoreCase("check")){
+        } else if (args[1].equalsIgnoreCase("check")) {
 
             int id = -1;
             if (args.length > 2) {
@@ -75,7 +75,7 @@ public class WakeupCommand implements SubCommand {
             }
             Wakeup.check(sender, id, id == -1);
 
-        } else if (args[1].equalsIgnoreCase("cancel")){
+        } else if (args[1].equalsIgnoreCase("cancel")) {
 
             Wakeup.cancel(sender);
 

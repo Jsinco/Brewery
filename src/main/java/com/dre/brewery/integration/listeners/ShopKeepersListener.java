@@ -21,7 +21,6 @@
 package com.dre.brewery.integration.listeners;
 
 import com.dre.brewery.Brew;
-import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.integration.Hook;
@@ -43,48 +42,48 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ShopKeepersListener implements Listener {
-	private final Set<HumanEntity> openedEditors = new HashSet<>();
-	private final Lang lang = ConfigManager.getConfig(Lang.class);
+    private final Set<HumanEntity> openedEditors = new HashSet<>();
+    private final Lang lang = ConfigManager.getConfig(Lang.class);
 
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onShopkeeperOpen(PlayerOpenUIEvent event) {
-		try {
-			if (event.getUIType() == DefaultUITypes.EDITOR() || event.getUIType() == DefaultUITypes.TRADING()) {
-				openedEditors.add(event.getPlayer());
-			}
-		} catch (Throwable e) {
-			failed(e);
-		}
-	}
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onShopkeeperOpen(PlayerOpenUIEvent event) {
+        try {
+            if (event.getUIType() == DefaultUITypes.EDITOR() || event.getUIType() == DefaultUITypes.TRADING()) {
+                openedEditors.add(event.getPlayer());
+            }
+        } catch (Throwable e) {
+            failed(e);
+        }
+    }
 
-	@EventHandler(ignoreCancelled = true)
-	public void onInventoryClickShopKeeper(InventoryClickEvent event) {
-		if (openedEditors.isEmpty() || !openedEditors.contains(event.getWhoClicked())) {
-			return;
-		}
-		if (!(event.getWhoClicked() instanceof Player)) {
-			return;
-		}
-		ItemStack item = event.getCursor();
-		if (item != null && item.getType() == Material.POTION && event.getClickedInventory() == event.getView().getTopInventory()) {
-			Brew brew = Brew.get(item);
-			if (brew != null && !brew.isSealed()) {
-				lang.sendEntry(event.getWhoClicked(), "Player_ShopSealBrew");
-			}
-		}
-	}
+    @EventHandler(ignoreCancelled = true)
+    public void onInventoryClickShopKeeper(InventoryClickEvent event) {
+        if (openedEditors.isEmpty() || !openedEditors.contains(event.getWhoClicked())) {
+            return;
+        }
+        if (!(event.getWhoClicked() instanceof Player)) {
+            return;
+        }
+        ItemStack item = event.getCursor();
+        if (item != null && item.getType() == Material.POTION && event.getClickedInventory() == event.getView().getTopInventory()) {
+            Brew brew = Brew.get(item);
+            if (brew != null && !brew.isSealed()) {
+                lang.sendEntry(event.getWhoClicked(), "Player_ShopSealBrew");
+            }
+        }
+    }
 
 
-	@EventHandler
-	public void onCloseInventoryShopKeeper(InventoryCloseEvent event) {
-		openedEditors.remove(event.getPlayer());
-	}
+    @EventHandler
+    public void onCloseInventoryShopKeeper(InventoryCloseEvent event) {
+        openedEditors.remove(event.getPlayer());
+    }
 
-	private void failed(Throwable e) {
-		HandlerList.unregisterAll(this);
-		Hook.SHOPKEEPERS.setEnabled(false);
-		Logging.errorLog("Failed to notify Player using 'ShopKeepers'. Disabling 'ShopKeepers' support", e);
-		openedEditors.clear();
-	}
+    private void failed(Throwable e) {
+        HandlerList.unregisterAll(this);
+        Hook.SHOPKEEPERS.setEnabled(false);
+        Logging.errorLog("Failed to notify Player using 'ShopKeepers'. Disabling 'ShopKeepers' support", e);
+        openedEditors.clear();
+    }
 
 }

@@ -33,8 +33,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AddonInfo {
-	String author() default "Unknown";
-	String version() default "0-BETA";
-	String description() default "";
-	String name() default "";
+    String author() default "Unknown";
+
+    String version() default "0-BETA";
+
+    String description() default "";
+
+    String name() default "";
 }
