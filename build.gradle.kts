@@ -154,6 +154,7 @@ tasks {
         relocate("com.github.Anon8281.universalScheduler", "$pack.universalScheduler")
         relocate("eu.okaeri", "$pack.okaeri")
         relocate("com.mongodb", "$pack.mongodb")
+        relocate("org.bson", "$pack.bson")
         relocate("io.papermc.lib", "$pack.paperlib")
 
         archiveClassifier.set("")
