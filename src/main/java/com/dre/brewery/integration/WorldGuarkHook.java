@@ -20,6 +20,7 @@
 
 package com.dre.brewery.integration;
 
+import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.integration.barrel.WGBarrel;
 import com.dre.brewery.integration.barrel.WGBarrel5;
 import com.dre.brewery.integration.barrel.WGBarrel6;

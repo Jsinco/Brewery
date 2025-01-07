@@ -26,7 +26,11 @@ import com.dre.brewery.configuration.annotation.Footer;
 import com.dre.brewery.configuration.annotation.LocalizedComment;
 import com.dre.brewery.configuration.annotation.OkaeriConfigFileOptions;
 import com.dre.brewery.configuration.sector.WordsSector;
-import com.dre.brewery.configuration.sector.capsule.*;
+import com.dre.brewery.configuration.sector.capsule.ConfigCauldronIngredient;
+import com.dre.brewery.configuration.sector.capsule.ConfigCustomItem;
+import com.dre.brewery.configuration.sector.capsule.ConfigDistortWord;
+import com.dre.brewery.configuration.sector.capsule.ConfigRecipe;
+import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.storage.DataManagerType;
 import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.Logging;
@@ -42,10 +46,10 @@ import java.util.Random;
 
 
 @OkaeriConfigFileOptions(value = "config.yml", removeOrphans = true)
-@Header({"!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!",
+@Header({ "!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!",
     "Our proper config guide can be found at: https://brewery.lumamc.net/en/guide/edit_config/",
-    "Still have questions? Join our Discord: https://discord.gg/ZTGCzeKg45"})
-@Footer({"", "Yep, that's it! The end of config.yml! I had so much fun! And you?..."})
+    "Still have questions? Join our Discord: https://discord.gg/ZTGCzeKg45" })
+@Footer({ "", "Yep, that's it! The end of config.yml! I had so much fun! And you?..." })
 @DefaultCommentSpace(1)
 @Getter
 @Setter

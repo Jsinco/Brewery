@@ -87,9 +87,9 @@ public enum BarrelWoodType {
         try {
             // TODO: I dont like this... Change it later
             if (assetType == BarrelAsset.SIGN) {
-                return new Material[]{Material.valueOf(this.name() + "_" + assetType.name()), Material.valueOf(this.name() + "_WALL_SIGN")};
+                return new Material[]{ Material.valueOf(this.name() + "_" + assetType.name()), Material.valueOf(this.name() + "_WALL_SIGN") };
             }
-            return new Material[]{Material.valueOf(this.name() + "_" + assetType.name())};
+            return new Material[]{ Material.valueOf(this.name() + "_" + assetType.name()) };
         } catch (IllegalArgumentException e) {
             // Just assume they're running some older version.
             return null;

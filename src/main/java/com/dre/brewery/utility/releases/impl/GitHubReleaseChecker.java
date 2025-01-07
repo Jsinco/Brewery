@@ -24,6 +24,7 @@ import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.releases.ReleaseChecker;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.bukkit.command.CommandSender;
 
 import java.io.IOException;
 import java.net.URI;

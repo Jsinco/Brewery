@@ -27,8 +27,13 @@ import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.storage.DataManager;
 import com.dre.brewery.storage.StorageInitException;
+import com.dre.brewery.storage.records.BreweryMiscData;
+import com.dre.brewery.storage.records.SerializableBPlayer;
+import com.dre.brewery.storage.records.SerializableBarrel;
+import com.dre.brewery.storage.records.SerializableCauldron;
 import com.dre.brewery.storage.interfaces.SerializableThing;
-import com.dre.brewery.storage.records.*;
+import com.dre.brewery.storage.records.SerializableWakeup;
+import com.dre.brewery.utility.Logging;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -39,13 +44,17 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class MongoDBStorage extends DataManager {
 
     private static final String URL = "mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority&appName=BreweryX#%d";
-    private static final String[] COLLECTIONS = {"misc", "barrels", "cauldrons", "players", "wakeups"};
+    private static final String[] COLLECTIONS = { "misc", "barrels", "cauldrons", "players", "wakeups" };
     private static final String MONGO_ID = "_id";
 
     private final MongoClient mongoClient;

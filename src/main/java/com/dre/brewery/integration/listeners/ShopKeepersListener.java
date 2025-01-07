@@ -21,6 +21,7 @@
 package com.dre.brewery.integration.listeners;
 
 import com.dre.brewery.Brew;
+import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.integration.Hook;

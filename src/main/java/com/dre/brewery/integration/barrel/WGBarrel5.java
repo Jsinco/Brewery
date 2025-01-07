@@ -20,20 +20,22 @@
 
 package com.dre.brewery.integration.barrel;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.utility.Logging;
+import org.bukkit.block.Block;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 
 public class WGBarrel5 implements WGBarrel {

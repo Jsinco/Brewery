@@ -27,6 +27,7 @@ import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.api.events.barrel.BarrelDestroyEvent;
 import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.MinecraftVersion;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;

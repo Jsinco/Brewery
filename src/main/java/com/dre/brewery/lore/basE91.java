@@ -118,7 +118,7 @@ public class basE91 {
     }
 
     public void decMark() {
-        marker = new int[]{dbq, dn, dv};
+        marker = new int[]{ dbq, dn, dv };
     }
 
     public void decUnmark() {

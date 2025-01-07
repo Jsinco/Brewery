@@ -21,11 +21,11 @@
 package com.dre.brewery.recipe;
 
 import com.dre.brewery.BreweryPlugin;
-import com.dre.brewery.configuration.sector.capsule.ConfigCustomItem;
 import com.dre.brewery.integration.Hook;
+import com.dre.brewery.configuration.sector.capsule.ConfigCustomItem;
 import com.dre.brewery.utility.BUtil;
-import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.MaterialUtil;
+import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.MinecraftVersion;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

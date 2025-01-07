@@ -30,14 +30,22 @@ import com.dre.brewery.integration.BlockLockerHook;
 import com.dre.brewery.integration.Hook;
 import com.dre.brewery.integration.PlaceholderAPIHook;
 import com.dre.brewery.integration.barrel.BlockLockerBarrel;
-import com.dre.brewery.integration.bstats.BreweryStats;
 import com.dre.brewery.integration.bstats.BreweryXStats;
+import com.dre.brewery.integration.bstats.BreweryStats;
 import com.dre.brewery.integration.listeners.ChestShopListener;
 import com.dre.brewery.integration.listeners.IntegrationListener;
 import com.dre.brewery.integration.listeners.ShopKeepersListener;
 import com.dre.brewery.integration.listeners.SlimefunListener;
-import com.dre.brewery.listeners.*;
-import com.dre.brewery.recipe.*;
+import com.dre.brewery.listeners.BlockListener;
+import com.dre.brewery.listeners.CauldronListener;
+import com.dre.brewery.listeners.EntityListener;
+import com.dre.brewery.listeners.InventoryListener;
+import com.dre.brewery.listeners.PlayerListener;
+import com.dre.brewery.recipe.CustomItem;
+import com.dre.brewery.recipe.Ingredient;
+import com.dre.brewery.recipe.ItemLoader;
+import com.dre.brewery.recipe.PluginItem;
+import com.dre.brewery.recipe.SimpleItem;
 import com.dre.brewery.storage.DataManager;
 import com.dre.brewery.storage.StorageInitException;
 import com.dre.brewery.utility.Logging;
@@ -68,17 +76,11 @@ import java.util.stream.Collectors;
 @Getter
 public final class BreweryPlugin extends JavaPlugin {
 
-    private @Getter
-    static AddonManager addonManager;
-    private @Getter
-    static TaskScheduler scheduler;
-    private @Getter
-    static BreweryPlugin instance;
-    private @Getter
-    static MinecraftVersion MCVersion;
-    private @Getter
-    @Setter
-    static DataManager dataManager;
+    private @Getter static AddonManager addonManager;
+    private @Getter static TaskScheduler scheduler;
+    private @Getter static BreweryPlugin instance;
+    private @Getter static MinecraftVersion MCVersion;
+    private @Getter @Setter static DataManager dataManager;
 
 
     private final Map<String, Function<ItemLoader, Ingredient>> ingredientLoaders = new HashMap<>(); // Registrations

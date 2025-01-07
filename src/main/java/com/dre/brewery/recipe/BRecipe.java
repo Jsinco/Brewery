@@ -25,11 +25,16 @@ import com.dre.brewery.BarrelWoodType;
 import com.dre.brewery.Brew;
 import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.configuration.ConfigManager;
+import com.dre.brewery.integration.Hook;
 import com.dre.brewery.configuration.files.CustomItemsFile;
 import com.dre.brewery.configuration.sector.capsule.ConfigRecipe;
-import com.dre.brewery.integration.Hook;
 import com.dre.brewery.integration.PlaceholderAPIHook;
-import com.dre.brewery.utility.*;
+import com.dre.brewery.utility.BUtil;
+import com.dre.brewery.utility.MaterialUtil;
+import com.dre.brewery.utility.Logging;
+import com.dre.brewery.utility.MinecraftVersion;
+import com.dre.brewery.utility.StringParser;
+import com.dre.brewery.utility.Tuple;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -42,7 +47,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A Recipe used to Brew a Brewery Potion.
@@ -53,8 +62,7 @@ public class BRecipe implements Cloneable {
 
     @Getter
     private static final List<BRecipe> recipes = new ArrayList<>();
-    @Getter
-    @Setter
+    @Getter @Setter
     public static int numConfigRecipes; // The number of recipes in the list that are from config
 
     // info
@@ -95,7 +103,7 @@ public class BRecipe implements Cloneable {
      * @param name The name for all qualities
      */
     public BRecipe(String name, @NotNull PotionColor color) {
-        this.name = new String[]{name};
+        this.name = new String[]{ name };
         this.color = color;
         difficulty = 5;
     }
@@ -999,7 +1007,7 @@ public class BRecipe implements Cloneable {
          * Add Custom Model Data for each Quality
          */
         public Builder addCustomModelData(int bad, int normal, int good) {
-            recipe.cmData = new int[]{bad, normal, good};
+            recipe.cmData = new int[]{ bad, normal, good };
             return this;
         }
 

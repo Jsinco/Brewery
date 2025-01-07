@@ -27,6 +27,7 @@ import com.dre.brewery.configuration.annotation.LocalizedComment;
 import com.dre.brewery.configuration.annotation.OkaeriConfigFileOptions;
 import com.dre.brewery.configuration.sector.RecipesSector;
 import com.dre.brewery.configuration.sector.capsule.ConfigRecipe;
+import com.dre.brewery.integration.PlaceholderAPIHook;
 import eu.okaeri.configs.annotation.Header;
 import lombok.Setter;
 
@@ -34,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Header("!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!")
-@Footer({"",
+@Footer({ "",
     "More recipe ideas:",
     "Dandelion Liquor",
     "Beetroot Spirit",

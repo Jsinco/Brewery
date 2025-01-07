@@ -20,7 +20,11 @@
 
 package com.dre.brewery.commands.subcommands;
 
-import com.dre.brewery.*;
+import com.dre.brewery.BCauldron;
+import com.dre.brewery.BPlayer;
+import com.dre.brewery.Barrel;
+import com.dre.brewery.BreweryPlugin;
+import com.dre.brewery.Wakeup;
 import com.dre.brewery.commands.SubCommand;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.recipe.BRecipe;

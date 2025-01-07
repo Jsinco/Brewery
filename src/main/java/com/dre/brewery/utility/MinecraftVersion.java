@@ -48,10 +48,8 @@ public enum MinecraftVersion {
     UNKNOWN("Unknown");
 
 
-    private @Getter
-    static final boolean isFolia = MinecraftVersion.checkFolia();
-    private @Getter
-    static final boolean useNBT = NBTUtil.initNbt();
+    private @Getter static final boolean isFolia = MinecraftVersion.checkFolia();
+    private @Getter static final boolean useNBT = NBTUtil.initNbt();
 
     private final String version;
 

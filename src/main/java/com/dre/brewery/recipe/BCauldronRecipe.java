@@ -20,6 +20,7 @@
 
 package com.dre.brewery.recipe;
 
+import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.configuration.sector.capsule.ConfigCauldronIngredient;
 import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.Logging;
@@ -42,8 +43,7 @@ import java.util.stream.Collectors;
 public class BCauldronRecipe {
     @Getter
     public static List<BCauldronRecipe> recipes = new ArrayList<>();
-    @Getter
-    @Setter
+    @Getter @Setter
     public static int numConfigRecipes;
     public static List<RecipeItem> acceptedCustom = new ArrayList<>(); // All accepted custom and other items
     @Getter

@@ -46,7 +46,7 @@ public class BukkitSerialization {
         String content = toBase64(playerInventory);
         String armor = itemStackArrayToBase64(playerInventory.getArmorContents());
 
-        return new String[]{content, armor};
+        return new String[]{ content, armor };
     }
 
     /**

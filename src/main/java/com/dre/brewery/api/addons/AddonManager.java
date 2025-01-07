@@ -142,7 +142,7 @@ public class AddonManager {
      * @param file The jar file to load the addon from
      */
     public void loadAddon(File file) {
-        try (URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, getClass().getClassLoader())) {
+        try (URLClassLoader classLoader = new URLClassLoader(new URL[]{ file.toURI().toURL() }, getClass().getClassLoader())) {
             var pair = getClassesFromJar(file, classLoader); // Get all our loaded classes.
             Class<? extends BreweryAddon> mainClass = pair.first();
             List<Class<?>> classes = pair.second();

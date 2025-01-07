@@ -20,6 +20,7 @@
 
 package com.dre.brewery.lore;
 
+import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.utility.Logging;
 import org.jetbrains.annotations.NotNull;
 

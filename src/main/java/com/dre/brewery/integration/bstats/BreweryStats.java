@@ -20,7 +20,12 @@
 
 package com.dre.brewery.integration.bstats;
 
-import com.dre.brewery.*;
+import com.dre.brewery.BCauldron;
+import com.dre.brewery.BPlayer;
+import com.dre.brewery.Barrel;
+import com.dre.brewery.Brew;
+import com.dre.brewery.BreweryPlugin;
+import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import com.dre.brewery.integration.bstats.Metrics.AdvancedPie;

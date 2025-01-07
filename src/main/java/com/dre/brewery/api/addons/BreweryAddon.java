@@ -300,7 +300,7 @@ public abstract class BreweryAddon {
      */
     public Set<Class<?>> findClasses(String packageName) throws IOException {
         URLClassLoader classLoader = new URLClassLoader(
-            new URL[]{getAddonFile().toURI().toURL()},
+            new URL[]{ getAddonFile().toURI().toURL() },
             this.getClass().getClassLoader()
         );
         return ClassPath.from(classLoader)

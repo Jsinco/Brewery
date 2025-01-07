@@ -24,7 +24,15 @@ import com.dre.brewery.api.events.brew.BrewModifyEvent;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import com.dre.brewery.configuration.files.Lang;
-import com.dre.brewery.lore.*;
+import com.dre.brewery.lore.Base91DecoderStream;
+import com.dre.brewery.lore.Base91EncoderStream;
+import com.dre.brewery.lore.BrewLore;
+import com.dre.brewery.lore.LoreLoadStream;
+import com.dre.brewery.lore.LoreSaveStream;
+import com.dre.brewery.lore.NBTLoadStream;
+import com.dre.brewery.lore.NBTSaveStream;
+import com.dre.brewery.lore.XORScrambleStream;
+import com.dre.brewery.lore.XORUnscrambleStream;
 import com.dre.brewery.recipe.BEffect;
 import com.dre.brewery.recipe.BRecipe;
 import com.dre.brewery.recipe.PotionColor;
@@ -48,9 +56,17 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.InvalidKeyException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents the liquid in the brewed Potions

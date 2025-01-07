@@ -24,7 +24,11 @@ import com.dre.brewery.configuration.annotation.CommentSpace;
 import com.dre.brewery.configuration.annotation.LocalizedComment;
 import com.dre.brewery.storage.DataManagerType;
 import eu.okaeri.configs.OkaeriConfig;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter

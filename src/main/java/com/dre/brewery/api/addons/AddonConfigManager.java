@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Management of addon configuration files.

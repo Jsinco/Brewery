@@ -66,7 +66,7 @@ public class BlockLockerBarrel implements ProtectableBlocksSettings {
             // No player wants to create a Barrel
             return false;
         }
-        for (BlockFace face : new BlockFace[]{BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST}) {
+        for (BlockFace face : new BlockFace[]{ BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST }) {
             Block sign = block.getRelative(face);
             if (lastBarrelSign.equals(sign)) {
                 Block spigot = BarrelBody.getSpigotOfSign(sign);

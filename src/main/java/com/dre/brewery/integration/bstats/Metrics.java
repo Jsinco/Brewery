@@ -16,18 +16,22 @@
 
 package com.dre.brewery.integration.bstats;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -38,6 +42,13 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
+import javax.net.ssl.HttpsURLConnection;
+
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 // Copied from bStats because Gradle wasn't returning the right class
 public class Metrics {
@@ -367,9 +378,9 @@ public class Metrics {
                 // Maven's Relocate is clever and changes strings, too. So we have to use this
                 // little "trick" ... :D
                 final String defaultPackage =
-                    new String(new byte[]{'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's'});
+                    new String(new byte[]{ 'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's' });
                 final String examplePackage =
-                    new String(new byte[]{'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e'});
+                    new String(new byte[]{ 'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e' });
                 // We want to make sure no one just copy & pastes the example and uses the wrong
                 // package names
                 if (MetricsBase.class.getPackage().getName().startsWith(defaultPackage)
@@ -527,7 +538,7 @@ public class Metrics {
                 return null;
             }
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                valuesBuilder.appendField(entry.getKey(), new int[]{entry.getValue()});
+                valuesBuilder.appendField(entry.getKey(), new int[]{ entry.getValue() });
             }
             return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
         }

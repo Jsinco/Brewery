@@ -103,7 +103,7 @@ public class SeedInputStream extends InputStream {
 
     @Override
     public synchronized void mark(int readlimit) {
-        markbuf = new byte[]{buf[0], buf[1], buf[2], buf[3], reader};
+        markbuf = new byte[]{ buf[0], buf[1], buf[2], buf[3], reader };
         markSeed = seed;
     }
 

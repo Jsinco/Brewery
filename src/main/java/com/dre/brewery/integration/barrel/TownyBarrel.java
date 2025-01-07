@@ -22,6 +22,7 @@ package com.dre.brewery.integration.barrel;
 
 import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.api.events.barrel.BarrelAccessEvent;
+
 import com.dre.brewery.utility.MinecraftVersion;
 import com.palmergames.bukkit.towny.TownySettings;
 import com.palmergames.bukkit.towny.object.TownyPermission;

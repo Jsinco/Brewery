@@ -25,15 +25,37 @@ import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.recipe.BRecipe;
-import com.dre.brewery.utility.*;
+import com.dre.brewery.utility.BUtil;
+import com.dre.brewery.utility.Logging;
+import com.dre.brewery.utility.MinecraftVersion;
+import com.dre.brewery.utility.PermissionUtil;
+import com.dre.brewery.utility.Tuple;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.dre.brewery.utility.PermissionUtil.BPermission.*;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.COPY;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.CREATE;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.DELETE;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.DRINK;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.DRINK_OTHER;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.INFO;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.INFO_OTHER;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.PUKE;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.PUKE_OTHER;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.RELOAD;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.SEAL;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.SET;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.STATIC;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.UNLABEL;
+import static com.dre.brewery.utility.PermissionUtil.BPermission.WAKEUP;
 
 public class CommandUtil {
 
@@ -44,7 +66,7 @@ public class CommandUtil {
     // Todo: Replace with a map
     private static Set<Tuple<String, String>> mainSet;
     private static Set<Tuple<String, String>> altSet;
-    private static final String[] QUALITY = {"1", "10"};
+    private static final String[] QUALITY = { "1", "10" };
 
 
     public static void cmdHelp(CommandSender sender, String[] args) {
