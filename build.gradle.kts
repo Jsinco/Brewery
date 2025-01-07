@@ -160,7 +160,18 @@ tasks {
         relocate("com.github.Anon8281.universalScheduler", "$pack.universalScheduler")
         relocate("eu.okaeri", "$pack.okaeri")
         relocate("com.mongodb", "$pack.mongodb")
+		relocate("org.bson", "$pack.bson")
         relocate("io.papermc.lib", "$pack.paperlib")
+		relocate("dev.rollczi.litecommands", "$pack.litecommands")
+
+		// should be thrown out eventually when I replace litecommands-jakarta with something lighter
+		relocate("com.fasterxml", "$pack.fasterxml")
+		relocate("com.sun.el", "$pack.sun.el")
+		relocate("jakarta.el", "$pack.jakarta.el")
+		relocate("jakarta.validation", "$pack.jakarta.validation")
+		relocate("org.glassfish.expressly", "$pack.expressly")
+		relocate("org.hibernate.validator", "$pack.hibernate.validator")
+		relocate("org.jboss.logging", "$pack.jboss.logging")
 
         archiveClassifier.set("")
     }
