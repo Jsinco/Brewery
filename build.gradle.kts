@@ -59,6 +59,7 @@ repositories {
     maven("https://repo.oraxen.com/releases") // Oraxen
     maven("https://storehouse.okaeri.eu/repository/maven-public/") // Okaeri Config
     maven("https://papermc.io/repo/repository/maven-public/") // PaperLib
+	maven("https://repo.panda-lang.org/releases") // LiteCommands
 }
 
 dependencies {
@@ -82,6 +83,9 @@ dependencies {
     // Lombok
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
+	// LiteCommands
+	implementation("dev.rollczi:litecommands-bukkit:3.9.6")
+	implementation("dev.rollczi:litecommands-jakarta:3.9.6")
     // Okaeri configuration
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.5") {
         exclude("org.yaml", "snakeyaml")
@@ -134,6 +138,7 @@ tasks {
     }
     withType<JavaCompile>().configureEach {
         options.encoding = encoding
+		options.compilerArgs.add("-parameters") // required by LiteCommands, see https://docs.rollczi.dev/documentation/litecommands/getting-started/dependencies.html#parameters-compile-flag
     }
     test {
         useJUnitPlatform()
@@ -181,6 +186,7 @@ tasks {
 	runServer {
 		minecraftVersion("1.21.4")
 	}
+
 }
 
 tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {

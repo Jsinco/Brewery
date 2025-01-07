@@ -58,14 +58,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -84,6 +81,7 @@ public final class BreweryPlugin extends JavaPlugin {
 
 
 	private final Map<String, Function<ItemLoader, Ingredient>> ingredientLoaders = new HashMap<>(); // Registrations
+	private CommandManager commandManager;
 	private BreweryStats breweryStats; // Metrics
 
 	{
@@ -121,6 +119,8 @@ public final class BreweryPlugin extends JavaPlugin {
 		// Load lang
 		TranslationManager.getInstance().updateTranslationFiles();
 		ConfigManager.newInstance(Lang.class, false);
+
+		commandManager = new CommandManager();
 
 		BSealer.registerRecipe(); // Sealing table recipe
 		ConfigManager.registerDefaultPluginItems(); // Register plugin items
@@ -179,23 +179,6 @@ public final class BreweryPlugin extends JavaPlugin {
 		this.breweryStats.setupBStats();
 		new BreweryXStats().setupBStats();
 
-		// Register command and aliases
-		PluginCommand defaultCommand = getCommand("breweryx");
-		defaultCommand.setExecutor(new CommandManager());
-		try {
-			// This has to be done reflectively because Spigot doesn't expose the CommandMap through the API
-			Field bukkitCommandMap = getServer().getClass().getDeclaredField("commandMap");
-			bukkitCommandMap.setAccessible(true);
-
-			CommandMap commandMap = (CommandMap) bukkitCommandMap.get(getServer());
-
-			for (String alias : config.getCommandAliases()) {
-				commandMap.register(alias, "breweryx", defaultCommand);
-			}
-		} catch (Exception e) {
-			Logging.errorLog("Failed to register command aliases!", e);
-		}
-
 		// Register Listeners
 		getServer().getPluginManager().registerEvents(new BlockListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerListener(), this);
@@ -237,6 +220,8 @@ public final class BreweryPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		if (addonManager != null) addonManager.unloadAddons();
+
+		commandManager.disable();
 
 		// Disable listeners
 		HandlerList.unregisterAll(this);

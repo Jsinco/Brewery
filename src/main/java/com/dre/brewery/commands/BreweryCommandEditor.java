@@ -1,6 +1,6 @@
 /*
  * BreweryX Bukkit-Plugin for an alternate brewing process
- * Copyright (C) 2024 The Brewery Team
+ * Copyright (C) 2024-2025 The Brewery Team
  *
  * This file is part of BreweryX.
  *
@@ -18,13 +18,25 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-package com.dre.brewery.api.addons;
+package com.dre.brewery.commands;
 
-/**
- * Interface for a command that is part of an addon. Really just a SubCommand, but with a different name/package.
- *
- * @see BreweryAddon#registerCommand(String, AddonCommand)
- * @see BreweryAddon#unregisterCommand(String)
- */
-public interface AddonCommand { // TODO
+import com.dre.brewery.configuration.ConfigManager;
+import com.dre.brewery.configuration.files.Config;
+import dev.rollczi.litecommands.command.builder.CommandBuilder;
+import dev.rollczi.litecommands.editor.Editor;
+import org.bukkit.command.CommandSender;
+
+public class BreweryCommandEditor implements Editor<CommandSender> {
+	@Override
+	public CommandBuilder<CommandSender> edit(CommandBuilder<CommandSender> context) {
+		Config config = ConfigManager.getConfig(Config.class);
+
+		return context
+			.routeName("breweryx " + context.name())
+			.routeAliases(
+				config.getCommandAliases().stream()
+				.map(alias -> alias + " " + context.name())
+				.toList()
+			);
+	}
 }

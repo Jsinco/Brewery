@@ -1,6 +1,6 @@
 /*
  * BreweryX Bukkit-Plugin for an alternate brewing process
- * Copyright (C) 2024 The Brewery Team
+ * Copyright (C) 2024-2025 The Brewery Team
  *
  * This file is part of BreweryX.
  *
@@ -18,13 +18,18 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-package com.dre.brewery.api.addons;
+package com.dre.brewery.commands.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Interface for a command that is part of an addon. Really just a SubCommand, but with a different name/package.
- *
- * @see BreweryAddon#registerCommand(String, AddonCommand)
- * @see BreweryAddon#unregisterCommand(String)
+ * Annotation used to specify that the command should be put under the root /breweryx command.
  */
-public interface AddonCommand { // TODO
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface BreweryCommand {
+
 }

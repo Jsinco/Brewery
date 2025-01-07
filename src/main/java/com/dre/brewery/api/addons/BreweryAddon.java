@@ -174,7 +174,7 @@ public abstract class BreweryAddon {
 	 * @param command The command to register
 	 */
 	public void registerCommand(String name, AddonCommand command) {
-		CommandManager.addSubCommand(name, command);
+		// CommandManager.addSubCommand(name, command); // TODO
 		commands.add(name);
 	}
 
@@ -183,7 +183,7 @@ public abstract class BreweryAddon {
 	 * @param name The name of the command
 	 */
 	public void unregisterCommand(String name) {
-		CommandManager.removeSubCommand(name);
+		// CommandManager.removeSubCommand(name);  // TODO
 		commands.remove(name);
 	}
 
@@ -202,7 +202,7 @@ public abstract class BreweryAddon {
 	 */
 	public void unregisterCommands() {
 		for (String command : commands) {
-			CommandManager.removeSubCommand(command);
+			// CommandManager.removeSubCommand(command); // TODO
 		}
 		commands.clear();
 	}
