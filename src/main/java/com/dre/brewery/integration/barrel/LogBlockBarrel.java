@@ -21,8 +21,8 @@
 package com.dre.brewery.integration.barrel;
 
 import com.dre.brewery.BreweryPlugin;
-import com.dre.brewery.utility.MaterialUtil;
 import com.dre.brewery.utility.Logging;
+import com.dre.brewery.utility.MaterialUtil;
 import com.dre.brewery.utility.MinecraftVersion;
 import de.diddiz.LogBlock.Actor;
 import de.diddiz.LogBlock.Consumer;

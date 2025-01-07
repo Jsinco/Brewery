@@ -22,12 +22,12 @@ package com.dre.brewery.api;
 
 import com.dre.brewery.BCauldron;
 import com.dre.brewery.BPlayer;
+import com.dre.brewery.Barrel;
+import com.dre.brewery.Brew;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import com.dre.brewery.recipe.BCauldronRecipe;
 import com.dre.brewery.recipe.BRecipe;
-import com.dre.brewery.Barrel;
-import com.dre.brewery.Brew;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

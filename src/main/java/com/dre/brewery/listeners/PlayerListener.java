@@ -20,12 +20,22 @@
 
 package com.dre.brewery.listeners;
 
-import com.dre.brewery.*;
+import com.dre.brewery.BCauldron;
+import com.dre.brewery.BPlayer;
+import com.dre.brewery.BSealer;
+import com.dre.brewery.Barrel;
+import com.dre.brewery.BarrelAsset;
+import com.dre.brewery.Brew;
+import com.dre.brewery.BreweryPlugin;
+import com.dre.brewery.DistortChat;
+import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import com.dre.brewery.configuration.files.Lang;
-import com.dre.brewery.utility.*;
+import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.MaterialUtil;
+import com.dre.brewery.utility.MinecraftVersion;
+import com.dre.brewery.utility.PermissionUtil;
 import com.dre.brewery.utility.releases.ReleaseChecker;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

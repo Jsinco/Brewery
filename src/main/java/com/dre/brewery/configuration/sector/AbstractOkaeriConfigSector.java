@@ -20,7 +20,6 @@
 
 package com.dre.brewery.configuration.sector;
 
-import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.utility.Logging;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.CustomKey;
