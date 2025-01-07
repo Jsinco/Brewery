@@ -9,10 +9,12 @@ We follow [Oracle's Standard Programming Practices](https://www.oracle.com/java/
 with the exception of `10.5.1 Parentheses`. As long as your operator expressions are
 *clear enough*, you should be fine.
 
+To maintain code clarity, use IntelliJ IDEA's 'Reformat Code' function before finishing your work.
+
 ### License Headers
 
 Not required for submitting PRs to BreweryX. IntelliJ IDEs should recognize
-the copyright included in the .idea folder automatically.
+the copyright included in the `.idea` folder automatically.
 
 ### Should Your Contribution Be an Addon?
 
@@ -38,7 +40,7 @@ a local library.
 
 ### Translation Contributions
 
-Translations for BreweryX are always welcome! 
+Translations for BreweryX are always welcome!
 
 Translation contributions should include a `config-langs` and `languages` addition.
 One being a translation for the all configuration files of BreweryX and the other being a translation for
@@ -100,9 +102,9 @@ Learn how to use Codespaces: https://docs.github.com/en/codespaces
 
 ### Contributions Manually
 
-I don't recommend editing files without the proper tools like [Git](https://git-scm.com/downloads) or [Codespaces](https://docs.github.com/en/codespaces) 
+I don't recommend editing files without the proper tools like [Git](https://git-scm.com/downloads) or [Codespaces](https://docs.github.com/en/codespaces)
 at your disposal. If you choose to contribute manually, feel free to, but there won't be a tutorial for
-this. 
+this.
 
 
 ### Opening a Pull Request
