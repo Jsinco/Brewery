@@ -84,6 +84,8 @@ public abstract class BreweryAddon {
 	private final List<Listener> listeners = new ArrayList<>();
 	private final List<String> commands = new ArrayList<>();
 
+	private URLClassLoader classLoader;
+
 	private AddonInfo addonInfo;
 
 	private AddonLogger logger;

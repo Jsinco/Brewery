@@ -22,7 +22,6 @@ package com.dre.brewery.api.addons;
 
 import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.utility.Logging;
-import com.dre.brewery.utility.Tuple;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,8 +29,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -40,7 +37,7 @@ import java.util.logging.Level;
 /**
  * Yep, you guessed it. This is the class that manages all the addons. It loads them, unloads them, reloads them, and keeps track of them.
  * <p>
- * Basically just copies what Bukkit's plugin loader does, but on a much, much smaller scale.
+ * Kind of similar to how the PluginManager in Bukkit works, but for addons.
  *
  * @see BreweryAddon
  * @see AddonInfo
@@ -64,29 +61,44 @@ public class AddonManager {
 	}
 
 	public void unloadAddons() {
-		for (BreweryAddon addon : LOADED_ADDONS) {
-			try {
-				addon.onAddonDisable();
-				addon.unregisterListeners();
-				addon.unregisterCommands();
-			} catch (Throwable t) {
-				Logging.errorLog("Failed to disable addon " + addon.getClass().getSimpleName(), t);
-			}
+		if (LOADED_ADDONS.isEmpty()) {
+			return;
 		}
-		int loaded = LOADED_ADDONS.size();
-		if (loaded > 0) Logging.log("Disabled " + loaded + " addon(s)");
-		LOADED_ADDONS.clear();
+
+		Logging.log("Disabling " + LOADED_ADDONS.size() + " loaded addon(s)...");
+		for (BreweryAddon addon : LOADED_ADDONS) {
+			unloadAddon(addon);
+		}
 	}
 
 	public void unloadAddon(BreweryAddon addon) {
+		if (addon == null) {
+			Logging.warningLog("Tried to unload an addon that doesn't exist.");
+			return;
+		}
+		String n = addon.getAddonInfo() == null ? addon.getClass().getSimpleName() : addon.getAddonInfo().name();
 		try {
 			addon.onAddonDisable();
+		} catch (Throwable t) {
+			Logging.errorLog("Failed to disable addon " + n, t);
+		}
+		try {
 			addon.unregisterListeners();
 			addon.unregisterCommands();
 		} catch (Throwable t) {
-			Logging.errorLog("Failed to disable addon " + addon.getClass().getSimpleName(), t);
+			Logging.errorLog("Failed to unregister listeners/commands for addon " + n, t);
 		}
-		LOADED_ADDONS.remove(addon);
+		try {
+			Field field = BreweryAddon.class.getDeclaredField("classLoader");
+			field.setAccessible(true);
+			URLClassLoader classLoader = (URLClassLoader) field.get(addon);
+			classLoader.close();
+			field.set(addon, null);
+			LOADED_ADDONS.remove(addon);
+		} catch (Throwable t) {
+			Logging.errorLog("Failed to unload addon " + n, t);
+			Logging.warningLog("Addon " + n + "'s ClassLoader has not been closed properly!");
+		}
 	}
 
 
@@ -107,7 +119,6 @@ public class AddonManager {
 	}
 
 
-	// Get all classes that extend Addon and instantiates them
 	public void loadAddons() {
 		File[] files = addonsFolder.listFiles((dir, name) -> name.endsWith(".jar")); // Get all files in the addons folder that end with .jar
 		if (files == null) {
@@ -136,15 +147,21 @@ public class AddonManager {
 
 	/**
 	 * Load the addon from a jar file.
-	 * Basically just scan the whole jar file for our BreweryAddon class, init that class first, init all other classes in the jar,
-	 * set all the fields reflectively, and then call the onAddonPreEnable method.
+	 * onAddonPreEnable() will be called after the addon is loaded.
 	 * @param file The jar file to load the addon from
 	 */
 	public void loadAddon(File file) {
-		try (URLClassLoader classLoader = new URLClassLoader(new URL[]{file.toURI().toURL()}, getClass().getClassLoader())) {
-			var pair = getClassesFromJar(file, classLoader); // Get all our loaded classes.
-			Class<? extends BreweryAddon> mainClass = pair.first();
-			List<Class<?>> classes = pair.second();
+		try {
+
+			// We have to use the same class loader used to load this class AKA, the 'PluginLoader' class provided by Bukkit.
+			// Only classes loaded by the same ClassLoader can access each other.
+			// So to prevent any issues,
+			// we're using the same ClassLoader that loaded this class to load the classes from the jar.
+			URLClassLoader classLoader = new URLClassLoader(
+					new URL[]{file.toURI().toURL()},
+					this.getClass().getClassLoader() // <-- PluginClassLoader
+			);
+			var mainClass = getMainClass(file, classLoader); // Get all our loaded classes.
 
 			BreweryAddon addon;
 			try {
@@ -167,11 +184,13 @@ public class AddonManager {
 
 				// Set all the fields for our addon reflectively.
 
+				Field classLoaderField = BreweryAddon.class.getDeclaredField("classLoader"); classLoaderField.setAccessible(true);
 				Field loggerField = BreweryAddon.class.getDeclaredField("logger"); loggerField.setAccessible(true);
 				Field fileManagerField = BreweryAddon.class.getDeclaredField("addonFileManager"); fileManagerField.setAccessible(true);
 				Field addonConfigManagerField = BreweryAddon.class.getDeclaredField("addonConfigManager"); addonConfigManagerField.setAccessible(true);
 				Field addonFile = BreweryAddon.class.getDeclaredField("addonFile"); addonFile.setAccessible(true);
 
+				classLoaderField.set(addon, classLoader);
 				loggerField.set(addon, new AddonLogger(addon.getAddonInfo()));
 				fileManagerField.set(addon, new AddonFileManager(addon, file));
 				addonConfigManagerField.set(addon, new AddonConfigManager(addon));
@@ -188,46 +207,20 @@ public class AddonManager {
 				unloadAddon(addon);
 			}
 
-			// Now that we're done loading our main class, we can go ahead and load the rest of our classes. We don't care about the order of these classes.
-			for (Class<?> clazz : classes) {
-				if (BreweryAddon.class.isAssignableFrom(clazz)) { // Just make sure it's not our main class we're trying to load again.
-					continue;
-				}
-				try {
-					classLoader.loadClass(clazz.getName());
-				} catch (ClassNotFoundException e) {
-					plugin.getLogger().log(Level.SEVERE, "Failed to load class " + clazz.getName(), e);
-				}
-			}
-
 		} catch (Throwable ex) {
 			Logging.errorLog("Failed to load addon classes from jar " + file.getName(), ex);
 		}
 	}
 
 	/**
-	 * It's about time I document this...
-	 * <p>
-	 * What we're doing here is trying to recreate what Bukkit does to load plugins. Obviously the code could be cleaned up and spread out to
-	 * multiple functions, but I honestly can't be bothered and this is fine I guess.
-	 * <p>
-	 * We have to load each class file, but first, we must load the class which extends BreweryAddon (our main class) before all else. If we
-	 * don't load this class first we can get some nasty race conditions. Also, plugin developers expect their main class to be loaded first
-	 * (as with all java programs) so we must first figure out which class extends BreweryAddon, load that one, then load the rest of the classes
-	 * packaged in the addon.
-	 * @param jarFile The jar file to load classes from
-	 * @return A list of classes loaded from the jar
+	 * Searches the addon's jar file for the main class that extends BreweryAddon.
+	 * @param jarFile The jar file to search
+	 * @param classLoader The class loader to use
+	 * @return The main class that extends BreweryAddon
 	 */
-	private Tuple<Class<? extends BreweryAddon>, List<Class<?>>> getClassesFromJar(File jarFile, ClassLoader classLoader) {
-		List<Class<?>> classes = new ArrayList<>();
-		Class<? extends BreweryAddon> mainClass = null;
-
-		// We have to use the same class loader used to load this class AKA, the 'PluginLoader' class provided by Bukkit.
-		// ClassLoaders in Java are pretty interesting, and only classes loaded by the same ClassLoader can access each other.
-		// So to prevent any issues, we're using the same ClassLoader that loaded this class to load the classes from the jar.
+	private Class<? extends BreweryAddon> getMainClass(File jarFile, ClassLoader classLoader) {
 		try (JarInputStream jarInputStream = new JarInputStream(new FileInputStream(jarFile))) {
 			JarEntry jarEntry;
-			String mainDir = "";
 			while ((jarEntry = jarInputStream.getNextJarEntry()) != null) { // Just iterate through every file in the jar file and check if it's a compiled java class.
 				if (jarEntry.getName().endsWith(".class")) {
 
@@ -236,7 +229,7 @@ public class AddonManager {
 					try {
 						Class<?> clazz;
 						try {
-							// It's important that we don't initialize any other classes before our main class.
+							// We don't want to initialize any classes. We'll leave that up to the JVM.
 							clazz = Class.forName(className, false, classLoader);
 						} catch (ClassNotFoundException | NoClassDefFoundError e) {
 							Logging.errorLog("An exception occurred while trying to load a class from an addon", e);
@@ -245,14 +238,8 @@ public class AddonManager {
 						if (BreweryAddon.class.isAssignableFrom(clazz)) {
 							// Found our main class, we're going to load it now.
 							classLoader.loadClass(className);
-							mainDir = className.substring(0, className.lastIndexOf('.'));
-							mainClass = clazz.asSubclass(BreweryAddon.class);
+							return clazz.asSubclass(BreweryAddon.class);
 						}
-						// Prevents loading classes that aren't in the same package. Addons that have dependencies better shade em in I guess. (TODO: remove this?)
-						if (!clazz.getName().contains(mainDir)) {
-							continue;
-						}
-						classes.add(clazz); // And finally... add the class to our list of classes.
 
 					} catch (ClassNotFoundException e) {
 						plugin.getLogger().log(Level.SEVERE, "Failed to load class " + className, e);
@@ -264,7 +251,7 @@ public class AddonManager {
 		} catch (IOException e) {
 			plugin.getLogger().log(Level.SEVERE, "Failed to load classes from jar " + jarFile.getName(), e);
 		}
-		return new Tuple<>(mainClass, classes);
+		throw new IllegalStateException("No class extending BreweryAddon found in jar " + jarFile.getName());
 	}
 
 }

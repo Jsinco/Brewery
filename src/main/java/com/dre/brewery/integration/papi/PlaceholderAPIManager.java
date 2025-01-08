@@ -62,6 +62,11 @@ public class PlaceholderAPIManager extends PlaceholderExpansion {
 	}
 
 	@Override
+	public boolean persist() {
+		return true;
+	}
+
+	@Override
 	public String onRequest(OfflinePlayer player, @NotNull String params) {
 		BPlayer bPlayer = BPlayer.get(player);
 		if (bPlayer == null) bPlayer = new BPlayer(BUtil.playerString(player));

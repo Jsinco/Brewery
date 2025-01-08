@@ -160,7 +160,7 @@ tasks {
         relocate("com.github.Anon8281.universalScheduler", "$pack.universalScheduler")
         relocate("eu.okaeri", "$pack.okaeri")
         relocate("com.mongodb", "$pack.mongodb")
-		relocate("org.bson", "$pack.bson")
+        relocate("org.bson", "$pack.bson")
         relocate("io.papermc.lib", "$pack.paperlib")
 		relocate("dev.rollczi.litecommands", "$pack.litecommands")
 
@@ -276,7 +276,8 @@ hangarPublish {
         platforms {
             register(Platforms.PAPER) {
                 // TODO: Ask in paper discord
-                url.set("https://modrinth.com/plugin/breweryx/versions")
+                //url.set("https://modrinth.com/plugin/breweryx/versions")
+                jar.set(tasks.shadowJar.flatMap { it.archiveFile })
                 platformVersions.set(listOf("1.13.x", "1.14.x", "1.15.x", "1.16.x", "1.17.x", "1.18.x", "1.19.x", "1.20.x", "1.21.x"))
             }
         }
