@@ -20,21 +20,18 @@
 
 package com.dre.brewery.commands;
 
-import com.dre.brewery.commands.annotation.BreweryCommand;
-import dev.rollczi.litecommands.meta.Meta;
-import dev.rollczi.litecommands.scope.Scope;
-import dev.rollczi.litecommands.scope.Scopeable;
+import com.dre.brewery.BreweryPlugin;
+import com.dre.brewery.configuration.files.Lang;
 
 /**
- * LiteCommands Scope resolving commands annotated with {@link BreweryCommand}
- *
- * @see BreweryCommandEditor
- * @see CommandManager
+ * A class that all BreweryX command should extend, used for easier access
  */
-class BreweryCommandScope implements Scope {
-	@Override
-	public boolean isApplicable(Scopeable scopeable) {
-		return scopeable.meta().get(Meta.COMMAND_ORIGIN_TYPE).stream()
-			.anyMatch(clazz -> clazz.isAnnotationPresent(BreweryCommand.class));
+public abstract class CommandBase {
+	protected final CommandManager commandManager;
+	protected final Lang lang;
+
+	public CommandBase(CommandManager commandManager) {
+		this.commandManager = commandManager;
+		this.lang = commandManager.getLang();
 	}
 }

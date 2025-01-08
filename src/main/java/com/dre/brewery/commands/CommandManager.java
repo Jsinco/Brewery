@@ -20,29 +20,32 @@
 
 package com.dre.brewery.commands;
 
+import com.dre.brewery.Brew;
 import com.dre.brewery.BreweryPlugin;
+import com.dre.brewery.commands.argument.BrewArgument;
 import com.dre.brewery.commands.subcommand.CopyCommand;
+import com.dre.brewery.commands.subcommand.CreateCommand;
+import com.dre.brewery.configuration.ConfigManager;
+import com.dre.brewery.configuration.files.Lang;
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.bukkit.LiteBukkitFactory;
-import dev.rollczi.litecommands.jakarta.LiteJakartaExtension;
 import lombok.Getter;
 import org.bukkit.command.CommandSender;
 
 @Getter
 public class CommandManager {
 	private final LiteCommands<CommandSender> liteCommands;
+	private final Lang lang = ConfigManager.getConfig(Lang.class);
 
 	public CommandManager() {
 		BreweryPlugin plugin = BreweryPlugin.getInstance();
 
 		this.liteCommands = LiteBukkitFactory.builder("breweryx", plugin)
-			.extension(new LiteJakartaExtension<>(), configuration -> configuration
-				.violationMessage((invocation, violation) -> "Invalid value for " + violation.getFormattedParameterName())
-			)
 			.editor(new BreweryCommandScope(), new BreweryCommandEditor())
+			.argument(Brew.class, new BrewArgument())
 			.commands(
-				new CopyCommand()
-
+				new CopyCommand(this),
+				new CreateCommand(this)
 			)
 			.build();
 	}

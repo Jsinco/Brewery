@@ -24,37 +24,65 @@ import com.dre.brewery.Brew;
 import com.dre.brewery.commands.CommandBase;
 import com.dre.brewery.commands.CommandManager;
 import com.dre.brewery.commands.annotation.BreweryCommand;
+import com.dre.brewery.recipe.BRecipe;
+import com.sk89q.worldedit.internal.annotation.OptionalArg;
 import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Optional;
 
 @BreweryCommand
-@Command(name = "copy")
-@Permission("brewery.cmd.copy")
-public class CopyCommand extends CommandBase {
+@Command(name = "create")
+@Permission("brewery.cmd.create")
+public class CreateCommand extends CommandBase {
 
-	public CopyCommand(CommandManager commandManager) {
+	public CreateCommand(CommandManager commandManager) {
 		super(commandManager);
 	}
 
 	@Execute
-	public void execute(@Context Player player, @Arg int count) {
-		ItemStack hand = player.getInventory().getItemInMainHand();
-		if (!Brew.isBrew(hand)) {
-			this.lang.sendEntry(player, "Error_ItemNotPotion");
+	public void execute(
+		@Context Player player,
+		@Arg Brew brew, @Arg Optional<Integer> quality,
+		@Arg Optional<Player> targetPlayer
+	) {
+		brew.setQuality(quality.orElse(10));
+
+		giveBrewToPlayer(player, brew, targetPlayer.orElse(player));
+	}
+
+	// non-player version of the above
+	// notice the lack of Optional<>
+	@Execute
+	public void execute(
+		@Context CommandSender sender,
+		@Arg Brew brew,
+		@Arg Integer quality,
+		@Arg Player player
+	) {
+		brew.setQuality(quality);
+
+		giveBrewToPlayer(sender, brew, player);
+	}
+
+	private void giveBrewToPlayer(CommandSender sender, Brew brew, Player player) {
+		if (player.getInventory().firstEmpty() == -1) {
+			this.lang.sendEntry(sender, "CMD_Copy_Error", "1");
 		}
-		while (count > 0) {
-			ItemStack item = hand.clone();
-			if (!(player.getInventory().addItem(item)).isEmpty()) {
-				this.lang.sendEntry(player, "CMD_Copy_Error", String.valueOf(count));
-				return;
-			}
-			count--;
+
+		ItemStack item = brew.createItem(null, player);
+		if (item == null) {
+			return; // original implementation also did nothing, but in theory this shouldn't happen...
 		}
+
+		player.getInventory().addItem(item);
+		this.lang.sendEntry(sender, "CMD_Created");
 	}
 
 }

@@ -85,12 +85,11 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 	// LiteCommands
 	implementation("dev.rollczi:litecommands-bukkit:3.9.6")
-	implementation("dev.rollczi:litecommands-jakarta:3.9.6")
-    // Okaeri configuration
+	// Okaeri configuration
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.5") {
         exclude("org.yaml", "snakeyaml")
     }
-    constraints {
+	constraints {
         implementation("org.yaml:snakeyaml") {
             version {
                 require("2.3")
@@ -163,15 +162,6 @@ tasks {
         relocate("org.bson", "$pack.bson")
         relocate("io.papermc.lib", "$pack.paperlib")
 		relocate("dev.rollczi.litecommands", "$pack.litecommands")
-
-		// should be thrown out eventually when I replace litecommands-jakarta with something lighter
-		relocate("com.fasterxml", "$pack.fasterxml")
-		relocate("com.sun.el", "$pack.sun.el")
-		relocate("jakarta.el", "$pack.jakarta.el")
-		relocate("jakarta.validation", "$pack.jakarta.validation")
-		relocate("org.glassfish.expressly", "$pack.expressly")
-		relocate("org.hibernate.validator", "$pack.hibernate.validator")
-		relocate("org.jboss.logging", "$pack.jboss.logging")
 
         archiveClassifier.set("")
     }

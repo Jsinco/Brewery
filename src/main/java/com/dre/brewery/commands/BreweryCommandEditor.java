@@ -23,10 +23,20 @@ package com.dre.brewery.commands;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import dev.rollczi.litecommands.command.builder.CommandBuilder;
+import dev.rollczi.litecommands.command.executor.CommandExecuteService;
 import dev.rollczi.litecommands.editor.Editor;
+import dev.rollczi.litecommands.platform.Platform;
+import dev.rollczi.litecommands.suggestion.SuggestionService;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.ApiStatus;
 
-public class BreweryCommandEditor implements Editor<CommandSender> {
+/**
+ * LiteCommands Editor that puts commands under "/breweryx" route, as well as aliases specified in the config
+ *
+ * @see com.dre.brewery.commands.annotation.BreweryCommand
+ * @see CommandManager#CommandManager()
+ */
+class BreweryCommandEditor implements Editor<CommandSender> {
 	@Override
 	public CommandBuilder<CommandSender> edit(CommandBuilder<CommandSender> context) {
 		Config config = ConfigManager.getConfig(Config.class);

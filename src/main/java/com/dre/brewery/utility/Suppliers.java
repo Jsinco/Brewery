@@ -18,23 +18,20 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-package com.dre.brewery.commands;
+package com.dre.brewery.utility;
 
-import com.dre.brewery.commands.annotation.BreweryCommand;
-import dev.rollczi.litecommands.meta.Meta;
-import dev.rollczi.litecommands.scope.Scope;
-import dev.rollczi.litecommands.scope.Scopeable;
+import java.util.function.Supplier;
 
-/**
- * LiteCommands Scope resolving commands annotated with {@link BreweryCommand}
- *
- * @see BreweryCommandEditor
- * @see CommandManager
- */
-class BreweryCommandScope implements Scope {
-	@Override
-	public boolean isApplicable(Scopeable scopeable) {
-		return scopeable.meta().get(Meta.COMMAND_ORIGIN_TYPE).stream()
-			.anyMatch(clazz -> clazz.isAnnotationPresent(BreweryCommand.class));
+public class Suppliers {
+	public static <T> Supplier<T> lazily(Supplier<T> supplier) {
+		return new Supplier<T>() {
+			T value;
+
+			@Override public T get() {
+				if (value == null)
+					value = supplier.get();
+				return value;
+			}
+		};
 	}
 }

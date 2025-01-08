@@ -120,7 +120,7 @@ public final class BreweryPlugin extends JavaPlugin {
 		TranslationManager.getInstance().updateTranslationFiles();
 		ConfigManager.newInstance(Lang.class, false);
 
-		commandManager = new CommandManager();
+		this.commandManager = new CommandManager();
 
 		BSealer.registerRecipe(); // Sealing table recipe
 		ConfigManager.registerDefaultPluginItems(); // Register plugin items
@@ -221,7 +221,7 @@ public final class BreweryPlugin extends JavaPlugin {
 	public void onDisable() {
 		if (addonManager != null) addonManager.unloadAddons();
 
-		commandManager.disable();
+		this.commandManager.disable();
 
 		// Disable listeners
 		HandlerList.unregisterAll(this);
