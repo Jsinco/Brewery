@@ -74,15 +74,15 @@ dependencies {
     // which don't support records.
     implementation("com.google.code.gson:gson:2.11.0")
     // For proper scheduling between Bukkit-Folia like servers, https://github.com/Anon8281/UniversalScheduler
-    implementation("com.github.Anon8281:UniversalScheduler:0.1.3-dev")
+    implementation("com.github.Anon8281:UniversalScheduler:0.1.6")
     // Nice annotations, I prefer these to Lombok's, https://www.jetbrains.com/help/idea/annotating-source-code.html
-    implementation("org.jetbrains:annotations:16.0.2")
+    implementation("org.jetbrains:annotations:26.0.1")
     // MongoDB & log4j to suppress MongoDB's logger
     implementation("org.mongodb:mongodb-driver-sync:5.3.0-beta0")
-    compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
+    compileOnly("org.apache.logging.log4j:log4j-core:2.24.3")
     // Lombok
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 	// LiteCommands
 	implementation("dev.rollczi:litecommands-bukkit:3.9.6")
 	// Okaeri configuration
