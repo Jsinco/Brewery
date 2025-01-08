@@ -74,7 +74,7 @@ dependencies {
     // which don't support records.
     implementation("com.google.code.gson:gson:2.11.0")
     // For proper scheduling between Bukkit-Folia like servers, https://github.com/Anon8281/UniversalScheduler
-    implementation("com.github.Anon8281:UniversalScheduler:0.1.6")
+    implementation("com.github.Anon8281:UniversalScheduler:0.1.3-dev")
     // Nice annotations, I prefer these to Lombok's, https://www.jetbrains.com/help/idea/annotating-source-code.html
     implementation("org.jetbrains:annotations:26.0.1")
     // MongoDB & log4j to suppress MongoDB's logger
