@@ -67,6 +67,7 @@ import java.util.stream.Collectors;
  * <p>
  * Addons also have support for configuration files. See {@link AddonConfigFile} and {@link AddonConfigManager} for more information.
  *
+ * @author Jsinco
  * @see AddonCommand
  * @see AddonInfo
  * @see AddonConfigFile
@@ -75,225 +76,241 @@ import java.util.stream.Collectors;
  * @see AddonFileManager
  * @see AddonLogger
  * @see AddonManager
- *
- * @author Jsinco
  */
 @SuppressWarnings("unused")
 public abstract class BreweryAddon {
 
-	private final List<Listener> listeners = new ArrayList<>();
-	private final List<String> commands = new ArrayList<>();
+    private final List<Listener> listeners = new ArrayList<>();
+    private final List<String> commands = new ArrayList<>();
 
-	private URLClassLoader classLoader;
+    private URLClassLoader classLoader;
 
-	private AddonInfo addonInfo;
+    private AddonInfo addonInfo;
 
-	private AddonLogger logger;
-	private AddonFileManager addonFileManager;
-	private AddonConfigManager addonConfigManager;
-	private File addonFile;
-
-
-	public void onAddonPreEnable() {
-		// Code for this addon which runs before the addon is enabled.
-	}
-	public void onAddonEnable() {
-		// Code for this addon which runs after the addon is enabled.
-	}
-	public void onAddonDisable() {
-		// Code for this addon which runs before the addon is disabled.
-	}
-	public void onBreweryReload() {
-		// Code for this addon which runs after `/breweryx reload` is executed.
-	}
+    private AddonLogger logger;
+    private AddonFileManager addonFileManager;
+    private AddonConfigManager addonConfigManager;
+    private File addonFile;
 
 
-	/**
-	 * Get the AddonInfo for this addon.
-	 * @return The addon info
-	 */
-	@NotNull
-	public AddonInfo getAddonInfo() {
-		return addonInfo;
-	}
+    public void onAddonPreEnable() {
+        // Code for this addon which runs before the addon is enabled.
+    }
 
-	/**
-	 * Get the *DEPRECATED* file manager for this addon.
-	 * @return The file manager
-	 */
-	@NotNull
-	public AddonFileManager getAddonFileManager() {
-		return addonFileManager;
-	}
+    public void onAddonEnable() {
+        // Code for this addon which runs after the addon is enabled.
+    }
 
-	/**
-	 * Get the config manager for this addon.
-	 * @return The config manager
-	 */
-	@NotNull
-	public AddonConfigManager getAddonConfigManager() {
-		return addonConfigManager;
-	}
+    public void onAddonDisable() {
+        // Code for this addon which runs before the addon is disabled.
+    }
 
-	/**
-	 * Get the logger for this addon.
-	 * @return The logger
-	 */
-	@NotNull
-	public AddonLogger getAddonLogger() {
-		return logger;
-	}
+    public void onBreweryReload() {
+        // Code for this addon which runs after `/breweryx reload` is executed.
+    }
 
 
-	@NotNull
-	public File getAddonFile() {
-		return addonFile;
-	}
+    /**
+     * Get the AddonInfo for this addon.
+     *
+     * @return The addon info
+     */
+    @NotNull
+    public AddonInfo getAddonInfo() {
+        return addonInfo;
+    }
+
+    /**
+     * Get the *DEPRECATED* file manager for this addon.
+     *
+     * @return The file manager
+     */
+    @NotNull
+    public AddonFileManager getAddonFileManager() {
+        return addonFileManager;
+    }
+
+    /**
+     * Get the config manager for this addon.
+     *
+     * @return The config manager
+     */
+    @NotNull
+    public AddonConfigManager getAddonConfigManager() {
+        return addonConfigManager;
+    }
+
+    /**
+     * Get the logger for this addon.
+     *
+     * @return The logger
+     */
+    @NotNull
+    public AddonLogger getAddonLogger() {
+        return logger;
+    }
 
 
-	/**
-	 * Register a listener with the server.
-	 * @param listener The listener to register
-	 */
-	public void registerListener(Listener listener) {
-		Bukkit.getPluginManager().registerEvents(listener, BreweryPlugin.getInstance());
-		listeners.add(listener);
-	}
-
-	/**
-	 * Unregister a listener registered by this addon.
-	 * @param listener The listener to unregister
-	 */
-	public void unregisterListener(Listener listener) {
-		HandlerList.unregisterAll(listener);
-		listeners.remove(listener);
-	}
+    @NotNull
+    public File getAddonFile() {
+        return addonFile;
+    }
 
 
-	/**
-	 * Register a command with BreweryX's command manager.
-	 * @param name The name of the command
-	 * @param command The command to register
-	 */
-	public void registerCommand(String name, AddonCommand command) {
-		CommandManager.addSubCommand(name, command);
-		commands.add(name);
-	}
+    /**
+     * Register a listener with the server.
+     *
+     * @param listener The listener to register
+     */
+    public void registerListener(Listener listener) {
+        Bukkit.getPluginManager().registerEvents(listener, BreweryPlugin.getInstance());
+        listeners.add(listener);
+    }
 
-	/**
-	 * Unregister a command with BreweryX's command manager.
-	 * @param name The name of the command
-	 */
-	public void unregisterCommand(String name) {
-		CommandManager.removeSubCommand(name);
-		commands.remove(name);
-	}
-
-	/**
-	 * Unregister all listeners and commands registered by this addon.
-	 */
-	public void unregisterListeners() {
-		for (Listener listener : listeners) {
-			HandlerList.unregisterAll(listener);
-		}
-		listeners.clear();
-	}
-
-	/**
-	 * Unregister all commands registered by this addon.
-	 */
-	public void unregisterCommands() {
-		for (String command : commands) {
-			CommandManager.removeSubCommand(command);
-		}
-		commands.clear();
-	}
+    /**
+     * Unregister a listener registered by this addon.
+     *
+     * @param listener The listener to unregister
+     */
+    public void unregisterListener(Listener listener) {
+        HandlerList.unregisterAll(listener);
+        listeners.remove(listener);
+    }
 
 
-	// Utility
+    /**
+     * Register a command with BreweryX's command manager.
+     *
+     * @param name    The name of the command
+     * @param command The command to register
+     */
+    public void registerCommand(String name, AddonCommand command) {
+        CommandManager.addSubCommand(name, command);
+        commands.add(name);
+    }
 
-	/**
-	 * Get the BreweryX plugin instance.
-	 * @return The BreweryX plugin instance
-	 */
-	@NotNull
-	public BreweryPlugin getBreweryPlugin() {
-		return BreweryPlugin.getInstance();
-	}
+    /**
+     * Unregister a command with BreweryX's command manager.
+     *
+     * @param name The name of the command
+     */
+    public void unregisterCommand(String name) {
+        CommandManager.removeSubCommand(name);
+        commands.remove(name);
+    }
 
+    /**
+     * Unregister all listeners and commands registered by this addon.
+     */
+    public void unregisterListeners() {
+        for (Listener listener : listeners) {
+            HandlerList.unregisterAll(listener);
+        }
+        listeners.clear();
+    }
 
-	/**
-	 * Get the scheduler for BreweryX.
-	 * @return The scheduler
-	 */
-	@NotNull
-	public TaskScheduler getScheduler() {
-		return BreweryPlugin.getScheduler();
-	}
-
-	/**
-	 * Retrieves the DataManager associated with the BreweryX plugin.
-	 *
-	 * @return The DataManager instance
-	 */
-	@NotNull
-	public DataManager getDataManager() {
-		return BreweryPlugin.getDataManager();
-	}
-
-	/**
-	 * Get the addon manager for BreweryX.
-	 * @return The addon manager
-	 */
-	@NotNull
-	public AddonManager getAddonManager() {
-		return BreweryPlugin.getAddonManager();
-	}
-
-	/**
-	 * Get the Minecraft version of the server running BreweryX and this addon.
-	 * @return The Minecraft version
-	 */
-	@NotNull
-	public MinecraftVersion getMCVersion() {
-		return BreweryPlugin.getMCVersion();
-	}
-
-	/**
-	 * If BreweryX and this addon are running on Folia or a Folia-based server.
-	 * @return true if running on Folia, false otherwise.
-	 */
-	public boolean isFolia() {
-		return MinecraftVersion.isFolia();
-	}
-
-	/**
-	 * If BreweryX and this addon are running on Paper or a Paper-based server.
-	 * @return true if running on Paper, false otherwise.
-	 */
-	public boolean isPaper() {
-		return PaperLib.isPaper();
-	}
+    /**
+     * Unregister all commands registered by this addon.
+     */
+    public void unregisterCommands() {
+        for (String command : commands) {
+            CommandManager.removeSubCommand(command);
+        }
+        commands.clear();
+    }
 
 
-	// Exposed Reflection API for addons.
+    // Utility
 
-	/**
-	 * For addons to reflectively discover their own classes, they must reference their own Jar.
-	 * @param packageName Package to search
-	 * @return Set of classes in the package
-	 */
-	public Set<Class<?>> findClasses(String packageName) throws IOException {
-		URLClassLoader classLoader = new URLClassLoader(
-				new URL[] { getAddonFile().toURI().toURL() },
-				this.getClass().getClassLoader()
-		);
-		return ClassPath.from(classLoader)
-				.getAllClasses()
-				.stream()
-				.filter(clazz -> clazz.getPackageName()
-						.equalsIgnoreCase(packageName)) // should just be equals instead of equalsIgnoreCase probs
-				.map(ClassPath.ClassInfo::load)
-				.collect(Collectors.toSet());
-	}
+    /**
+     * Get the BreweryX plugin instance.
+     *
+     * @return The BreweryX plugin instance
+     */
+    @NotNull
+    public BreweryPlugin getBreweryPlugin() {
+        return BreweryPlugin.getInstance();
+    }
+
+
+    /**
+     * Get the scheduler for BreweryX.
+     *
+     * @return The scheduler
+     */
+    @NotNull
+    public TaskScheduler getScheduler() {
+        return BreweryPlugin.getScheduler();
+    }
+
+    /**
+     * Retrieves the DataManager associated with the BreweryX plugin.
+     *
+     * @return The DataManager instance
+     */
+    @NotNull
+    public DataManager getDataManager() {
+        return BreweryPlugin.getDataManager();
+    }
+
+    /**
+     * Get the addon manager for BreweryX.
+     *
+     * @return The addon manager
+     */
+    @NotNull
+    public AddonManager getAddonManager() {
+        return BreweryPlugin.getAddonManager();
+    }
+
+    /**
+     * Get the Minecraft version of the server running BreweryX and this addon.
+     *
+     * @return The Minecraft version
+     */
+    @NotNull
+    public MinecraftVersion getMCVersion() {
+        return BreweryPlugin.getMCVersion();
+    }
+
+    /**
+     * If BreweryX and this addon are running on Folia or a Folia-based server.
+     *
+     * @return true if running on Folia, false otherwise.
+     */
+    public boolean isFolia() {
+        return MinecraftVersion.isFolia();
+    }
+
+    /**
+     * If BreweryX and this addon are running on Paper or a Paper-based server.
+     *
+     * @return true if running on Paper, false otherwise.
+     */
+    public boolean isPaper() {
+        return PaperLib.isPaper();
+    }
+
+
+    // Exposed Reflection API for addons.
+
+    /**
+     * For addons to reflectively discover their own classes, they must reference their own Jar.
+     *
+     * @param packageName Package to search
+     * @return Set of classes in the package
+     */
+    public Set<Class<?>> findClasses(String packageName) throws IOException {
+        URLClassLoader classLoader = new URLClassLoader(
+            new URL[]{ getAddonFile().toURI().toURL() },
+            this.getClass().getClassLoader()
+        );
+        return ClassPath.from(classLoader)
+            .getAllClasses()
+            .stream()
+            .filter(clazz -> clazz.getPackageName()
+                .equalsIgnoreCase(packageName)) // should just be equals instead of equalsIgnoreCase probs
+            .map(ClassPath.ClassInfo::load)
+            .collect(Collectors.toSet());
+    }
 }
