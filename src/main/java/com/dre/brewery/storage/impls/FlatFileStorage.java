@@ -28,8 +28,8 @@ import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.storage.DataManager;
 import com.dre.brewery.storage.StorageInitException;
-import com.dre.brewery.storage.records.BreweryMiscData;
 import com.dre.brewery.storage.interfaces.SerializableThing;
+import com.dre.brewery.storage.records.BreweryMiscData;
 import com.dre.brewery.storage.serialization.BukkitSerialization;
 import com.dre.brewery.storage.serialization.SQLDataSerializer;
 import com.dre.brewery.utility.BUtil;
@@ -85,6 +85,7 @@ public class FlatFileStorage extends DataManager {
             Logging.errorLog("Failed to save to FlatFile!", e);
         }
     }
+
     private SQLDataSerializer getLazySerializerInstance() {
         if (serializer == null) {
             serializer = new SQLDataSerializer();
@@ -162,7 +163,8 @@ public class FlatFileStorage extends DataManager {
 
         Gson gson = getLazySerializerInstance().getGson();
         JsonObject jsonObject = gson.toJsonTree(serializableThing).getAsJsonObject();
-        Type mapType = new TypeToken<Map<String, Object>>() {}.getType();
+        Type mapType = new TypeToken<Map<String, Object>>() {
+        }.getType();
         Map<String, Object> map = gson.fromJson(jsonObject, mapType);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             dataFile.set(path + "." + entry.getKey(), entry.getValue());
@@ -303,7 +305,6 @@ public class FlatFileStorage extends DataManager {
     }
 
 
-
     @Override
     public BPlayer getPlayer(UUID playerUUID) {
         String path = "players." + playerUUID;
@@ -414,11 +415,11 @@ public class FlatFileStorage extends DataManager {
     @Override
     public BreweryMiscData getBreweryMiscData() {
         return new BreweryMiscData(
-                dataFile.getLong("misc.installTime", System.currentTimeMillis()),
-                dataFile.getLong("misc.mcBarrelTime", 0),
-                dataFile.getLongList("misc.previousSaveSeeds"),
-                dataFile.getIntegerList("misc.brewsCreated"),
-                dataFile.getInt("misc.brewsCreatedHash", 0)
+            dataFile.getLong("misc.installTime", System.currentTimeMillis()),
+            dataFile.getLong("misc.mcBarrelTime", 0),
+            dataFile.getLongList("misc.previousSaveSeeds"),
+            dataFile.getIntegerList("misc.brewsCreated"),
+            dataFile.getInt("misc.brewsCreatedHash", 0)
         );
     }
 

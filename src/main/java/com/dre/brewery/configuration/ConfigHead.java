@@ -54,8 +54,8 @@ public class ConfigHead {
 
     @Getter
     private final Map<Class<? extends Configurer>, Supplier<Configurer>> configurerSupplierMap = new HashMap<>(Map.of(
-            BreweryXConfigurer.class, BreweryXConfigurer::new,
-            YamlSnakeYamlConfigurer.class, YamlSnakeYamlConfigurer::new
+        BreweryXConfigurer.class, BreweryXConfigurer::new,
+        YamlSnakeYamlConfigurer.class, YamlSnakeYamlConfigurer::new
     ));
     @Getter
     private final Set<OkaeriSerdesPack> preparedSerdesPacks = new HashSet<>();
@@ -76,9 +76,10 @@ public class ConfigHead {
 
     /**
      * Get a configurer from the CONFIGURERS map with all of the packs and transformers added.
+     *
      * @param configurerClass The class of the configurer to get
+     * @param <T>             The type of the configurer
      * @return The configurer instance
-     * @param <T> The type of the configurer
      */
     @NotNull
     public <T extends Configurer> T getConfigurer(Class<T> configurerClass) {
@@ -99,9 +100,10 @@ public class ConfigHead {
 
     /**
      * Get a config instance from the LOADED_CONFIGS map, or create a new instance if it doesn't exist
+     *
      * @param configClass The class of the config to get
+     * @param <T>         The type of the config
      * @return The config instance
-     * @param <T> The type of the config
      */
     public <T extends AbstractOkaeriConfigFile> T getConfig(Class<T> configClass) {
         try {
@@ -120,8 +122,9 @@ public class ConfigHead {
 
     /**
      * Replaces a config instance in the LOADED_CONFIGS map with a new instance of the same class
+     *
      * @param configClass The class of the config to replace
-     * @param <T> The type of the config
+     * @param <T>         The type of the config
      */
     public <T extends AbstractOkaeriConfigFile> void newInstance(Class<T> configClass, boolean overwrite) {
         if (!overwrite && LOADED_CONFIGS.containsKey(configClass)) {
@@ -140,9 +143,10 @@ public class ConfigHead {
 
     /**
      * Get the file path of a config class
+     *
      * @param configClass The class of the config to get the file name of
+     * @param <T>         The type of the config
      * @return The file name
-     * @param <T> The type of the config
      */
     public <T extends AbstractOkaeriConfigFile> Path getFilePath(Class<T> configClass) {
         OkaeriConfigFileOptions options = getOkaeriConfigFileOptions(configClass);
@@ -155,16 +159,15 @@ public class ConfigHead {
     }
 
 
-
-
     /**
      * Create a new config instance with a custom file name, configurer, serdes pack, and puts it in the LOADED_CONFIGS map
+     *
      * @param configClass The class of the config to create
-     * @param file The file to use
-     * @param configurer The configurer to use
-     * @param serdesPack The serdes pack to use
+     * @param file        The file to use
+     * @param configurer  The configurer to use
+     * @param serdesPack  The serdes pack to use
+     * @param <T>         The type of the config
      * @return The new config instance
-     * @param <T> The type of the config
      */
     public <T extends AbstractOkaeriConfigFile> T createConfig(Class<T> configClass, Path file, Configurer configurer, OkaeriSerdesPack serdesPack, boolean update, boolean removeOrphans) {
         boolean firstCreation = !Files.exists(file);
@@ -185,10 +188,11 @@ public class ConfigHead {
 
     /**
      * Create a new config instance using a config class' annotation
+     *
      * @param configClass The class of the config to create
-	 * @param file The file to use
+     * @param file        The file to use
+     * @param <T>         The type of the config
      * @return The new config instance
-     * @param <T> The type of the config
      */
     public <T extends AbstractOkaeriConfigFile> T createConfig(Class<T> configClass, Path file) {
         OkaeriConfigFileOptions options = getOkaeriConfigFileOptions(configClass);
@@ -197,15 +201,16 @@ public class ConfigHead {
         return createConfig(configClass, file, configurer, new StandardSerdes(), options.update(), options.removeOrphans());
     }
 
-	/**
-	 * Create a new config instance using a config class' annotation
-	 * @param configClass The class of the config to create
-	 * @return The new config instance
-	 * @param <T> The type of the config
-	 */
-	public <T extends AbstractOkaeriConfigFile> T createConfig(Class<T> configClass) {
-		return createConfig(configClass, getFilePath(configClass));
-	}
+    /**
+     * Create a new config instance using a config class' annotation
+     *
+     * @param configClass The class of the config to create
+     * @param <T>         The type of the config
+     * @return The new config instance
+     */
+    public <T extends AbstractOkaeriConfigFile> T createConfig(Class<T> configClass) {
+        return createConfig(configClass, getFilePath(configClass));
+    }
 
     @Nullable
     public <T extends AbstractOkaeriConfigFile> T createBlankConfigInstance(Class<T> configClass) {
@@ -285,12 +290,35 @@ public class ConfigHead {
         OkaeriConfigFileOptions options = configClass.getAnnotation(OkaeriConfigFileOptions.class);
         if (options == null) {
             options = new OkaeriConfigFileOptions() {
-                @Override public Class<? extends Annotation> annotationType() { return OkaeriConfigFileOptions.class; }
-                @Override public Class<? extends Configurer> configurer() { return BreweryXConfigurer.class; }
-                @Override public boolean useLangFileName() { return false; }
-                @Override public boolean update() { return false; }
-                @Override public boolean removeOrphans() { return false; }
-                @Override public String value() { return configClass.getSimpleName().toLowerCase() + ".yml"; }
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return OkaeriConfigFileOptions.class;
+                }
+
+                @Override
+                public Class<? extends Configurer> configurer() {
+                    return BreweryXConfigurer.class;
+                }
+
+                @Override
+                public boolean useLangFileName() {
+                    return false;
+                }
+
+                @Override
+                public boolean update() {
+                    return false;
+                }
+
+                @Override
+                public boolean removeOrphans() {
+                    return false;
+                }
+
+                @Override
+                public String value() {
+                    return configClass.getSimpleName().toLowerCase() + ".yml";
+                }
             };
         }
         return options;

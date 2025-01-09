@@ -52,9 +52,10 @@ public class ConfigManager {
 
     /**
      * Get a config instance from the LOADED_CONFIGS map, or create a new instance if it doesn't exist
+     *
      * @param configClass The class of the config to get
+     * @param <T>         The type of the config
      * @return The config instance
-     * @param <T> The type of the config
      */
     public static <T extends AbstractOkaeriConfigFile> T getConfig(Class<T> configClass) {
         return INSTANCE.getConfig(configClass);
@@ -62,8 +63,9 @@ public class ConfigManager {
 
     /**
      * Replaces a config instance in the LOADED_CONFIGS map with a new instance of the same class
+     *
      * @param configClass The class of the config to replace
-     * @param <T> The type of the config
+     * @param <T>         The type of the config
      */
     public static <T extends AbstractOkaeriConfigFile> void newInstance(Class<T> configClass, boolean overwrite) {
         INSTANCE.newInstance(configClass, overwrite);
@@ -72,25 +74,25 @@ public class ConfigManager {
 
     /**
      * Get the file path of a config class
+     *
      * @param configClass The class of the config to get the file name of
+     * @param <T>         The type of the config
      * @return The file name
-     * @param <T> The type of the config
      */
     public static <T extends AbstractOkaeriConfigFile> Path getFilePath(Class<T> configClass) {
         return INSTANCE.getFilePath(configClass);
     }
 
 
-
-
     /**
      * Create a new config instance with a custom file name, configurer, serdes pack, and puts it in the LOADED_CONFIGS map
+     *
      * @param configClass The class of the config to create
-     * @param file The file to use
-     * @param configurer The configurer to use
-     * @param serdesPack The serdes pack to use
+     * @param file        The file to use
+     * @param configurer  The configurer to use
+     * @param serdesPack  The serdes pack to use
+     * @param <T>         The type of the config
      * @return The new config instance
-     * @param <T> The type of the config
      */
     private static <T extends AbstractOkaeriConfigFile> T createConfig(Class<T> configClass, Path file, Configurer configurer, OkaeriSerdesPack serdesPack, boolean update, boolean removeOrphans) {
         return INSTANCE.createConfig(configClass, file, configurer, serdesPack, update, removeOrphans);
@@ -98,18 +100,19 @@ public class ConfigManager {
 
     /**
      * Create a new config instance using a config class' annotation
+     *
      * @param configClass The class of the config to create
+     * @param <T>         The type of the config
      * @return The new config instance
-     * @param <T> The type of the config
      */
     private static <T extends AbstractOkaeriConfigFile> T createConfig(Class<T> configClass) {
         return INSTANCE.createConfig(configClass);
     }
 
-	@Nullable
-	private static <T extends AbstractOkaeriConfigFile> T createBlankConfigInstance(Class<T> configClass) {
+    @Nullable
+    private static <T extends AbstractOkaeriConfigFile> T createBlankConfigInstance(Class<T> configClass) {
         return INSTANCE.createBlankConfigInstance(configClass);
-	}
+    }
 
 
     // Util

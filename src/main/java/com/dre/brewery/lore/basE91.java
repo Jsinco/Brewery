@@ -31,126 +31,117 @@
 package com.dre.brewery.lore;
 
 
+public class basE91 {
+    public static final byte[] enctab;
+    private static final byte[] dectab;
 
-public class basE91
-{
-	public static final byte[] enctab;
-	private static final byte[] dectab;
+    private int ebq, en, dbq, dn, dv;
+    private int[] marker = null;
 
-	private int ebq, en, dbq, dn, dv;
-	private int[] marker = null;
+    public int encode(byte[] ib, int n, byte[] ob) {
+        int i, c = 0;
 
-	public int encode(byte[] ib, int n, byte[] ob)
-	{
-		int i, c = 0;
+        for (i = 0; i < n; ++i) {
+            ebq |= (ib[i] & 255) << en;
+            en += 8;
+            if (en > 13) {
+                int ev = ebq & 8191;
 
-		for (i = 0; i < n; ++i) {
-			ebq |= (ib[i] & 255) << en;
-			en += 8;
-			if (en > 13) {
-				int ev = ebq & 8191;
+                if (ev > 88) {
+                    ebq >>= 13;
+                    en -= 13;
+                } else {
+                    ev = ebq & 16383;
+                    ebq >>= 14;
+                    en -= 14;
+                }
+                ob[c++] = enctab[ev % 91];
+                ob[c++] = enctab[ev / 91];
+            }
+        }
+        return c;
+    }
 
-				if (ev > 88) {
-					ebq >>= 13;
-					en -= 13;
-				} else {
-					ev = ebq & 16383;
-					ebq >>= 14;
-					en -= 14;
-				}
-				ob[c++] = enctab[ev % 91];
-				ob[c++] = enctab[ev / 91];
-			}
-		}
-		return c;
-	}
+    public int encEnd(byte[] ob) {
+        int c = 0;
 
-	public int encEnd(byte[] ob)
-	{
-		int c = 0;
+        if (en > 0) {
+            ob[c++] = enctab[ebq % 91];
+            if (en > 7 || ebq > 90)
+                ob[c++] = enctab[ebq / 91];
+        }
+        encReset();
+        return c;
+    }
 
-		if (en > 0) {
-			ob[c++] = enctab[ebq % 91];
-			if (en > 7 || ebq > 90)
-				ob[c++] = enctab[ebq / 91];
-		}
-		encReset();
-		return c;
-	}
+    public void encReset() {
+        ebq = 0;
+        en = 0;
+    }
 
-	public void encReset()
-	{
-		ebq = 0;
-		en = 0;
-	}
+    public int decode(byte[] ib, int n, byte[] ob) {
+        int i, c = 0;
 
-	public int decode(byte[] ib, int n, byte[] ob)
-	{
-		int i, c = 0;
+        for (i = 0; i < n; ++i) {
+            if (dectab[ib[i]] == -1)
+                continue;
+            if (dv == -1)
+                dv = dectab[ib[i]];
+            else {
+                dv += dectab[ib[i]] * 91;
+                dbq |= dv << dn;
+                dn += (dv & 8191) > 88 ? 13 : 14;
+                do {
+                    ob[c++] = (byte) dbq;
+                    dbq >>= 8;
+                    dn -= 8;
+                } while (dn > 7);
+                dv = -1;
+            }
+        }
+        return c;
+    }
 
-		for (i = 0; i < n; ++i) {
-			if (dectab[ib[i]] == -1)
-				continue;
-			if (dv == -1)
-				dv = dectab[ib[i]];
-			else {
-				dv += dectab[ib[i]] * 91;
-				dbq |= dv << dn;
-				dn += (dv & 8191) > 88 ? 13 : 14;
-				do {
-					ob[c++] = (byte) dbq;
-					dbq >>= 8;
-					dn -= 8;
-				} while (dn > 7);
-				dv = -1;
-			}
-		}
-		return c;
-	}
+    public int decEnd(byte[] ob) {
+        int c = 0;
 
-	public int decEnd(byte[] ob)
-	{
-		int c = 0;
+        if (dv != -1)
+            ob[c++] = (byte) (dbq | dv << dn);
+        decReset();
+        return c;
+    }
 
-		if (dv != -1)
-			ob[c++] = (byte) (dbq | dv << dn);
-		decReset();
-		return c;
-	}
+    public void decReset() {
+        dbq = 0;
+        dn = 0;
+        dv = -1;
+    }
 
-	public void decReset()
-	{
-		dbq = 0;
-		dn = 0;
-		dv = -1;
-	}
+    public void decMark() {
+        marker = new int[]{ dbq, dn, dv };
+    }
 
-	public void decMark() {
-		marker = new int[] {dbq, dn, dv};
-	}
+    public void decUnmark() {
+        if (marker == null) return;
+        dbq = marker[0];
+        dn = marker[1];
+        dv = marker[2];
+    }
 
-	public void decUnmark() {
-		if (marker == null) return;
-		dbq = marker[0];
-		dn = marker[1];
-		dv = marker[2];
-	}
+    public basE91() {
+        encReset();
+        decReset();
+    }
 
-	public basE91()
-	{
-		encReset();
-		decReset();
-	}
+    static {
+        int i;
+        String ts = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$%&()*+,-./:;<=>?@[]^_`{|}~\""; // Added '-' removed '#'
 
-	static {
-		int i;
-		String ts = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$%&()*+,-./:;<=>?@[]^_`{|}~\""; // Added '-' removed '#'
-
-		enctab = ts.getBytes();
-		dectab = new byte[256];
-		for (i = 0; i < 256; ++i)
-			dectab[i] = -1;
-		for (i = 0; i < 91; ++i)
-			dectab[enctab[i]] = (byte) i;
-	}
+        enctab = ts.getBytes();
+        dectab = new byte[256];
+        for (i = 0; i < 256; ++i)
+            dectab[i] = -1;
+        for (i = 0; i < 91; ++i)
+            dectab[enctab[i]] = (byte) i;
+    }
 }

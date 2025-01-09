@@ -28,18 +28,18 @@ import lombok.NonNull;
 import org.bukkit.Material;
 
 public class MaterialTransformer extends BidirectionalTransformer<String, Material> {
-	@Override
-	public GenericsPair<String, Material> getPair() {
-		return this.genericsPair(String.class, Material.class);
-	}
+    @Override
+    public GenericsPair<String, Material> getPair() {
+        return this.genericsPair(String.class, Material.class);
+    }
 
-	@Override
-	public Material leftToRight(@NonNull String data, @NonNull SerdesContext serdesContext) {
-		return MaterialUtil.getMaterialSafely(data); // handles grass -> short_grass
-	}
+    @Override
+    public Material leftToRight(@NonNull String data, @NonNull SerdesContext serdesContext) {
+        return MaterialUtil.getMaterialSafely(data); // handles grass -> short_grass
+    }
 
-	@Override
-	public String rightToLeft(@NonNull Material data, @NonNull SerdesContext serdesContext) {
-		return data.toString();
-	}
+    @Override
+    public String rightToLeft(@NonNull Material data, @NonNull SerdesContext serdesContext) {
+        return data.toString();
+    }
 }

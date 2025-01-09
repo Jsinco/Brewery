@@ -43,8 +43,8 @@ import java.util.Map;
 
 // Our bind file for this class should vary based on what language the user has set in the config.
 @OkaeriConfigFileOptions(useLangFileName = true, removeOrphans = true)
-@Header({"!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!",
-        "Translations for BreweryX"})
+@Header({ "!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!",
+    "Translations for BreweryX" })
 @DefaultCommentSpace(1)
 @SuppressWarnings("unused")
 public class Lang extends AbstractOkaeriConfigFile {
@@ -71,27 +71,27 @@ public class Lang extends AbstractOkaeriConfigFile {
         this.mapStrings();
     }
 
-	public void updateMissingValuesFrom(@Nullable Lang other) {
-		if (other == null) {
-			return;
-		}
+    public void updateMissingValuesFrom(@Nullable Lang other) {
+        if (other == null) {
+            return;
+        }
 
-		for (Field field : this.getClass().getDeclaredFields()) {
-			if (field.getType() != String.class) {
-				continue;
-			}
+        for (Field field : this.getClass().getDeclaredFields()) {
+            if (field.getType() != String.class) {
+                continue;
+            }
 
-			try {
-				String thisValue = (String) field.get(this);
-				String otherValue = (String) field.get(other);
-				if (thisValue == null && otherValue != null) {
-					field.set(this, otherValue);
-				}
-			} catch (IllegalAccessException e) {
-				Logging.errorLog("Lang failed to get a field value! &6(" + field.getName() + ")", e);
-			}
-		}
-	}
+            try {
+                String thisValue = (String) field.get(this);
+                String otherValue = (String) field.get(other);
+                if (thisValue == null && otherValue != null) {
+                    field.set(this, otherValue);
+                }
+            } catch (IllegalAccessException e) {
+                Logging.errorLog("Lang failed to get a field value! &6(" + field.getName() + ")", e);
+            }
+        }
+    }
 
     public void mapStrings() {
         BreweryPlugin plugin = BreweryPlugin.getInstance();
@@ -187,8 +187,8 @@ public class Lang extends AbstractOkaeriConfigFile {
     private String brewMinute;
     @CustomKey("Brew_Alc")
     private String brewAlc;
-	@CustomKey("Brew_Alcoholic")
-	private String brewAlcoholic;
+    @CustomKey("Brew_Alcoholic")
+    private String brewAlcoholic;
     @CustomKey("Brew_Brewer")
     private String brewBrewer;
 

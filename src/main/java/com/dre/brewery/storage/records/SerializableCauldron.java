@@ -29,12 +29,14 @@ import org.bukkit.Location;
 
 /**
  * Represents a cauldron that can be serialized.
- * @param id The UUID of the cauldron
- * @param serializedLocation The Block/Location of the cauldron
+ *
+ * @param id                    The UUID of the cauldron
+ * @param serializedLocation    The Block/Location of the cauldron
  * @param serializedIngredients Serialized BIngredients 'BIngredients.deserialize(String)'
- * @param state The state
+ * @param state                 The state
  */
-public record SerializableCauldron(String id, String serializedLocation, String serializedIngredients, int state) implements SerializableThing {
+public record SerializableCauldron(String id, String serializedLocation, String serializedIngredients,
+                                   int state) implements SerializableThing {
     public SerializableCauldron(BCauldron cauldron) {
         this(cauldron.getId().toString(), DataManager.serializeLocation(cauldron.getBlock().getLocation()), cauldron.getIngredients().serializeIngredients(), cauldron.getState());
     }

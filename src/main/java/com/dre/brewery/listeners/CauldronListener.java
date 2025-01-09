@@ -22,7 +22,6 @@ package com.dre.brewery.listeners;
 
 import com.dre.brewery.BCauldron;
 import com.dre.brewery.utility.MaterialUtil;
-import io.papermc.lib.PaperLib;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -35,63 +34,63 @@ import org.bukkit.event.block.CauldronLevelChangeEvent;
 
 public class CauldronListener implements Listener {
 
-	/**
-	 * Water in Cauldron gets filled up: remove BCauldron to disallow unlimited Brews
-	 * Water in Cauldron gets removed: remove BCauldron to remove Brew data and stop particles
-	 */
-	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-	public void onCauldronChange(CauldronLevelChangeEvent event) {
-		if (MaterialUtil.WATER_CAULDRON == null) {
-			// < 1.17
-			oldCauldronChange(event);
-			return;
-		}
+    /**
+     * Water in Cauldron gets filled up: remove BCauldron to disallow unlimited Brews
+     * Water in Cauldron gets removed: remove BCauldron to remove Brew data and stop particles
+     */
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onCauldronChange(CauldronLevelChangeEvent event) {
+        if (MaterialUtil.WATER_CAULDRON == null) {
+            // < 1.17
+            oldCauldronChange(event);
+            return;
+        }
 
-		Material currentType = event.getBlock().getType();
-		BlockState newState = event.getNewState(); // Don't think PaperLib can be used here
-		Material newType = newState.getType();
+        Material currentType = event.getBlock().getType();
+        BlockState newState = event.getNewState(); // Don't think PaperLib can be used here
+        Material newType = newState.getType();
 
-		if (currentType == Material.WATER_CAULDRON) {
-			if (newType != Material.WATER_CAULDRON) {
-				// Change from water to anything else
-				if (event.getReason() != CauldronLevelChangeEvent.ChangeReason.BOTTLE_FILL) {
-					BCauldron.remove(event.getBlock());
-				}
-			} else { // newType == Material.WATER_CAULDRON
-				// Water level change
+        if (currentType == Material.WATER_CAULDRON) {
+            if (newType != Material.WATER_CAULDRON) {
+                // Change from water to anything else
+                if (event.getReason() != CauldronLevelChangeEvent.ChangeReason.BOTTLE_FILL) {
+                    BCauldron.remove(event.getBlock());
+                }
+            } else { // newType == Material.WATER_CAULDRON
+                // Water level change
 
-				Levelled oldCauldron = (Levelled) event.getBlock().getBlockData();
-				Levelled newCauldron = (Levelled) newState.getBlockData();
+                Levelled oldCauldron = (Levelled) event.getBlock().getBlockData();
+                Levelled newCauldron = (Levelled) newState.getBlockData();
 
-				// Water Level increased somehow, might be Bucket, Bottle, Rain, etc.
-				if (newCauldron.getLevel() > oldCauldron.getLevel()) {
-					BCauldron.remove(event.getBlock());
-				}
-			}
-		}
-	}
+                // Water Level increased somehow, might be Bucket, Bottle, Rain, etc.
+                if (newCauldron.getLevel() > oldCauldron.getLevel()) {
+                    BCauldron.remove(event.getBlock());
+                }
+            }
+        }
+    }
 
-	/* PATCH - "My friend found a way to dupe brews #541" https://github.com/DieReicheErethons/Brewery/issues/541
-	 * Check if piston is pushing a BreweryCauldron and remove it
-	 */
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onPistonExtend(BlockPistonExtendEvent event) {
-		for (Block block : event.getBlocks()) {
-			if (BCauldron.bcauldrons.containsKey(block)) {
-				BCauldron.remove(block);
-			}
-		}
-	}
+    /* PATCH - "My friend found a way to dupe brews #541" https://github.com/DieReicheErethons/Brewery/issues/541
+     * Check if piston is pushing a BreweryCauldron and remove it
+     */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPistonExtend(BlockPistonExtendEvent event) {
+        for (Block block : event.getBlocks()) {
+            if (BCauldron.bcauldrons.containsKey(block)) {
+                BCauldron.remove(block);
+            }
+        }
+    }
 
-	@SuppressWarnings("deprecation")
-	private void oldCauldronChange(CauldronLevelChangeEvent event) {
-		if (event.getNewLevel() == 0 && event.getOldLevel() != 0) {
-			if (event.getReason() == CauldronLevelChangeEvent.ChangeReason.BOTTLE_FILL) {
-				return;
-			}
-			BCauldron.remove(event.getBlock());
-		} else if (event.getNewLevel() == 3 && event.getOldLevel() != 3) {
-			BCauldron.remove(event.getBlock());
-		}
-	}
+    @SuppressWarnings("deprecation")
+    private void oldCauldronChange(CauldronLevelChangeEvent event) {
+        if (event.getNewLevel() == 0 && event.getOldLevel() != 0) {
+            if (event.getReason() == CauldronLevelChangeEvent.ChangeReason.BOTTLE_FILL) {
+                return;
+            }
+            BCauldron.remove(event.getBlock());
+        } else if (event.getNewLevel() == 3 && event.getOldLevel() != 3) {
+            BCauldron.remove(event.getBlock());
+        }
+    }
 }

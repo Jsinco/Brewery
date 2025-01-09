@@ -49,30 +49,30 @@ public enum BarrelWoodType {
     private final String formattedName;
     private final int index;
 
-	BarrelWoodType(String formattedName, int index) {
-		this(formattedName, index, false);
-	}
+    BarrelWoodType(String formattedName, int index) {
+        this(formattedName, index, false);
+    }
 
     BarrelWoodType(String formattedName, int index, boolean exclude) {
         this.formattedName = formattedName;
-		this.index = index;
-		if (!exclude) {
-			BarrelAsset.addBarrelAsset(BarrelAsset.PLANKS, getStandardBarrelAssetMaterial(BarrelAsset.PLANKS));
-			BarrelAsset.addBarrelAsset(BarrelAsset.STAIRS, getStandardBarrelAssetMaterial(BarrelAsset.STAIRS));
-			BarrelAsset.addBarrelAsset(BarrelAsset.SIGN, getStandardBarrelAssetMaterial(BarrelAsset.SIGN));
-			BarrelAsset.addBarrelAsset(BarrelAsset.FENCE, getStandardBarrelAssetMaterial(BarrelAsset.FENCE));
-		}
+        this.index = index;
+        if (!exclude) {
+            BarrelAsset.addBarrelAsset(BarrelAsset.PLANKS, getStandardBarrelAssetMaterial(BarrelAsset.PLANKS));
+            BarrelAsset.addBarrelAsset(BarrelAsset.STAIRS, getStandardBarrelAssetMaterial(BarrelAsset.STAIRS));
+            BarrelAsset.addBarrelAsset(BarrelAsset.SIGN, getStandardBarrelAssetMaterial(BarrelAsset.SIGN));
+            BarrelAsset.addBarrelAsset(BarrelAsset.FENCE, getStandardBarrelAssetMaterial(BarrelAsset.FENCE));
+        }
     }
 
-	BarrelWoodType(String formattedName, int index, Material planks, Material stairs, Material sign, Material fence) {
-		this.formattedName = formattedName;
-		this.index = index;
+    BarrelWoodType(String formattedName, int index, Material planks, Material stairs, Material sign, Material fence) {
+        this.formattedName = formattedName;
+        this.index = index;
 
-		BarrelAsset.addBarrelAsset(BarrelAsset.PLANKS, planks);
-		BarrelAsset.addBarrelAsset(BarrelAsset.STAIRS, stairs);
-		BarrelAsset.addBarrelAsset(BarrelAsset.SIGN, sign);
-		BarrelAsset.addBarrelAsset(BarrelAsset.FENCE, fence);
-	}
+        BarrelAsset.addBarrelAsset(BarrelAsset.PLANKS, planks);
+        BarrelAsset.addBarrelAsset(BarrelAsset.STAIRS, stairs);
+        BarrelAsset.addBarrelAsset(BarrelAsset.SIGN, sign);
+        BarrelAsset.addBarrelAsset(BarrelAsset.FENCE, fence);
+    }
 
     BarrelWoodType(String formattedName, int index, Material planks, Material stairs) {
         this.formattedName = formattedName;
@@ -82,19 +82,19 @@ public enum BarrelWoodType {
         BarrelAsset.addBarrelAsset(BarrelAsset.STAIRS, stairs);
     }
 
-	@Nullable
-	private Material[] getStandardBarrelAssetMaterial(BarrelAsset assetType) {
-		try {
+    @Nullable
+    private Material[] getStandardBarrelAssetMaterial(BarrelAsset assetType) {
+        try {
             // TODO: I dont like this... Change it later
             if (assetType == BarrelAsset.SIGN) {
-                return new Material[]{Material.valueOf(this.name() + "_" + assetType.name()), Material.valueOf(this.name() + "_WALL_SIGN")};
+                return new Material[]{ Material.valueOf(this.name() + "_" + assetType.name()), Material.valueOf(this.name() + "_WALL_SIGN") };
             }
-			return new Material[]{Material.valueOf(this.name() + "_" + assetType.name())};
-		} catch (IllegalArgumentException e) {
-			// Just assume they're running some older version.
-			return null;
-		}
-	}
+            return new Material[]{ Material.valueOf(this.name() + "_" + assetType.name()) };
+        } catch (IllegalArgumentException e) {
+            // Just assume they're running some older version.
+            return null;
+        }
+    }
 
 
     public static BarrelWoodType fromName(String name) {

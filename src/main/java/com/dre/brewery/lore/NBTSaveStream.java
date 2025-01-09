@@ -29,20 +29,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class NBTSaveStream extends ByteArrayOutputStream {
-	private static final String TAG = "brewdata";
-	private static final NamespacedKey KEY = new NamespacedKey(BreweryPlugin.getInstance(), TAG);
+    private static final String TAG = "brewdata";
+    private static final NamespacedKey KEY = new NamespacedKey(BreweryPlugin.getInstance(), TAG);
 
-	private final ItemMeta meta;
+    private final ItemMeta meta;
 
-	public NBTSaveStream(ItemMeta meta) {
-		super(128);
-		this.meta = meta;
-	}
+    public NBTSaveStream(ItemMeta meta) {
+        super(128);
+        this.meta = meta;
+    }
 
-	@Override
-	public void flush() throws IOException {
-		super.flush();
-		if (size() <= 0) return;
-		NBTUtil.writeBytesItem(toByteArray(), meta, KEY);
-	}
+    @Override
+    public void flush() throws IOException {
+        super.flush();
+        if (size() <= 0) return;
+        NBTUtil.writeBytesItem(toByteArray(), meta, KEY);
+    }
 }

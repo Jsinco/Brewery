@@ -43,7 +43,9 @@ public abstract class ReleaseChecker {
 
 
     public abstract CompletableFuture<String> resolveLatest();
+
     public abstract CompletableFuture<Boolean> checkForUpdate();
+
     public abstract String getDownloadURL();
 
 

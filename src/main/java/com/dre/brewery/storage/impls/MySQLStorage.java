@@ -27,11 +27,11 @@ import com.dre.brewery.Wakeup;
 import com.dre.brewery.configuration.sector.capsule.ConfiguredDataManager;
 import com.dre.brewery.storage.DataManager;
 import com.dre.brewery.storage.StorageInitException;
+import com.dre.brewery.storage.interfaces.SerializableThing;
 import com.dre.brewery.storage.records.BreweryMiscData;
 import com.dre.brewery.storage.records.SerializableBPlayer;
 import com.dre.brewery.storage.records.SerializableBarrel;
 import com.dre.brewery.storage.records.SerializableCauldron;
-import com.dre.brewery.storage.interfaces.SerializableThing;
 import com.dre.brewery.storage.records.SerializableWakeup;
 import com.dre.brewery.storage.serialization.SQLDataSerializer;
 import com.dre.brewery.utility.Logging;
@@ -53,11 +53,11 @@ public class MySQLStorage extends DataManager {
 
     private static final String URL = "jdbc:mysql://";
     private static final String[] TABLES = {
-            "misc (id VARCHAR(4) PRIMARY KEY, data LONGTEXT);",
-            "barrels (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
-            "cauldrons (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
-            "players (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
-            "wakeups (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);"
+        "misc (id VARCHAR(4) PRIMARY KEY, data LONGTEXT);",
+        "barrels (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
+        "cauldrons (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
+        "players (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);",
+        "wakeups (id VARCHAR(36) PRIMARY KEY, data LONGTEXT);"
     };
 
     private final Connection connection;
@@ -159,60 +159,61 @@ public class MySQLStorage extends DataManager {
 
 
     @Override
-	public <T extends SerializableThing> void saveAllGeneric(List<T> serializableThings, String table, boolean overwrite, @Nullable Class<T> type) {
-		if (!overwrite) {
-			String insertSql = "INSERT INTO " + tablePrefix + table + " (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data)";
-			try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
-				for (SerializableThing serializableThing : serializableThings) {
-					insertStatement.setString(1, serializableThing.getId());
-					insertStatement.setString(2, serializer.serialize(serializableThing));
-					insertStatement.addBatch();
-				}
-				insertStatement.executeBatch();
-			} catch (SQLException e) {
-				Logging.errorLog("Failed to save to MySQL!", e);
-			}
-			return;
-		}
+    public <T extends SerializableThing> void saveAllGeneric(List<T> serializableThings, String table, boolean overwrite, @Nullable Class<T> type) {
+        if (!overwrite) {
+            String insertSql = "INSERT INTO " + tablePrefix + table + " (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data)";
+            try (PreparedStatement insertStatement = connection.prepareStatement(insertSql)) {
+                for (SerializableThing serializableThing : serializableThings) {
+                    insertStatement.setString(1, serializableThing.getId());
+                    insertStatement.setString(2, serializer.serialize(serializableThing));
+                    insertStatement.addBatch();
+                }
+                insertStatement.executeBatch();
+            } catch (SQLException e) {
+                Logging.errorLog("Failed to save to MySQL!", e);
+            }
+            return;
+        }
 
-		String createTempTableSql = "CREATE TEMPORARY TABLE temp_" + table + " (id VARCHAR(36), data LONGTEXT, PRIMARY KEY (id))";
-		String insertTempTableSql = "INSERT INTO temp_" + table + " (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data)";
-		String replaceTableSql = "REPLACE INTO " + tablePrefix + table + " SELECT * FROM temp_" + table;
-		String dropTempTableSql = "DROP TEMPORARY TABLE temp_" + table;
+        String createTempTableSql = "CREATE TEMPORARY TABLE temp_" + table + " (id VARCHAR(36), data LONGTEXT, PRIMARY KEY (id))";
+        String insertTempTableSql = "INSERT INTO temp_" + table + " (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data)";
+        String replaceTableSql = "REPLACE INTO " + tablePrefix + table + " SELECT * FROM temp_" + table;
+        String dropTempTableSql = "DROP TEMPORARY TABLE temp_" + table;
 
-		try {
-			connection.setAutoCommit(false);
+        try {
+            connection.setAutoCommit(false);
 
-			try (PreparedStatement createTempTableStmt = connection.prepareStatement(createTempTableSql);
-				 PreparedStatement insertTempTableStmt = connection.prepareStatement(insertTempTableSql)) {
+            try (PreparedStatement createTempTableStmt = connection.prepareStatement(createTempTableSql);
+                 PreparedStatement insertTempTableStmt = connection.prepareStatement(insertTempTableSql)) {
 
-				createTempTableStmt.execute();
+                createTempTableStmt.execute();
 
-				for (SerializableThing serializableThing : serializableThings) {
-					insertTempTableStmt.setString(1, serializableThing.getId());
-					insertTempTableStmt.setString(2, serializer.serialize(serializableThing));
-					insertTempTableStmt.addBatch();
-				}
-				insertTempTableStmt.executeBatch();
+                for (SerializableThing serializableThing : serializableThings) {
+                    insertTempTableStmt.setString(1, serializableThing.getId());
+                    insertTempTableStmt.setString(2, serializer.serialize(serializableThing));
+                    insertTempTableStmt.addBatch();
+                }
+                insertTempTableStmt.executeBatch();
 
-				try (PreparedStatement replaceTableStmt = connection.prepareStatement(replaceTableSql);
-					 PreparedStatement dropTempTableStmt = connection.prepareStatement(dropTempTableSql)) {
+                try (PreparedStatement replaceTableStmt = connection.prepareStatement(replaceTableSql);
+                     PreparedStatement dropTempTableStmt = connection.prepareStatement(dropTempTableSql)) {
 
-					replaceTableStmt.execute();
-					dropTempTableStmt.execute();
-				}
+                    replaceTableStmt.execute();
+                    dropTempTableStmt.execute();
+                }
 
-				connection.commit();
-			} catch (SQLException e) {
-				connection.rollback();
-				Logging.errorLog("Failed to save objects to: " + table + " due to MySQL exception!", e);
-			} finally {
-				connection.setAutoCommit(true);
-			}
-		} catch (SQLException e) {
-			Logging.errorLog("Failed to manage transaction for saving objects to: " + table + " due to MySQL exception!", e);
-		}
-	}
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                Logging.errorLog("Failed to save objects to: " + table + " due to MySQL exception!", e);
+            } finally {
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            Logging.errorLog("Failed to manage transaction for saving objects to: " + table + " due to MySQL exception!", e);
+        }
+    }
+
     private <T extends SerializableThing> void saveAllGeneric(List<T> serializableThings, String table, boolean overwrite) {
         saveAllGeneric(serializableThings, table, overwrite, null);
     }
@@ -252,16 +253,16 @@ public class MySQLStorage extends DataManager {
     @Override
     public Collection<Barrel> getAllBarrels() {
         return getAllGeneric("barrels", SerializableBarrel.class).stream()
-                .map(SerializableBarrel::toBarrel)
-                .toList();
+            .map(SerializableBarrel::toBarrel)
+            .toList();
     }
 
     @Override
     public void saveAllBarrels(Collection<Barrel> barrels, boolean overwrite) {
         List<SerializableBarrel> serializableBarrels = barrels.stream()
-                .filter(it -> it.getBounds() != null)
-                .map(SerializableBarrel::new)
-                .toList();
+            .filter(it -> it.getBounds() != null)
+            .map(SerializableBarrel::new)
+            .toList();
         saveAllGeneric(serializableBarrels, "barrels", overwrite);
     }
 
@@ -287,15 +288,15 @@ public class MySQLStorage extends DataManager {
     @Override
     public Collection<BCauldron> getAllCauldrons() {
         return getAllGeneric("cauldrons", SerializableCauldron.class).stream()
-                .map(SerializableCauldron::toCauldron)
-                .toList();
+            .map(SerializableCauldron::toCauldron)
+            .toList();
     }
 
     @Override
     public void saveAllCauldrons(Collection<BCauldron> cauldrons, boolean overwrite) {
         List<SerializableCauldron> serializableCauldrons = cauldrons.stream()
-                .map(SerializableCauldron::new)
-                .toList();
+            .map(SerializableCauldron::new)
+            .toList();
         saveAllGeneric(serializableCauldrons, "cauldrons", overwrite);
     }
 
@@ -321,15 +322,15 @@ public class MySQLStorage extends DataManager {
     @Override
     public Collection<BPlayer> getAllPlayers() {
         return getAllGeneric("players", SerializableBPlayer.class).stream()
-                .map(SerializableBPlayer::toBPlayer)
-                .toList();
+            .map(SerializableBPlayer::toBPlayer)
+            .toList();
     }
 
     @Override
     public void saveAllPlayers(Collection<BPlayer> players, boolean overwrite) {
         List<SerializableBPlayer> serializableBPlayers = players.stream()
-                .map(SerializableBPlayer::new)
-                .toList();
+            .map(SerializableBPlayer::new)
+            .toList();
         saveAllGeneric(serializableBPlayers, "players", overwrite);
     }
 
@@ -355,15 +356,15 @@ public class MySQLStorage extends DataManager {
     @Override
     public Collection<Wakeup> getAllWakeups() {
         return getAllGeneric("wakeups", SerializableWakeup.class).stream()
-                .map(SerializableWakeup::toWakeup)
-                .toList();
+            .map(SerializableWakeup::toWakeup)
+            .toList();
     }
 
     @Override
     public void saveAllWakeups(Collection<Wakeup> wakeups, boolean overwrite) {
         List<SerializableWakeup> serializableWakeups = wakeups.stream()
-                .map(SerializableWakeup::new)
-                .toList();
+            .map(SerializableWakeup::new)
+            .toList();
         saveAllGeneric(serializableWakeups, "wakeups", overwrite);
     }
 

@@ -28,7 +28,8 @@ import org.bukkit.Location;
 
 /**
  * Represents a wakeup that can be serialized.
- * @param id The UUID of the wakeup
+ *
+ * @param id                 The UUID of the wakeup
  * @param serializedLocation The Location of the wakeup
  */
 public record SerializableWakeup(String id, String serializedLocation) implements SerializableThing {

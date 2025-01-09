@@ -20,7 +20,6 @@
 
 package com.dre.brewery.configuration.sector;
 
-import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.utility.Logging;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.CustomKey;
@@ -33,6 +32,7 @@ import java.util.Objects;
 
 /**
  * Abstract class to aid in the creation of OkaeriConfig sectors
+ *
  * @param <T> The type of the capsule
  */
 public abstract class AbstractOkaeriConfigSector<T extends OkaeriConfig> extends OkaeriConfig {
@@ -49,11 +49,11 @@ public abstract class AbstractOkaeriConfigSector<T extends OkaeriConfig> extends
             if (Objects.equals(field.getType(), typeOfT)) {
                 try {
                     T obj = (T) field.get(this);
-					if (field.isAnnotationPresent(CustomKey.class)) {
-						map.put(field.getAnnotation(CustomKey.class).value(), obj);
-					} else {
-						map.put(field.getName(), obj);
-					}
+                    if (field.isAnnotationPresent(CustomKey.class)) {
+                        map.put(field.getAnnotation(CustomKey.class).value(), obj);
+                    } else {
+                        map.put(field.getName(), obj);
+                    }
                 } catch (IllegalAccessException e) {
                     Logging.errorLog("Failed to access field: " + field.getName(), e);
                 }

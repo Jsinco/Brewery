@@ -32,17 +32,17 @@ public class MMOItemsPluginItem extends PluginItem {
 // We're calling this as server start:
 // PluginItem.registerForConfig("mmoitems", MMOItemsPluginItem::new);
 
-	@Override
-	public boolean matches(ItemStack item) {
-		if (!Hook.MMOITEMS.isEnabled()) return false;
+    @Override
+    public boolean matches(ItemStack item) {
+        if (!Hook.MMOITEMS.isEnabled()) return false;
 
-		try {
-			NBTItem nbtItem = NBTItem.get(item);
-			return nbtItem.hasType() && nbtItem.getString("MMOITEMS_ITEM_ID").equalsIgnoreCase(getItemId());
-		} catch (Throwable e) {
-			Logging.errorLog("Could not check MMOItems for Item ID", e);
-			Hook.MMOITEMS.setEnabled(false);
-			return false;
-		}
-	}
+        try {
+            NBTItem nbtItem = NBTItem.get(item);
+            return nbtItem.hasType() && nbtItem.getString("MMOITEMS_ITEM_ID").equalsIgnoreCase(getItemId());
+        } catch (Throwable e) {
+            Logging.errorLog("Could not check MMOItems for Item ID", e);
+            Hook.MMOITEMS.setEnabled(false);
+            return false;
+        }
+    }
 }

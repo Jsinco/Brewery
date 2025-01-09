@@ -42,70 +42,70 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @Setter
 public class BrewDrinkEvent extends BrewEvent implements Cancellable {
-	private static final HandlerList handlers = new HandlerList();
-	private final Player player;
-	private final BPlayer bPlayer;
-	private int addedAlcohol;
-	private int quality;
-	private boolean cancelled;
+    private static final HandlerList handlers = new HandlerList();
+    private final Player player;
+    private final BPlayer bPlayer;
+    private int addedAlcohol;
+    private int quality;
+    private boolean cancelled;
 
-	@Nullable // Null if drinking from command
-	private PlayerItemConsumeEvent predecessorEvent;
+    @Nullable // Null if drinking from command
+    private PlayerItemConsumeEvent predecessorEvent;
 
-	public BrewDrinkEvent(Brew brew, ItemMeta meta, Player player, BPlayer bPlayer, @Nullable PlayerItemConsumeEvent predecessor) {
-		super(brew, meta);
-		this.player = player;
-		this.bPlayer = bPlayer;
-		addedAlcohol = calcAlcWSensitivity(brew.getOrCalcAlc());
-		quality = brew.getQuality();
-		predecessorEvent = predecessor;
-	}
+    public BrewDrinkEvent(Brew brew, ItemMeta meta, Player player, BPlayer bPlayer, @Nullable PlayerItemConsumeEvent predecessor) {
+        super(brew, meta);
+        this.player = player;
+        this.bPlayer = bPlayer;
+        addedAlcohol = calcAlcWSensitivity(brew.getOrCalcAlc());
+        quality = brew.getQuality();
+        predecessorEvent = predecessor;
+    }
 
-	/**
-	 * Calculate the Alcohol to add to the player using his sensitivity permission (if existing)
-	 *
-	 * <p>If the player has been given the brewery.sensitive.xx permission, will factor in the sensitivity to the given alcohol amount.
-	 * <p>Will return the calculated value without changing the event
-	 *
-	 * @param alc The base amount of alcohol
-	 * @return The amount of alcohol given the players alcohol-sensitivity
-	 */
-	@Contract(pure = true)
-	public int calcAlcWSensitivity(int alc) {
-		int sensitive = PermissionUtil.getDrinkSensitive(player);
-		if (sensitive == 0) {
-			alc = 0;
-		} else if (sensitive > 0) {
-			alc *= (int) (((float) sensitive) / 100f);
-		}
-		return alc;
-	}
+    /**
+     * Calculate the Alcohol to add to the player using his sensitivity permission (if existing)
+     *
+     * <p>If the player has been given the brewery.sensitive.xx permission, will factor in the sensitivity to the given alcohol amount.
+     * <p>Will return the calculated value without changing the event
+     *
+     * @param alc The base amount of alcohol
+     * @return The amount of alcohol given the players alcohol-sensitivity
+     */
+    @Contract(pure = true)
+    public int calcAlcWSensitivity(int alc) {
+        int sensitive = PermissionUtil.getDrinkSensitive(player);
+        if (sensitive == 0) {
+            alc = 0;
+        } else if (sensitive > 0) {
+            alc *= (int) (((float) sensitive) / 100f);
+        }
+        return alc;
+    }
 
-	public void setQuality(int quality) {
-		if (quality > 10 || quality < 0) {
-			throw new IllegalArgumentException("Quality must be in range from 0 to 10");
-		}
-		this.quality = quality;
-	}
+    public void setQuality(int quality) {
+        if (quality > 10 || quality < 0) {
+            throw new IllegalArgumentException("Quality must be in range from 0 to 10");
+        }
+        this.quality = quality;
+    }
 
-	@Override
-	public boolean isCancelled() {
-		return cancelled;
-	}
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
 
-	@Override
-	public void setCancelled(boolean cancelled) {
-		this.cancelled = cancelled;
-	}
+    @Override
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
+    }
 
-	@NotNull
-	@Override
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    @NotNull
+    @Override
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	// Required by Bukkit
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    // Required by Bukkit
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

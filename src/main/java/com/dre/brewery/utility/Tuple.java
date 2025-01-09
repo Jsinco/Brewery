@@ -23,72 +23,72 @@ import org.jetbrains.annotations.Contract;
 
 public class Tuple<A, B> {
 
-	/**
-	 * The first value in the tuple
-	 */
-	private final A a;
+    /**
+     * The first value in the tuple
+     */
+    private final A a;
 
-	/**
-	 * The second value in the tuple
-	 */
-	private final B b;
+    /**
+     * The second value in the tuple
+     */
+    private final B b;
 
-	public Tuple(A a, B b) {
-		this.a = a;
-		this.b = b;
-	}
+    public Tuple(A a, B b) {
+        this.a = a;
+        this.b = b;
+    }
 
-	/**
-	 * Gets the first value in the tuple
-	 */
-	@Contract(pure = true)
-	public A first() {
-		return a;
-	}
+    /**
+     * Gets the first value in the tuple
+     */
+    @Contract(pure = true)
+    public A first() {
+        return a;
+    }
 
-	/**
-	 * Gets the second value in the tuple
-	 */
-	@Contract(pure = true)
-	public B second() {
-		return b;
-	}
+    /**
+     * Gets the second value in the tuple
+     */
+    @Contract(pure = true)
+    public B second() {
+        return b;
+    }
 
-	/**
-	 * Gets the first value in the tuple, Synonym for first()
-	 */
-	@Contract(pure = true)
-	public A a() {
-		return a;
-	}
+    /**
+     * Gets the first value in the tuple, Synonym for first()
+     */
+    @Contract(pure = true)
+    public A a() {
+        return a;
+    }
 
-	/**
-	 * Gets the second value in the tuple, Synonym for second()
-	 */
-	@Contract(pure = true)
-	public B b() {
-		return b;
-	}
+    /**
+     * Gets the second value in the tuple, Synonym for second()
+     */
+    @Contract(pure = true)
+    public B b() {
+        return b;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		if (!(object instanceof Tuple)) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Tuple)) {
+            return false;
+        }
 
-		Tuple<?, ?> tuple = (Tuple<?, ?>) object;
-		return tuple.a.equals(a) && tuple.b.equals(b);
-	}
+        Tuple<?, ?> tuple = (Tuple<?, ?>) object;
+        return tuple.a.equals(a) && tuple.b.equals(b);
+    }
 
-	@Override
-	public int hashCode() {
-		return a.hashCode() ^ b.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return a.hashCode() ^ b.hashCode();
+    }
 
-	@Override
-	public String toString() {
-		return "Tuple{" +
-			'{' + a + '}' +
-			'{' + b + "}}";
-	}
+    @Override
+    public String toString() {
+        return "Tuple{" +
+            '{' + a + '}' +
+            '{' + b + "}}";
+    }
 }

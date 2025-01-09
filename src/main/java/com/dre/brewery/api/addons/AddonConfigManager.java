@@ -30,10 +30,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Management of addon configuration files.
+ *
  * @see AddonConfigFile
  * @see OkaeriConfigFileOptions
  */
@@ -51,9 +51,10 @@ public class AddonConfigManager {
 
     /**
      * Get a config instance from the LOADED_CONFIGS map, or create a new instance if it doesn't exist
+     *
      * @param configClass The class of the config to get
+     * @param <T>         The type of the config
      * @return The config instance
-     * @param <T> The type of the config
      */
     public <T extends AddonConfigFile> T getConfig(Class<T> configClass) {
         return INSTANCE.getConfig(configClass);
@@ -61,8 +62,9 @@ public class AddonConfigManager {
 
     /**
      * Replaces a config instance in the LOADED_CONFIGS map with a new instance of the same class
+     *
      * @param configClass The class of the config to replace
-     * @param <T> The type of the config
+     * @param <T>         The type of the config
      */
     public <T extends AddonConfigFile> void newInstance(Class<T> configClass, boolean overwrite) {
         INSTANCE.newInstance(configClass, overwrite);
@@ -71,9 +73,10 @@ public class AddonConfigManager {
 
     /**
      * Get the file path of a config class
+     *
      * @param configClass The class of the config to get the file name of
+     * @param <T>         The type of the config
      * @return The file name
-     * @param <T> The type of the config
      */
     public <T extends AddonConfigFile> Path getFilePath(Class<T> configClass) {
         return INSTANCE.getFilePath(configClass);
@@ -85,15 +88,15 @@ public class AddonConfigManager {
     }
 
 
-
     /**
      * Create a new config instance with a custom file name, configurer, serdes pack, and puts it in the LOADED_CONFIGS map
+     *
      * @param configClass The class of the config to create
-     * @param file The file to use
-     * @param configurer The configurer to use
-     * @param serdesPack The serdes pack to use
+     * @param file        The file to use
+     * @param configurer  The configurer to use
+     * @param serdesPack  The serdes pack to use
+     * @param <T>         The type of the config
      * @return The new config instance
-     * @param <T> The type of the config
      */
     private <T extends AddonConfigFile> T createConfig(Class<T> configClass, Path file, Configurer configurer, OkaeriSerdesPack serdesPack, boolean update, boolean removeOrphans) {
         return INSTANCE.createConfig(configClass, file, configurer, serdesPack, update, removeOrphans);
@@ -101,9 +104,10 @@ public class AddonConfigManager {
 
     /**
      * Create a new config instance using a config class' annotation
+     *
      * @param configClass The class of the config to create
+     * @param <T>         The type of the config
      * @return The new config instance
-     * @param <T> The type of the config
      */
     public <T extends AddonConfigFile> T createConfig(Class<T> configClass) {
         return INSTANCE.createConfig(configClass);
@@ -137,6 +141,7 @@ public class AddonConfigManager {
     public OkaeriConfigFileOptions getOkaeriConfigFileOptions(Class<? extends AddonConfigFile> configClass) {
         return INSTANCE.getOkaeriConfigFileOptions(configClass);
     }
+
     public Path getDataFolder() {
         return INSTANCE.DATA_FOLDER;
     }

@@ -31,7 +31,8 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
-@Getter @Setter
+@Getter
+@Setter
 public abstract class AbstractOkaeriConfigFile extends OkaeriConfig {
 
     @Exclude
@@ -40,7 +41,6 @@ public abstract class AbstractOkaeriConfigFile extends OkaeriConfig {
     protected transient boolean firstCreation = false;
     @Exclude
     protected transient boolean blankInstance = false;
-
 
 
     @SneakyThrows
@@ -59,7 +59,7 @@ public abstract class AbstractOkaeriConfigFile extends OkaeriConfig {
             return false;
         }
         boolean b = this.getBindFile().toFile().exists();
-        if (!b && createIfNotExist){
+        if (!b && createIfNotExist) {
             return this.getBindFile().toFile().createNewFile();
         }
         return b;
@@ -76,9 +76,9 @@ public abstract class AbstractOkaeriConfigFile extends OkaeriConfig {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" +
-                "file=" + this.getBindFile().getFileName() +
-                ", update=" + update +
-                ", firstCreation=" + firstCreation +
-                '}';
+            "file=" + this.getBindFile().getFileName() +
+            ", update=" + update +
+            ", firstCreation=" + firstCreation +
+            '}';
     }
 }

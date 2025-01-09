@@ -36,47 +36,47 @@ import java.util.Map;
 
 public class PlaceholderAPIManager extends PlaceholderExpansion {
 
-	private static final BreweryPlugin plugin = BreweryPlugin.getInstance();
-	private static final Map<String, Placeholder> placeholders = new HashMap<>();
+    private static final BreweryPlugin plugin = BreweryPlugin.getInstance();
+    private static final Map<String, Placeholder> placeholders = new HashMap<>();
 
-	public PlaceholderAPIManager() {
-		placeholders.put("drunkenness", new DrunkennessPlaceholder());
-		placeholders.put("drunkennessbars", new DrunkennessBarsPlaceholder());
-		placeholders.put("quality", new QualityPlaceholder());
-		placeholders.put("qualitystars", new QualityStarsPlaceholder());
-	}
+    public PlaceholderAPIManager() {
+        placeholders.put("drunkenness", new DrunkennessPlaceholder());
+        placeholders.put("drunkennessbars", new DrunkennessBarsPlaceholder());
+        placeholders.put("quality", new QualityPlaceholder());
+        placeholders.put("qualitystars", new QualityStarsPlaceholder());
+    }
 
-	@Override
-	public @NotNull String getIdentifier() {
-		return "breweryx";
-	}
+    @Override
+    public @NotNull String getIdentifier() {
+        return "breweryx";
+    }
 
-	@Override
-	public @NotNull String getAuthor() {
-		return "Mitality & Jsinco";
-	}
+    @Override
+    public @NotNull String getAuthor() {
+        return "Mitality & Jsinco";
+    }
 
-	@Override
-	public @NotNull String getVersion() {
-		return plugin.getDescription().getVersion();
-	}
+    @Override
+    public @NotNull String getVersion() {
+        return plugin.getDescription().getVersion();
+    }
 
-	@Override
-	public boolean persist() {
-		return true;
-	}
+    @Override
+    public boolean persist() {
+        return true;
+    }
 
-	@Override
-	public String onRequest(OfflinePlayer player, @NotNull String params) {
-		BPlayer bPlayer = BPlayer.get(player);
-		if (bPlayer == null) bPlayer = new BPlayer(BUtil.playerString(player));
+    @Override
+    public String onRequest(OfflinePlayer player, @NotNull String params) {
+        BPlayer bPlayer = BPlayer.get(player);
+        if (bPlayer == null) bPlayer = new BPlayer(BUtil.playerString(player));
 
-		String[] args = params.split("_");
+        String[] args = params.split("_");
 
-		Placeholder placeholder = placeholders.get(args[0].toLowerCase());
-		if (placeholder != null) {
-			return placeholder.onReceivedRequest(plugin, player, bPlayer, args);
-		}
-		return null;
-	}
+        Placeholder placeholder = placeholders.get(args[0].toLowerCase());
+        if (placeholder != null) {
+            return placeholder.onReceivedRequest(plugin, player, bPlayer, args);
+        }
+        return null;
+    }
 }

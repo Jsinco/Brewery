@@ -29,6 +29,7 @@ public interface SerializableThing {
 
     /**
      * The identifier of this serializable object. Usually a UUID or similar.
+     *
      * @return The identifier as a String
      */
     String getId();

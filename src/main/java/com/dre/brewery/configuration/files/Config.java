@@ -46,25 +46,26 @@ import java.util.Random;
 
 
 @OkaeriConfigFileOptions(value = "config.yml", removeOrphans = true)
-@Header({"!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!",
-		"Our proper config guide can be found at: https://brewery.lumamc.net/en/guide/edit_config/",
-		"Still have questions? Join our Discord: https://discord.gg/ZTGCzeKg45"})
-@Footer({"", "Yep, that's it! The end of config.yml! I had so much fun! And you?..."})
+@Header({ "!!! IMPORTANT: BreweryX configuration files do NOT support external comments! If you add any comments, they will be overwritten !!!",
+    "Our proper config guide can be found at: https://brewery.lumamc.net/en/guide/edit_config/",
+    "Still have questions? Join our Discord: https://discord.gg/ZTGCzeKg45" })
+@Footer({ "", "Yep, that's it! The end of config.yml! I had so much fun! And you?..." })
 @DefaultCommentSpace(1)
-@Getter @Setter
+@Getter
+@Setter
 public class Config extends AbstractOkaeriConfigFile {
 
-	@Override
-	public void onFirstCreation() {
-		Logging.log("&9Creating a new &6config.yml&9!");
-		Logging.log("&9If this is your first time using BreweryX, change config.yml#language to your language and run &6/brewery reload");
-	}
+    @Override
+    public void onFirstCreation() {
+        Logging.log("&9Creating a new &6config.yml&9!");
+        Logging.log("&9If this is your first time using BreweryX, change config.yml#language to your language and run &6/brewery reload");
+    }
 
-	// This doesn't need to be an enumerator, we're reading this value back to an enum from TranslationManager which doesn't rely on this class.
+    // This doesn't need to be an enumerator, we're reading this value back to an enum from TranslationManager which doesn't rely on this class.
     @LocalizedComment("config.language")
     private String language = "en";
 
-	@LocalizedComment("config.updateCheck")
+    @LocalizedComment("config.updateCheck")
     private ReleaseChecker.ReleaseCheckerType resolveUpdatesFrom = ReleaseChecker.ReleaseCheckerType.GITHUB;
 
     @LocalizedComment("config.autosave")
@@ -79,13 +80,13 @@ public class Config extends AbstractOkaeriConfigFile {
 
     @LocalizedComment("config.storage.header")
     private ConfiguredDataManager storage = ConfiguredDataManager.builder()
-			.type(DataManagerType.FLATFILE)
-			.database("brewery-data")
-			.tablePrefix("brewery_")
-			.address("localhost")
-			.username("root")
-			.password("password")
-			.build();
+        .type(DataManagerType.FLATFILE)
+        .database("brewery-data")
+        .tablePrefix("brewery_")
+        .address("localhost")
+        .username("root")
+        .password("password")
+        .build();
 
 
     @LocalizedComment("config.enableHome")
@@ -97,138 +98,140 @@ public class Config extends AbstractOkaeriConfigFile {
     @LocalizedComment("config.enableWake")
     private boolean enableWake = true;
 
-	@LocalizedComment("config.enableLoginDisallow")
-	private boolean enableLoginDisallow = true;
+    @LocalizedComment("config.enableLoginDisallow")
+    private boolean enableLoginDisallow = true;
 
-	@LocalizedComment("config.enableKickOnOverdrink")
-	private boolean enableKickOnOverdrink = false;
+    @LocalizedComment("config.enableKickOnOverdrink")
+    private boolean enableKickOnOverdrink = false;
 
-	@LocalizedComment("config.enablePuke")
-	private boolean enablePuke = true;
+    @LocalizedComment("config.enablePuke")
+    private boolean enablePuke = true;
 
-	@LocalizedComment("config.pukeItem")
-	private Object pukeItem = List.of(Material.SOUL_SAND);
-	public List<Material> getPukeItem() {
-		return BUtil.getListSafely(pukeItem, Material.class);
-	}
+    @LocalizedComment("config.pukeItem")
+    private Object pukeItem = List.of(Material.SOUL_SAND);
 
-	@LocalizedComment("config.pukeDespawntime")
-	private int pukeDespawntime = 60;
+    public List<Material> getPukeItem() {
+        return BUtil.getListSafely(pukeItem, Material.class);
+    }
 
-	@LocalizedComment("config.stumblePercent")
-	private int stumblePercent = 100;
-	public float getStumblePercent() {
-		return stumblePercent / 100f;
-	}
+    @LocalizedComment("config.pukeDespawntime")
+    private int pukeDespawntime = 60;
 
-	@LocalizedComment("config.showStatusOnDrink")
-	private boolean showStatusOnDrink = true;
+    @LocalizedComment("config.stumblePercent")
+    private int stumblePercent = 100;
 
-	@LocalizedComment("config.drainItems")
-	private List<String> drainItems = List.of("Bread/4", "Milk_Bucket/2");
+    public float getStumblePercent() {
+        return stumblePercent / 100f;
+    }
 
-	@LocalizedComment("config.enableCauldronParticles")
-	private boolean enableCauldronParticles = true;
+    @LocalizedComment("config.showStatusOnDrink")
+    private boolean showStatusOnDrink = true;
 
-	@LocalizedComment("config.minimalParticles")
-	private boolean minimalParticles = false;
+    @LocalizedComment("config.drainItems")
+    private List<String> drainItems = List.of("Bread/4", "Milk_Bucket/2");
 
-	@LocalizedComment("config.craft-enableSealingTable")
-	private boolean craftSealingTable = true;
-	private boolean enableSealingTable = true;
+    @LocalizedComment("config.enableCauldronParticles")
+    private boolean enableCauldronParticles = true;
 
-	@LocalizedComment("config.sealingTableBlock")
-	private Material sealingTableBlock = Material.SMOKER;
+    @LocalizedComment("config.minimalParticles")
+    private boolean minimalParticles = false;
 
-	@LocalizedComment("config.alwaysShowQuality")
-	private boolean alwaysShowQuality = true;
+    @LocalizedComment("config.craft-enableSealingTable")
+    private boolean craftSealingTable = true;
+    private boolean enableSealingTable = true;
 
-	@LocalizedComment("config.alwaysShowAlc")
-	private boolean alwaysShowAlc = false;
+    @LocalizedComment("config.sealingTableBlock")
+    private Material sealingTableBlock = Material.SMOKER;
 
-	@LocalizedComment("config.alwaysShowAlcIndicator")
-	private boolean alwaysShowAlcIndicator = true;
+    @LocalizedComment("config.alwaysShowQuality")
+    private boolean alwaysShowQuality = true;
 
-	@LocalizedComment("config.showBrewer")
-	private boolean showBrewer = false;
+    @LocalizedComment("config.alwaysShowAlc")
+    private boolean alwaysShowAlc = false;
 
-	@LocalizedComment("config.requireKeywordOnSigns")
-	private boolean requireKeywordOnSigns = true;
+    @LocalizedComment("config.alwaysShowAlcIndicator")
+    private boolean alwaysShowAlcIndicator = true;
 
-	@LocalizedComment("config.ageInMCBarrels")
-	private boolean ageInMCBarrels = true;
-	private int maxBrewsInMCBarrels = 6;
+    @LocalizedComment("config.showBrewer")
+    private boolean showBrewer = false;
 
-	@LocalizedComment("config.agingYearDuration")
-	private int agingYearDuration = 20;
+    @LocalizedComment("config.requireKeywordOnSigns")
+    private boolean requireKeywordOnSigns = true;
 
-	@LocalizedComment("config.commandAliases")
-	private List<String> commandAliases = List.of("brewery", "brew");
+    @LocalizedComment("config.ageInMCBarrels")
+    private boolean ageInMCBarrels = true;
+    private int maxBrewsInMCBarrels = 6;
 
-	@LocalizedComment("config.enableEncode")
-	private boolean enableEncode = false;
-	private long encodeKey = new Random().nextLong(); // Generate a random key
+    @LocalizedComment("config.agingYearDuration")
+    private int agingYearDuration = 20;
 
+    @LocalizedComment("config.commandAliases")
+    private List<String> commandAliases = List.of("brewery", "brew");
 
-	@LocalizedComment("config.useOtherPlugins")
-	private boolean useWorldGuard = true;
-	private boolean useLWC = true;
-	private boolean useGriefPrevention = true;
-	private boolean useTowny = true;
-	private boolean useBlockLocker = true;
-	private boolean useGMInventories = true;
-
-	@LocalizedComment("config.useVirtualChestPerms")
-	private boolean useVirtualChestPerms = false;
-
-	@LocalizedComment("config.useLogBlock")
-	private boolean useLogBlock = true;
-
-	@LocalizedComment("config.useOffhandForCauldron")
-	private boolean useOffhandForCauldron = false;
-
-	@LocalizedComment("config.loadDataAsync") // Unused, see config-langs/en.yml#config.loadDataAsync comment
-	private boolean loadDataAsync = true;
-
-	@LocalizedComment("config.hangoverDays")
-	private int hangoverDays = 7;
-
-	@LocalizedComment("config.colorInBarrels-Brewer")
-	private boolean colorInBarrels = true;
-	private boolean colorInBrewer = true;
-
-	@LocalizedComment("config.openLargeBarrelEverywhere")
-	private boolean openLargeBarrelEverywhere = true;
-
-	@LocalizedComment("config.brewHopperDump")
-	private boolean brewHopperDump = true;
-
-	@LocalizedComment("config.enableChatDistortion")
-	private boolean enableChatDistortion = true;
-
-	@LocalizedComment("config.logRealChat")
-	private boolean logRealChat = false;
-
-	@LocalizedComment("config.distortCommands")
-	private List<String> distortCommands = List.of("/gl", "/global", "/fl", "/s", "/letter", "/g", "/l", "/lokal",
-		"/local", "/mail send", "/m", "/msg", "/w", "/whisper", "/reply", "/r", "/t", "/tell");
-
-	@LocalizedComment("config.distortSignText")
-	private boolean distortSignText = false;
-
-	@LocalizedComment("config.distortBypass")
-	private List<String> distortBypass = List.of("*,*", "[,]");
+    @LocalizedComment("config.enableEncode")
+    private boolean enableEncode = false;
+    private long encodeKey = new Random().nextLong(); // Generate a random key
 
 
-	@LocalizedComment("config.words")
-	private List<ConfigDistortWord> words = new WordsSector().getCapsules().values().stream().toList();
+    @LocalizedComment("config.useOtherPlugins")
+    private boolean useWorldGuard = true;
+    private boolean useLWC = true;
+    private boolean useGriefPrevention = true;
+    private boolean useTowny = true;
+    private boolean useBlockLocker = true;
+    private boolean useGMInventories = true;
+
+    @LocalizedComment("config.useVirtualChestPerms")
+    private boolean useVirtualChestPerms = false;
+
+    @LocalizedComment("config.useLogBlock")
+    private boolean useLogBlock = true;
+
+    @LocalizedComment("config.useOffhandForCauldron")
+    private boolean useOffhandForCauldron = false;
+
+    @LocalizedComment("config.loadDataAsync") // Unused, see config-langs/en.yml#config.loadDataAsync comment
+    private boolean loadDataAsync = true;
+
+    @LocalizedComment("config.hangoverDays")
+    private int hangoverDays = 7;
+
+    @LocalizedComment("config.colorInBarrels-Brewer")
+    private boolean colorInBarrels = true;
+    private boolean colorInBrewer = true;
+
+    @LocalizedComment("config.openLargeBarrelEverywhere")
+    private boolean openLargeBarrelEverywhere = true;
+
+    @LocalizedComment("config.brewHopperDump")
+    private boolean brewHopperDump = true;
+
+    @LocalizedComment("config.enableChatDistortion")
+    private boolean enableChatDistortion = true;
+
+    @LocalizedComment("config.logRealChat")
+    private boolean logRealChat = false;
+
+    @LocalizedComment("config.distortCommands")
+    private List<String> distortCommands = List.of("/gl", "/global", "/fl", "/s", "/letter", "/g", "/l", "/lokal",
+        "/local", "/mail send", "/m", "/msg", "/w", "/whisper", "/reply", "/r", "/t", "/tell");
+
+    @LocalizedComment("config.distortSignText")
+    private boolean distortSignText = false;
+
+    @LocalizedComment("config.distortBypass")
+    private List<String> distortBypass = List.of("*,*", "[,]");
 
 
-	@LocalizedComment("config.useOtherFiles")
-	private Map<String, ConfigCustomItem> customItems = Map.of();
-	@LocalizedComment("config.useOtherFiles")
-	private Map<String, ConfigCauldronIngredient> cauldron = Map.of();
-	@LocalizedComment("config.useOtherFiles")
-	private Map<String, ConfigRecipe> recipes = Map.of();
+    @LocalizedComment("config.words")
+    private List<ConfigDistortWord> words = new WordsSector().getCapsules().values().stream().toList();
+
+
+    @LocalizedComment("config.useOtherFiles")
+    private Map<String, ConfigCustomItem> customItems = Map.of();
+    @LocalizedComment("config.useOtherFiles")
+    private Map<String, ConfigCauldronIngredient> cauldron = Map.of();
+    @LocalizedComment("config.useOtherFiles")
+    private Map<String, ConfigRecipe> recipes = Map.of();
 
 }
