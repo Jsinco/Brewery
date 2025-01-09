@@ -1,6 +1,6 @@
 /*
  * BreweryX Bukkit-Plugin for an alternate brewing process
- * Copyright (C) 2024 The Brewery Team
+ * Copyright (C) 2024-2025 The Brewery Team
  *
  * This file is part of BreweryX.
  *
@@ -18,13 +18,19 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-package com.dre.brewery.api.addons;
+package com.dre.brewery.commands;
+
+import com.dre.brewery.configuration.files.Lang;
 
 /**
- * Interface for a command that is part of an addon. Really just a SubCommand, but with a different name/package.
- *
- * @see BreweryAddon#registerCommand(String, AddonCommand)
- * @see BreweryAddon#unregisterCommand(String)
+ * A class that all BreweryX command should extend, used for easier access
  */
-public interface AddonCommand { // TODO
+public abstract class CommandBase {
+    protected final CommandManager commandManager;
+    protected final Lang lang;
+
+    public CommandBase(CommandManager commandManager) {
+        this.commandManager = commandManager;
+        this.lang = commandManager.getLang();
+    }
 }

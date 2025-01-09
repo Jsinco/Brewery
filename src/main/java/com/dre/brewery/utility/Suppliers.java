@@ -1,6 +1,6 @@
 /*
  * BreweryX Bukkit-Plugin for an alternate brewing process
- * Copyright (C) 2024 The Brewery Team
+ * Copyright (C) 2024-2025 The Brewery Team
  *
  * This file is part of BreweryX.
  *
@@ -18,13 +18,21 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-package com.dre.brewery.api.addons;
+package com.dre.brewery.utility;
 
-/**
- * Interface for a command that is part of an addon. Really just a SubCommand, but with a different name/package.
- *
- * @see BreweryAddon#registerCommand(String, AddonCommand)
- * @see BreweryAddon#unregisterCommand(String)
- */
-public interface AddonCommand { // TODO
+import java.util.function.Supplier;
+
+public class Suppliers {
+    public static <T> Supplier<T> lazily(Supplier<T> supplier) {
+        return new Supplier<>() {
+            private T value;
+
+            @Override
+            public T get() {
+                if (value == null)
+                    value = supplier.get();
+                return value;
+            }
+        };
+    }
 }

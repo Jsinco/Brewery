@@ -20,7 +20,6 @@
 
 package com.dre.brewery.utility;
 
-import com.dre.brewery.commands.subcommands.ReloadCommand;
 import com.dre.brewery.configuration.ConfigManager;
 import com.dre.brewery.configuration.files.Config;
 import io.papermc.lib.PaperLib;
@@ -79,9 +78,9 @@ public final class Logging {
     public static void errorLog(String msg) {
         String str = BUtil.color("&c[BreweryX] ERROR: " + msg);
         Bukkit.getConsoleSender().sendMessage(str);
-        if (ReloadCommand.getReloader() != null) { // I hate this, but I'm too lazy to go change all of it - Jsinco
-            ReloadCommand.getReloader().sendMessage(str);
-        }
+//        if (ReloadCommand.getReloader() != null) { // I hate this, but I'm too lazy to go change all of it - Jsinco
+//            ReloadCommand.getReloader().sendMessage(str);
+//        } // TODO
     }
 
     // TODO: cleanup

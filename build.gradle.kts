@@ -33,10 +33,11 @@ plugins {
     id("com.gradleup.shadow") version "8.3.5"
     id("io.papermc.hangar-publish-plugin") version "0.1.2"
     id("com.modrinth.minotaur") version "2.8.7"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
 group = "com.dre.brewery"
-version = "3.4.7"
+version = "3.4.7-SNAPSHOT"
 val langVersion: Int = 17
 val encoding: String = "UTF-8"
 
@@ -58,6 +59,7 @@ repositories {
     maven("https://repo.oraxen.com/releases") // Oraxen
     maven("https://storehouse.okaeri.eu/repository/maven-public/") // Okaeri Config
     maven("https://papermc.io/repo/repository/maven-public/") // PaperLib
+	maven("https://repo.panda-lang.org/releases") // LiteCommands
 }
 
 dependencies {
@@ -74,18 +76,20 @@ dependencies {
     // For proper scheduling between Bukkit-Folia like servers, https://github.com/Anon8281/UniversalScheduler
     implementation("com.github.Anon8281:UniversalScheduler:0.1.3-dev")
     // Nice annotations, I prefer these to Lombok's, https://www.jetbrains.com/help/idea/annotating-source-code.html
-    implementation("org.jetbrains:annotations:16.0.2")
+    implementation("org.jetbrains:annotations:26.0.1")
     // MongoDB & log4j to suppress MongoDB's logger
     implementation("org.mongodb:mongodb-driver-sync:5.3.0-beta0")
-    compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
+    compileOnly("org.apache.logging.log4j:log4j-core:2.24.3")
     // Lombok
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
-    // Okaeri configuration
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
+	// LiteCommands
+	implementation("dev.rollczi:litecommands-bukkit:3.9.6")
+	// Okaeri configuration
     implementation("eu.okaeri:okaeri-configs-yaml-snakeyaml:5.0.5") {
         exclude("org.yaml", "snakeyaml")
     }
-    constraints {
+	constraints {
         implementation("org.yaml:snakeyaml") {
             version {
                 require("2.3")
@@ -133,6 +137,7 @@ tasks {
     }
     withType<JavaCompile>().configureEach {
         options.encoding = encoding
+		options.compilerArgs.add("-parameters") // required by LiteCommands, see https://docs.rollczi.dev/documentation/litecommands/getting-started/dependencies.html#parameters-compile-flag
     }
     test {
         useJUnitPlatform()
@@ -156,6 +161,7 @@ tasks {
         relocate("com.mongodb", "$pack.mongodb")
         relocate("org.bson", "$pack.bson")
         relocate("io.papermc.lib", "$pack.paperlib")
+		relocate("dev.rollczi.litecommands", "$pack.litecommands")
 
         archiveClassifier.set("")
     }
@@ -178,6 +184,17 @@ tasks {
         }
     }
 
+	runServer {
+		minecraftVersion("1.21.4")
+	}
+
+}
+
+tasks.withType(xyz.jpenilla.runtask.task.AbstractRun::class) {
+	javaLauncher = javaToolchains.launcherFor {
+		vendor = JvmVendorSpec.ADOPTIUM
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
 
 java {

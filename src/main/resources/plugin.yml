@@ -22,10 +22,6 @@ softdepend:
   - Oraxen
   - ItemsAdder
   - Nexo
-commands:
-  breweryx:
-    description: Mostly admin commands to create/modify Brews and drunkenness
-#    aliases: [brewery, brew] Now handled by config
 permissions:
 # -- Groups --
 # User

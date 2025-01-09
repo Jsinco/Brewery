@@ -1,6 +1,6 @@
 /*
  * BreweryX Bukkit-Plugin for an alternate brewing process
- * Copyright (C) 2024 The Brewery Team
+ * Copyright (C) 2024-2025 The Brewery Team
  *
  * This file is part of BreweryX.
  *
@@ -18,13 +18,23 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-package com.dre.brewery.api.addons;
+package com.dre.brewery.commands;
+
+import com.dre.brewery.commands.annotation.BreweryCommand;
+import dev.rollczi.litecommands.meta.Meta;
+import dev.rollczi.litecommands.scope.Scope;
+import dev.rollczi.litecommands.scope.Scopeable;
 
 /**
- * Interface for a command that is part of an addon. Really just a SubCommand, but with a different name/package.
+ * LiteCommands Scope resolving commands annotated with {@link BreweryCommand}
  *
- * @see BreweryAddon#registerCommand(String, AddonCommand)
- * @see BreweryAddon#unregisterCommand(String)
+ * @see BreweryCommandEditor
+ * @see CommandManager
  */
-public interface AddonCommand { // TODO
+class BreweryCommandScope implements Scope {
+    @Override
+    public boolean isApplicable(Scopeable scopeable) {
+        return scopeable.meta().get(Meta.COMMAND_ORIGIN_TYPE).stream()
+            .anyMatch(clazz -> clazz.isAnnotationPresent(BreweryCommand.class));
+    }
 }
