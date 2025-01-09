@@ -24,8 +24,8 @@ import java.util.function.Supplier;
 
 public class Suppliers {
     public static <T> Supplier<T> lazily(Supplier<T> supplier) {
-        return new Supplier<T>() {
-            T value;
+        return new Supplier<>() {
+            private T value;
 
             @Override
             public T get() {
