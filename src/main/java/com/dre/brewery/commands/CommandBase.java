@@ -20,18 +20,17 @@
 
 package com.dre.brewery.commands;
 
-import com.dre.brewery.BreweryPlugin;
 import com.dre.brewery.configuration.files.Lang;
 
 /**
  * A class that all BreweryX command should extend, used for easier access
  */
 public abstract class CommandBase {
-	protected final CommandManager commandManager;
-	protected final Lang lang;
+    protected final CommandManager commandManager;
+    protected final Lang lang;
 
-	public CommandBase(CommandManager commandManager) {
-		this.commandManager = commandManager;
-		this.lang = commandManager.getLang();
-	}
+    public CommandBase(CommandManager commandManager) {
+        this.commandManager = commandManager;
+        this.lang = commandManager.getLang();
+    }
 }

@@ -32,9 +32,9 @@ import dev.rollczi.litecommands.scope.Scopeable;
  * @see CommandManager
  */
 class BreweryCommandScope implements Scope {
-	@Override
-	public boolean isApplicable(Scopeable scopeable) {
-		return scopeable.meta().get(Meta.COMMAND_ORIGIN_TYPE).stream()
-			.anyMatch(clazz -> clazz.isAnnotationPresent(BreweryCommand.class));
-	}
+    @Override
+    public boolean isApplicable(Scopeable scopeable) {
+        return scopeable.meta().get(Meta.COMMAND_ORIGIN_TYPE).stream()
+            .anyMatch(clazz -> clazz.isAnnotationPresent(BreweryCommand.class));
+    }
 }

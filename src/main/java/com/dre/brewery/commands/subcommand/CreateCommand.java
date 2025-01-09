@@ -24,8 +24,6 @@ import com.dre.brewery.Brew;
 import com.dre.brewery.commands.CommandBase;
 import com.dre.brewery.commands.CommandManager;
 import com.dre.brewery.commands.annotation.BreweryCommand;
-import com.dre.brewery.recipe.BRecipe;
-import com.sk89q.worldedit.internal.annotation.OptionalArg;
 import dev.rollczi.litecommands.annotations.argument.Arg;
 import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
@@ -42,47 +40,47 @@ import java.util.Optional;
 @Permission("brewery.cmd.create")
 public class CreateCommand extends CommandBase {
 
-	public CreateCommand(CommandManager commandManager) {
-		super(commandManager);
-	}
+    public CreateCommand(CommandManager commandManager) {
+        super(commandManager);
+    }
 
-	@Execute
-	public void execute(
-		@Context Player player,
-		@Arg Brew brew, @Arg Optional<Integer> quality,
-		@Arg Optional<Player> targetPlayer
-	) {
-		brew.setQuality(quality.orElse(10));
+    @Execute
+    public void execute(
+        @Context Player player,
+        @Arg Brew brew, @Arg Optional<Integer> quality,
+        @Arg Optional<Player> targetPlayer
+    ) {
+        brew.setQuality(quality.orElse(10));
 
-		giveBrewToPlayer(player, brew, targetPlayer.orElse(player));
-	}
+        giveBrewToPlayer(player, brew, targetPlayer.orElse(player));
+    }
 
-	// non-player version of the above
-	// notice the lack of Optional<>
-	@Execute
-	public void execute(
-		@Context CommandSender sender,
-		@Arg Brew brew,
-		@Arg Integer quality,
-		@Arg Player player
-	) {
-		brew.setQuality(quality);
+    // non-player version of the above
+    // notice the lack of Optional<>
+    @Execute
+    public void execute(
+        @Context CommandSender sender,
+        @Arg Brew brew,
+        @Arg Integer quality,
+        @Arg Player player
+    ) {
+        brew.setQuality(quality);
 
-		giveBrewToPlayer(sender, brew, player);
-	}
+        giveBrewToPlayer(sender, brew, player);
+    }
 
-	private void giveBrewToPlayer(CommandSender sender, Brew brew, Player player) {
-		if (player.getInventory().firstEmpty() == -1) {
-			this.lang.sendEntry(sender, "CMD_Copy_Error", "1");
-		}
+    private void giveBrewToPlayer(CommandSender sender, Brew brew, Player player) {
+        if (player.getInventory().firstEmpty() == -1) {
+            this.lang.sendEntry(sender, "CMD_Copy_Error", "1");
+        }
 
-		ItemStack item = brew.createItem(null, player);
-		if (item == null) {
-			return; // original implementation also did nothing, but in theory this shouldn't happen...
-		}
+        ItemStack item = brew.createItem(null, player);
+        if (item == null) {
+            return; // original implementation also did nothing, but in theory this shouldn't happen...
+        }
 
-		player.getInventory().addItem(item);
-		this.lang.sendEntry(sender, "CMD_Created");
-	}
+        player.getInventory().addItem(item);
+        this.lang.sendEntry(sender, "CMD_Created");
+    }
 
 }

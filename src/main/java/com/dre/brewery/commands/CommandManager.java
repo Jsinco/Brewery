@@ -34,23 +34,23 @@ import org.bukkit.command.CommandSender;
 
 @Getter
 public class CommandManager {
-	private final LiteCommands<CommandSender> liteCommands;
-	private final Lang lang = ConfigManager.getConfig(Lang.class);
+    private final LiteCommands<CommandSender> liteCommands;
+    private final Lang lang = ConfigManager.getConfig(Lang.class);
 
-	public CommandManager() {
-		BreweryPlugin plugin = BreweryPlugin.getInstance();
+    public CommandManager() {
+        BreweryPlugin plugin = BreweryPlugin.getInstance();
 
-		this.liteCommands = LiteBukkitFactory.builder("breweryx", plugin)
-			.editor(new BreweryCommandScope(), new BreweryCommandEditor())
-			.argument(Brew.class, new BrewArgument())
-			.commands(
-				new CopyCommand(this),
-				new CreateCommand(this)
-			)
-			.build();
-	}
+        this.liteCommands = LiteBukkitFactory.builder("breweryx", plugin)
+            .editor(new BreweryCommandScope(), new BreweryCommandEditor())
+            .argument(Brew.class, new BrewArgument())
+            .commands(
+                new CopyCommand(this),
+                new CreateCommand(this)
+            )
+            .build();
+    }
 
-	public void disable() {
-		this.liteCommands.unregister();
-	}
+    public void disable() {
+        this.liteCommands.unregister();
+    }
 }

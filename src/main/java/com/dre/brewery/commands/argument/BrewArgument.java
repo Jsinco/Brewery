@@ -39,26 +39,26 @@ import java.util.function.Supplier;
 // TODO: Use names
 // but imo, ids are better (and easier to implement)
 public class BrewArgument extends ArgumentResolver<CommandSender, Brew> {
-	private static final Lang lang = ConfigManager.getConfig(Lang.class);
+    private static final Lang lang = ConfigManager.getConfig(Lang.class);
 
-	// lazy initialize, because recipes are loaded after commands
-	private final Supplier<List<String>> recipeIds = Suppliers.lazily(
-		() -> BRecipe.getAllRecipes().stream().map(BRecipe::getId).toList()
-	);
+    // lazy initialize, because recipes are loaded after commands
+    private final Supplier<List<String>> recipeIds = Suppliers.lazily(
+        () -> BRecipe.getAllRecipes().stream().map(BRecipe::getId).toList()
+    );
 
-	@Override
-	protected ParseResult<Brew> parse(Invocation<CommandSender> invocation, Argument<Brew> argument, String input) {
-		BRecipe recipe = BRecipe.getById(input);
+    @Override
+    protected ParseResult<Brew> parse(Invocation<CommandSender> invocation, Argument<Brew> argument, String input) {
+        BRecipe recipe = BRecipe.getById(input);
 
-		if (recipe == null) {
-			return ParseResult.failure(lang.getEntry("Error_NoBrewName", input));
-		}
+        if (recipe == null) {
+            return ParseResult.failure(lang.getEntry("Error_NoBrewName", input));
+        }
 
-		return ParseResult.success(recipe.createBrew(10)); // we handle quality later
-	}
+        return ParseResult.success(recipe.createBrew(10)); // we handle quality later
+    }
 
-	@Override
-	public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Brew> argument, SuggestionContext context) {
-		return SuggestionResult.of(recipeIds.get());
-	}
+    @Override
+    public SuggestionResult suggest(Invocation<CommandSender> invocation, Argument<Brew> argument, SuggestionContext context) {
+        return SuggestionResult.of(recipeIds.get());
+    }
 }

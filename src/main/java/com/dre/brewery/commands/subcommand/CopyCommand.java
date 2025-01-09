@@ -29,32 +29,32 @@ import dev.rollczi.litecommands.annotations.command.Command;
 import dev.rollczi.litecommands.annotations.context.Context;
 import dev.rollczi.litecommands.annotations.execute.Execute;
 import dev.rollczi.litecommands.annotations.permission.Permission;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 @BreweryCommand
 @Command(name = "copy")
 @Permission("brewery.cmd.copy")
 public class CopyCommand extends CommandBase {
 
-	public CopyCommand(CommandManager commandManager) {
-		super(commandManager);
-	}
+    public CopyCommand(CommandManager commandManager) {
+        super(commandManager);
+    }
 
-	@Execute
-	public void execute(@Context Player player, @Arg int count) {
-		ItemStack hand = player.getInventory().getItemInMainHand();
-		if (!Brew.isBrew(hand)) {
-			this.lang.sendEntry(player, "Error_ItemNotPotion");
-		}
-		while (count > 0) {
-			ItemStack item = hand.clone();
-			if (!(player.getInventory().addItem(item)).isEmpty()) {
-				this.lang.sendEntry(player, "CMD_Copy_Error", String.valueOf(count));
-				return;
-			}
-			count--;
-		}
-	}
+    @Execute
+    public void execute(@Context Player player, @Arg int count) {
+        ItemStack hand = player.getInventory().getItemInMainHand();
+        if (!Brew.isBrew(hand)) {
+            this.lang.sendEntry(player, "Error_ItemNotPotion");
+        }
+        while (count > 0) {
+            ItemStack item = hand.clone();
+            if (!(player.getInventory().addItem(item)).isEmpty()) {
+                this.lang.sendEntry(player, "CMD_Copy_Error", String.valueOf(count));
+                return;
+            }
+            count--;
+        }
+    }
 
 }

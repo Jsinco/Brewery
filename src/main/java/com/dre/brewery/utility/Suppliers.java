@@ -23,15 +23,16 @@ package com.dre.brewery.utility;
 import java.util.function.Supplier;
 
 public class Suppliers {
-	public static <T> Supplier<T> lazily(Supplier<T> supplier) {
-		return new Supplier<T>() {
-			T value;
+    public static <T> Supplier<T> lazily(Supplier<T> supplier) {
+        return new Supplier<T>() {
+            T value;
 
-			@Override public T get() {
-				if (value == null)
-					value = supplier.get();
-				return value;
-			}
-		};
-	}
+            @Override
+            public T get() {
+                if (value == null)
+                    value = supplier.get();
+                return value;
+            }
+        };
+    }
 }
