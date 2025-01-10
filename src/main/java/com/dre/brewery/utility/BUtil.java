@@ -45,10 +45,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +52,8 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class BUtil {
 
@@ -67,6 +65,7 @@ public final class BUtil {
 
     private static final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
     private static final MinecraftVersion VERSION = BreweryPlugin.getMCVersion();
+    private static final Pattern RANGE_PATTERN = Pattern.compile("([-+]?\\d+)\\.\\.([-+]?\\d+)");
 
     /**
      * Check if the Chunk of a Block is loaded !without loading it in the process!
@@ -239,22 +238,6 @@ public final class BUtil {
         return list.stream().map(it -> getEnumByName(mapToEnum, it.toString())).toList();
     }
 
-    /**
-     * Load a String from config, if found a List, will return the first String
-     */
-    @Nullable
-    public static String loadCfgString(ConfigurationSection cfg, String path) {
-        if (cfg.isString(path)) {
-            return cfg.getString(path);
-        } else if (cfg.isList(path)) {
-            List<String> list = cfg.getStringList(path);
-            if (!list.isEmpty()) {
-                return list.get(0);
-            }
-        }
-        return null;
-    }
-
     /* **************************************** */
     /* *********                      ********* */
     /* *********     String Utils     ********* */
@@ -418,7 +401,7 @@ public final class BUtil {
             String[] drainSplit = materialString.split("/");
             if (drainSplit.length > 1) {
                 Material mat = MaterialUtil.getMaterialSafely(drainSplit[0]);
-                int strength = BUtil.parseInt(drainSplit[1]);
+                int strength = BUtil.parseIntOrZero(drainSplit[1]);
 //                if (mat == null && hasVault && strength > 0) {
 //                    try {
 //                        net.milkbowl.vault.item.ItemInfo vaultItem = net.milkbowl.vault.item.Items.itemByString(drainSplit[0]);
@@ -475,73 +458,63 @@ public final class BUtil {
         return worldName;
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void saveFile(InputStream in, File dest, String name, boolean overwrite) throws IOException {
-        if (in == null) return;
-        if (!dest.exists()) {
-            dest.mkdirs();
-        }
-        File result = new File(dest, name);
-        if (result.exists()) {
-            if (overwrite) {
-                result.delete();
-            } else {
-                return;
-            }
-        }
-
-        OutputStream out = new FileOutputStream(result);
-        byte[] buffer = new byte[1024];
-
-        int length;
-        //copy the file content in bytes
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
-        }
-
-        in.close();
-        out.close();
-    }
-
-
-    public static int parseInt(String string) {
+    public static int getRandomIntInRange(String string) {
         if (string == null) {
             return 0;
         }
+
         try {
+            Matcher matcher = RANGE_PATTERN.matcher(string);
 
-            if (!string.contains("-")) return Integer.parseInt(string); // Default behaviour
+            if (!matcher.matches()) {
+                return parseIntOrZero(string);
+            }
 
-            // random number in range
+            int lowerBound = Integer.parseInt(matcher.group(1));
+            int upperBound = Integer.parseInt(matcher.group(2));
+
             Random rand = new Random();
-            String[] split = string.split("-");
-            int lowerbound = Integer.parseInt(split[0]);
-            int upperbound = Integer.parseInt(split[1]);
-            return rand.nextInt(upperbound - lowerbound + 1) + lowerbound;
-
+            return rand.nextInt(upperBound - lowerBound + 1) + lowerBound;
         } catch (NumberFormatException ignored) {
+            Logging.debugLog("Could not parse integer range: " + string);
+        }
+
+        return 0;
+    }
+
+    public static int parseIntOrZero(String string) {
+        if (string == null) {
+            return 0;
+        }
+
+        try {
+            return Integer.parseInt(string);
+        } catch (NumberFormatException ignored) {
+            Logging.debugLog("Could not parse integer: " + string);
             return 0;
         }
     }
 
-    public static double parseDouble(String string) {
+    public static double parseDoubleOrZero(String string) {
         if (string == null) {
             return 0;
         }
         try {
             return Double.parseDouble(string);
         } catch (NumberFormatException ignored) {
+            Logging.debugLog("Could not parse double: " + string);
             return 0;
         }
     }
 
-    public static float parseFloat(String string) {
+    public static float parseFloatOrZero(String string) {
         if (string == null) {
             return 0;
         }
         try {
             return Float.parseFloat(string);
         } catch (NumberFormatException ignored) {
+            Logging.debugLog("Could not parse float: " + string);
             return 0;
         }
     }

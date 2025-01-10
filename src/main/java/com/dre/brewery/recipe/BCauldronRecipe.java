@@ -113,7 +113,7 @@ public class BCauldronRecipe {
             if (split.length == 1) {
                 minute = 10;
             } else if (split.length == 2) {
-                minute = BUtil.parseInt(split[1]);
+                minute = BUtil.parseIntOrZero(split[1]);
             } else {
                 Logging.errorLog("cookParticle: '" + entry + "' in: " + recipe.name);
                 return null;

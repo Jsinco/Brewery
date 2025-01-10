@@ -174,7 +174,7 @@ public class BData {
                     boolean stat = section.getBoolean(uid + ".stat", false);
                     int lastUpdate = section.getInt(uid + ".lastUpdate", 0);
 
-                    Brew.loadLegacy(ingredients, BUtil.parseInt(uid), quality, alc, distillRuns, ageTime, BarrelWoodType.fromAny(wood), recipe, unlabeled, persistent, stat, lastUpdate);
+                    Brew.loadLegacy(ingredients, Integer.parseInt(uid), quality, alc, distillRuns, ageTime, BarrelWoodType.fromAny(wood), recipe, unlabeled, persistent, stat, lastUpdate);
                 }
             }
 
@@ -265,7 +265,7 @@ public class BData {
             if (m == null) continue;
             SimpleItem item;
             if (matSplit.length == 2) {
-                item = new SimpleItem(m, (short) BUtil.parseInt(matSplit[1]));
+                item = new SimpleItem(m, (short) BUtil.parseIntOrZero(matSplit[1]));
             } else {
                 item = new SimpleItem(m);
             }
@@ -357,8 +357,7 @@ public class BData {
                 if (block != null) {
                     String[] splitted = block.split("/");
                     if (splitted.length == 3) {
-
-                        Block worldBlock = world.getBlockAt(BUtil.parseInt(splitted[0]), BUtil.parseInt(splitted[1]), BUtil.parseInt(splitted[2]));
+                        Block worldBlock = world.getBlockAt(Integer.parseInt(splitted[0]), Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2]));
                         BIngredients ingredients = loadCauldronIng(section, cauldron + ".ingredients");
                         int state = section.getInt(cauldron + ".state", 0);
 
@@ -385,7 +384,7 @@ public class BData {
 
                         // load itemStacks from invSection
                         ConfigurationSection invSection = section.getConfigurationSection(barrel + ".inv");
-                        Block block = world.getBlockAt(BUtil.parseInt(splitted[0]), BUtil.parseInt(splitted[1]), BUtil.parseInt(splitted[2]));
+                        Block block = world.getBlockAt(Integer.parseInt(splitted[0]), Integer.parseInt(splitted[1]), Integer.parseInt(splitted[2]));
                         float time = (float) section.getDouble(barrel + ".time", 0.0);
                         byte sign = (byte) section.getInt(barrel + ".sign", 0);
 
@@ -393,7 +392,9 @@ public class BData {
                         if (section.contains(barrel + ".bounds")) {
                             String[] bds = section.getString(barrel + ".bounds", "").split(",");
                             if (bds.length == 6) {
-                                box = new BoundingBox(BUtil.parseInt(bds[0]), BUtil.parseInt(bds[1]), BUtil.parseInt(bds[2]), BUtil.parseInt(bds[3]), BUtil.parseInt(bds[4]), BUtil.parseInt(bds[5]));
+                                box = BoundingBox.fromPoints(
+                                    Arrays.stream(bds).mapToInt(Integer::parseInt).toArray()
+                                );
                             }
                         } else if (section.contains(barrel + ".st")) {
                             // Convert from Stair and Wood Locations to BoundingBox
@@ -408,7 +409,7 @@ public class BData {
                             if (woLength > 1) {
                                 System.arraycopy(wo, 0, points, st.length, woLength);
                             }
-                            int[] locs = Arrays.stream(points).mapToInt(s -> BUtil.parseInt(s)).toArray();
+                            int[] locs = Arrays.stream(points).mapToInt(Integer::parseInt).toArray();
                             try {
                                 box = BoundingBox.fromPoints(locs);
                             } catch (Exception e) {
@@ -447,12 +448,12 @@ public class BData {
                 if (loc != null) {
                     String[] splitted = loc.split("/");
                     if (splitted.length == 5) {
+                        double x = Double.parseDouble(splitted[0]);
+                        double y = Double.parseDouble(splitted[1]);
+                        double z = Double.parseDouble(splitted[2]);
+                        float pitch = Float.parseFloat(splitted[3]);
+                        float yaw = Float.parseFloat(splitted[4]);
 
-                        double x = BUtil.parseDouble(splitted[0]);
-                        double y = BUtil.parseDouble(splitted[1]);
-                        double z = BUtil.parseDouble(splitted[2]);
-                        float pitch = BUtil.parseFloat(splitted[3]);
-                        float yaw = BUtil.parseFloat(splitted[4]);
                         Location location = new Location(world, x, y, z, yaw, pitch);
 
                         initWakeups.add(new Wakeup(location));

@@ -37,7 +37,7 @@ public class HelpCommand implements SubCommand {
     public void execute(BreweryPlugin breweryPlugin, Lang lang, CommandSender sender, String label, String[] args) {
         int page = 1;
         if (args.length > 1) {
-            page = BUtil.parseInt(args[1]);
+            page = BUtil.parseIntOrZero(args[1]);
         }
 
         ArrayList<String> commands = CommandUtil.getCommands(sender);

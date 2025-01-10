@@ -30,7 +30,6 @@ import com.dre.brewery.configuration.files.Lang;
 import com.dre.brewery.integration.Hook;
 import com.dre.brewery.integration.barrel.LogBlockBarrel;
 import com.dre.brewery.lore.BrewLore;
-import com.dre.brewery.utility.BUtil;
 import com.dre.brewery.utility.BoundingBox;
 import com.dre.brewery.utility.Logging;
 import com.dre.brewery.utility.MinecraftVersion;
@@ -98,7 +97,7 @@ public class Barrel extends BarrelBody implements InventoryHolder {
         if (items != null) {
             for (String slot : items.keySet()) {
                 if (items.get(slot) instanceof ItemStack) {
-                    this.inventory.setItem(BUtil.parseInt(slot), (ItemStack) items.get(slot));
+                    this.inventory.setItem(Integer.parseInt(slot), (ItemStack) items.get(slot));
                 }
             }
         }

@@ -36,7 +36,7 @@ public class CopyCommand implements SubCommand {
     @Override
     public void execute(BreweryPlugin breweryPlugin, Lang lang, CommandSender sender, String label, String[] args) {
         if (args.length > 1) {
-            cmdCopy(sender, BUtil.parseInt(args[1]), lang);
+            cmdCopy(sender, BUtil.getRandomIntInRange(args[1]), lang);
         } else {
             cmdCopy(sender, 1, lang);
         }

@@ -56,7 +56,7 @@ public class PukeCommand implements SubCommand {
         }
         int count = 0;
         if (args.length > 2) {
-            count = BUtil.parseInt(args[2]);
+            count = BUtil.getRandomIntInRange(args[2]);
         }
         if (count <= 0) {
             count = 20 + (int) (Math.random() * 40);

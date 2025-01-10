@@ -188,10 +188,10 @@ public class FlatFileStorage extends DataManager {
             return null;
         }
 
-        List<Integer> bounds = Arrays.stream(
+        int[] bounds = Arrays.stream(
                 dataFile.getString(path + ".bounds").split(",")
             )
-            .map(Integer::parseInt).toList();
+            .mapToInt(Integer::parseInt).toArray();
 
         BoundingBox boundingBox = BoundingBox.fromPoints(bounds);
         float time = (float) dataFile.getDouble(path + ".time", 0.0);

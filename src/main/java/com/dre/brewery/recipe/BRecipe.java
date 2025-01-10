@@ -180,7 +180,7 @@ public class BRecipe implements Cloneable {
             int[] cmData = new int[3];
             for (int i = 0; i < 3; i++) {
                 if (cmdParts.length > i) {
-                    cmData[i] = BUtil.parseInt(cmdParts[i]);
+                    cmData[i] = BUtil.getRandomIntInRange(cmdParts[i]);
                 } else {
                     cmData[i] = i == 0 ? 0 : cmData[i - 1];
                 }
@@ -222,7 +222,7 @@ public class BRecipe implements Cloneable {
             String[] ingredParts = item.split("/");
             int amount = 1;
             if (ingredParts.length == 2) {
-                amount = BUtil.parseInt(ingredParts[1]);
+                amount = BUtil.getRandomIntInRange(ingredParts[1]);
                 if (amount < 1) {
                     Logging.errorLog(recipeId + ": Invalid Item Amount: " + ingredParts[1]);
                     return null;
@@ -280,7 +280,7 @@ public class BRecipe implements Cloneable {
             Material mat = MaterialUtil.getMaterialSafely(matParts[0]);
             short durability = -1;
             if (matParts.length == 2) {
-                durability = (short) BUtil.parseInt(matParts[1]);
+                durability = (short) BUtil.getRandomIntInRange(matParts[1]);
             }
             if (mat == null && Hook.VAULT.isEnabled()) {
                 try {

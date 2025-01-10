@@ -73,7 +73,7 @@ public class CommandUtil {
 
         int page = 1;
         if (args.length > 1) {
-            page = BUtil.parseInt(args[1]);
+            page = BUtil.parseIntOrZero(args[1]);
         }
 
         ArrayList<String> commands = getCommands(sender);
@@ -96,12 +96,12 @@ public class CommandUtil {
         boolean hasQuality = false;
         String pName = null;
         if (args.length > 2) {
-            quality = BUtil.parseInt(args[args.length - 1]);
+            quality = BUtil.getRandomIntInRange(args[args.length - 1]);
 
             if (quality <= 0 || quality > 10) {
                 pName = args[args.length - 1];
                 if (args.length > 3) {
-                    quality = BUtil.parseInt(args[args.length - 2]);
+                    quality = BUtil.getRandomIntInRange(args[args.length - 2]);
                 }
             }
             if (quality > 0 && quality <= 10) {

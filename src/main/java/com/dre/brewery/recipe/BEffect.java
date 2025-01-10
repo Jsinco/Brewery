@@ -97,21 +97,21 @@ public class BEffect implements Cloneable {
 
     private void setLvl(String[] range) {
         if (range.length == 1) {
-            maxlvl = (short) BUtil.parseInt(range[0]);
+            maxlvl = (short) BUtil.getRandomIntInRange(range[0]);
             minlvl = 1;
         } else {
-            maxlvl = (short) BUtil.parseInt(range[1]);
-            minlvl = (short) BUtil.parseInt(range[0]);
+            maxlvl = (short) BUtil.getRandomIntInRange(range[1]);
+            minlvl = (short) BUtil.getRandomIntInRange(range[0]);
         }
     }
 
     private void setDuration(String[] range) {
         if (range.length == 1) {
-            maxduration = (short) BUtil.parseInt(range[0]);
+            maxduration = (short) BUtil.getRandomIntInRange(range[0]);
             minduration = (short) (maxduration / 8);
         } else {
-            maxduration = (short) BUtil.parseInt(range[1]);
-            minduration = (short) BUtil.parseInt(range[0]);
+            maxduration = (short) BUtil.getRandomIntInRange(range[1]);
+            minduration = (short) BUtil.getRandomIntInRange(range[0]);
         }
     }
 
