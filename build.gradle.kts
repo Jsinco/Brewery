@@ -37,7 +37,7 @@ plugins {
 }
 
 group = "com.dre.brewery"
-version = "3.4.7"
+version = "3.4.8-SNAPSHOT"
 val langVersion: Int = 17
 val encoding: String = "UTF-8"
 
