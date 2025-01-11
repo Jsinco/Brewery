@@ -69,7 +69,7 @@ public class PlaceholderAPIManager extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
         BPlayer bPlayer = BPlayer.get(player);
-        if (bPlayer == null) bPlayer = new BPlayer(BUtil.playerString(player));
+        if (bPlayer == null) bPlayer = new BPlayer(player.getUniqueId());
 
         String[] args = params.split("_");
 

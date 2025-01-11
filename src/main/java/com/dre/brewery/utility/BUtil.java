@@ -157,13 +157,6 @@ public final class BUtil {
         }
     }
 
-    /**
-     * Returns either uuid or Name of player, depending on bukkit version
-     */
-    public static String playerString(OfflinePlayer player) {
-        return player.getUniqueId().toString();
-    }
-
 
     /**
      * returns the Player if online

@@ -111,7 +111,7 @@ public class BPlayer {
     @Nullable
     public static BPlayer get(OfflinePlayer player) {
         if (!players.isEmpty()) {
-            return players.get(BUtil.playerString(player));
+            return players.get(player.getUniqueId().toString());
         }
         return null;
     }
@@ -156,18 +156,18 @@ public class BPlayer {
     }
 
     public static boolean hasPlayer(OfflinePlayer player) {
-        return players.containsKey(BUtil.playerString(player));
+        return players.containsKey(player.getUniqueId().toString());
     }
 
     // Create a new BPlayer and add it to the list
     public static BPlayer addPlayer(OfflinePlayer player) {
-        BPlayer bPlayer = new BPlayer(BUtil.playerString(player));
-        players.put(BUtil.playerString(player), bPlayer);
+        BPlayer bPlayer = new BPlayer(player.getUniqueId());
+        players.put(player.getUniqueId().toString(), bPlayer);
         return bPlayer;
     }
 
     public static void remove(OfflinePlayer player) {
-        players.remove(BUtil.playerString(player));
+        players.remove(player.getUniqueId().toString());
     }
 
 
