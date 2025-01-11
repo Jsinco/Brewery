@@ -670,20 +670,21 @@ public class BPlayer {
         if (VERSION.isOrLater(MinecraftVersion.V1_14)) item.setPersistent(false); // No need to save Puke items
 
         int pukeDespawntime = config.getPukeDespawntime();
-        if (pukeDespawntime >= 5800) {
+        int despawnRate = BUtil.getItemDespawnRate(player.getWorld());
+        if (pukeDespawntime >= (despawnRate - 200)) {
             return;
         }
 
         // Setting the age determines when an item is despawned. At age 6000 it is removed.
         if (pukeDespawntime <= 0) {
             // Just show the item for a few ticks
-            item.setTicksLived(5996);
+            item.setTicksLived(despawnRate - 4);
         } else if (pukeDespawntime <= 120) {
             // it should despawn in less than 6 sec. Add up to half of that randomly
-            item.setTicksLived(6000 - pukeDespawntime + pukeRand.nextInt((int) (pukeDespawntime / 2F)));
+            item.setTicksLived(despawnRate - pukeDespawntime + pukeRand.nextInt((int) (pukeDespawntime / 2F)));
         } else {
             // Add up to 5 sec randomly
-            item.setTicksLived(6000 - pukeDespawntime + pukeRand.nextInt(100));
+            item.setTicksLived(despawnRate - pukeDespawntime + pukeRand.nextInt(100));
         }
     }
 

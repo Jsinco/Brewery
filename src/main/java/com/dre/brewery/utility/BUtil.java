@@ -36,6 +36,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -440,6 +441,16 @@ public final class BUtil {
         }
     }
 
+
+    public static int getItemDespawnRate(World world) {
+        YamlConfiguration spigotConfig = Bukkit.spigot().getConfig();
+
+        int worldDespawnRate = spigotConfig.getInt("world-settings." + world.getName() + ".item-despawn-rate", -1);
+        if (worldDespawnRate < 0) {
+            return spigotConfig.getInt("world-settings.default.item-despawn-rate", 6000);
+        }
+        return worldDespawnRate;
+    }
 
     /**
      * gets the Name of a DXL World
