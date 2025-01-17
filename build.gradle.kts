@@ -41,24 +41,26 @@ version = "3.4.8"
 val langVersion: Int = 17
 val encoding: String = "UTF-8"
 
-repositories {
-    mavenCentral()
-    maven("https://repo.jsinco.dev/releases") // UniversalScheduler
-    maven("https://jitpack.io") // GriefPrevention, SlimeFun, PlaceholderAPI
-    maven("https://repo.md-5.net/content/groups/public/") // Bungee
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot
-    maven("https://nexus.hc.to/content/repositories/pub_releases") // Vault
-    maven("https://maven.enginehub.org/repo/") // WorldEdit, WorldGuard
-    maven("https://ci.ender.zone/plugin/repository/everything/") // LWC Extended
-    maven("https://repo.minebench.de/") // ChestShop
-    maven("https://repo.codemc.org/repository/maven-public/") // BlockLocker
-    maven("https://nexus.phoenixdevt.fr/repository/maven-public/") // MythicLib (MMOItems)
-    maven("https://repo.projectshard.dev/repository/releases/") // Shopkeepers
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
-    maven("https://repo.glaremasters.me/repository/towny/") // Towny
-    maven("https://repo.oraxen.com/releases") // Oraxen
-    maven("https://storehouse.okaeri.eu/repository/maven-public/") // Okaeri Config
-    maven("https://repo.papermc.io/repository/maven-public/") // PaperLib
+allprojects {
+    repositories {
+        mavenCentral()
+        maven("https://repo.jsinco.dev/releases") // UniversalScheduler
+        maven("https://jitpack.io") // GriefPrevention, SlimeFun, PlaceholderAPI
+        maven("https://repo.md-5.net/content/groups/public/") // Bungee
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot
+        maven("https://nexus.hc.to/content/repositories/pub_releases") // Vault
+        maven("https://maven.enginehub.org/repo/") // WorldEdit, WorldGuard
+        maven("https://ci.ender.zone/plugin/repository/everything/") // LWC Extended
+        maven("https://repo.minebench.de/") // ChestShop
+        maven("https://repo.codemc.org/repository/maven-public/") // BlockLocker
+        maven("https://nexus.phoenixdevt.fr/repository/maven-public/") // MythicLib (MMOItems)
+        maven("https://repo.projectshard.dev/repository/releases/") // Shopkeepers
+        maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
+        maven("https://repo.glaremasters.me/repository/towny/") // Towny
+        maven("https://repo.oraxen.com/releases") // Oraxen
+        maven("https://storehouse.okaeri.eu/repository/maven-public/") // Okaeri Config
+        maven("https://repo.papermc.io/repository/maven-public/") // PaperLib
+    }
 }
 
 dependencies {
