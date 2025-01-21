@@ -18,22 +18,7 @@
  * along with BreweryX. If not, see <http://www.gnu.org/licenses/gpl-3.0.html>.
  */
 
-plugins {
-    id("java")
-    id("io.papermc.paperweight.userdev") version "1.7.7"
-}
+package com.dre.brewery.packets;
 
-// TODO: finish setting up modules
-group = "com.dre.brewery"
-version = "3.4.8"
-
-repositories {
-    mavenCentral()
-    maven("https://repo.papermc.io/repository/maven-public/")
-}
-
-dependencies {
-    implementation(project(":"))
-    paperweight.paperDevBundle("1.21.3-R0.1-SNAPSHOT")
-    compileOnly("com.comphenix.protocol:ProtocolLib:5.1.0") // https://github.com/dmulloy2/ProtocolLib
+public class CustomBiomeHandler {
 }

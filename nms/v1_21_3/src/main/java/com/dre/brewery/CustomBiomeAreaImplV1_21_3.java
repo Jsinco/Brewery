@@ -30,6 +30,7 @@ import net.minecraft.world.level.biome.BiomeSpecialEffects;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.craftbukkit.CraftWorld;
 
@@ -42,28 +43,38 @@ public class CustomBiomeAreaImplV1_21_3 extends CustomBiomeArea {
 
     private Biome biome;
 
-    public CustomBiomeAreaImplV1_21_3(Location parentBiomeLocation) {
-        super(parentBiomeLocation);
+    public CustomBiomeAreaImplV1_21_3(Location parentBiomeLocation, String fogColor, String skyColor, String waterColor, String waterFogColor, String foliageColor, String grassColor) {
+        Block block=;
+        block.setBiome();
+
+        super(parentBiomeLocation, fogColor, skyColor, waterColor, waterFogColor, foliageColor, grassColor);
         CraftWorld craftWorld = (CraftWorld) parentBiomeLocation.getWorld();
         Biome parentBiome = craftWorld.getHandle().getBiome(new BlockPos(parentBiomeLocation.getBlockX(), parentBiomeLocation.getBlockY(), parentBiomeLocation.getBlockZ())).value();
         BiomeSpecialEffects parentSpecialEffects = parentBiome.getSpecialEffects();
 
+
+
         BiomeSpecialEffects specialEffects = new BiomeSpecialEffects.Builder()
-            .ambientAdditionsSound(parentSpecialEffects.getAmbientAdditionsSettings().orElse(null))
-            .ambientMoodSound(parentSpecialEffects.getAmbientMoodSettings().orElse(null))
-            .ambientLoopSound(parentSpecialEffects.getAmbientLoopSoundEvent().orElse(null))
-            .fogColor()
-            .skyColor()
-            .grassColorOverride()
-            .build()
+            .ambientAdditionsSound(parentSpecialEffects.getAmbientAdditionsSettings().get())
+            .ambientMoodSound(parentSpecialEffects.getAmbientMoodSettings().get())
+            .ambientLoopSound(parentSpecialEffects.getAmbientLoopSoundEvent().get())
+            .fogColor(hexToColor(fogColor))
+            .skyColor(hexToColor(skyColor))
+            .waterColor(hexToColor(waterColor))
+            .waterFogColor(hexToColor(waterFogColor))
+            .foliageColorOverride(hexToColor(foliageColor))
+            .grassColorOverride(hexToColor(grassColor))
+            .build();
 
         this.biome = new Biome.BiomeBuilder()
             .downfall(0.5F)
             .temperature(parentBiome.getBaseTemperature())
-            .specialEffects()
+            .specialEffects(specialEffects)
             .generationSettings(parentBiome.getGenerationSettings())
             .hasPrecipitation(parentBiome.hasPrecipitation())
+            .mobSpawnSettings(parentBiome.getMobSettings())
             .build();
+
     }
 
     @Override
@@ -81,33 +92,4 @@ public class CustomBiomeAreaImplV1_21_3 extends CustomBiomeArea {
         return false;
     }
 
-    @Override
-    public void setFogColor(String color) {
-
-    }
-
-    @Override
-    public void setSkyColor(String color) {
-
-    }
-
-    @Override
-    public void setWaterColor(String color) {
-
-    }
-
-    @Override
-    public void setWaterFogColor(String color) {
-
-    }
-
-    @Override
-    public void setFoliageColor(String color) {
-
-    }
-
-    @Override
-    public void setGrassColor(String color) {
-
-    }
 }

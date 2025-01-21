@@ -47,4 +47,11 @@ public abstract class CustomBiomeArea {
     public abstract String getName();
     public abstract boolean isRegistered();
 
+
+    public int hexToColor(String hex) {
+        hex = hex.replace("#", "");
+
+        // Parse the hex string as an integer
+        return Integer.parseInt(hex, 16);
+    }
 }
