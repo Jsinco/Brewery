@@ -80,7 +80,7 @@ public class Config extends AbstractOkaeriConfigFile {
 
     @LocalizedComment("config.storage.header")
     private ConfiguredDataManager storage = ConfiguredDataManager.builder()
-        .type(DataManagerType.FLATFILE)
+        .type(DataManagerType.SQLITE)
         .database("brewery-data")
         .tablePrefix("brewery_")
         .address("localhost")
