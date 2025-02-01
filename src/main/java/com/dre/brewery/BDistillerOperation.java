@@ -20,6 +20,8 @@
 
 package com.dre.brewery;
 
+import com.dre.brewery.configuration.ConfigManager;
+import com.dre.brewery.configuration.files.Config;
 import org.bukkit.Material;
 import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.inventory.ItemStack;
@@ -31,6 +33,8 @@ public enum BDistillerOperation {
     DISTILLABLE_NO_OPERTION,
     DISTILLABLE,
     SPLASHABLE;
+
+    private static final Config config = ConfigManager.getConfig(Config.class);
 
     public static BDistillerOperation isDistillable(@NotNull BrewerInventory brewer, Brew[] contents) {
         ItemStack item = brewer.getItem(3); // ingredient
@@ -49,7 +53,7 @@ public enum BDistillerOperation {
                 return DISTILLABLE_NO_OPERTION;
             } else if (glowStoneDust && brew.canDistill()) {
                 return DISTILLABLE;
-            } else if (splashingSerum && !brew.isSplashPotion()) {
+            } else if (splashingSerum && !brew.isSplashPotion() && config.isEnableSplashableBrews()) {
                 return SPLASHABLE;
             } else {
                 customFound = DISTILLABLE_NO_OPERTION;

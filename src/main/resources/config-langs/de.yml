@@ -44,6 +44,12 @@ config:
   sealingTableBlock: |
     By default, Brewery uses Smoker as a Sealing Table, this option allows you to change it
     IMPORTANT: It needs to be a container - meaning a block that can store items (e.g., SMOKER, CHEST, BLAST_FURNACE).
+  enableSplashableBrews: |
+    Enables or disables the ability to convert brews into splash potions.
+    Splash potions can be created by using gunpowder instead of glowstone in distillers. [true]
+  splashableBrewPotencyReduction: |
+    Brewery will reduce the alcohol content of a thrown brew by the percentage specified here.
+    0.75 means the brew will have 75% of its original alcohol content when thrown (1.0 = 100%). [1.0]
   alwaysShowQuality: "Ob in den Iteminformationen immer 1-5 Sterne für die Qualität angezeigt werden sollen, oder nur beim brauen [true]"
   showBrewer: "If we should show who brewed the drink [false]"
   requireKeywordOnSigns: "Ob Fässer nur erstellt werden, wenn das platzierte Schild das Wort 'barrel' (oder eine Übersetzung) enthält [true]"
@@ -59,7 +65,7 @@ config:
     Dies kann also aktiviert werden um Rezept-cheating schwerer zu machen, aber keine Tränke per World Download, Schematic, o.ä. geteilt werden. [false]
   useOtherPlugins: |
     -- Plugin Kompatiblität --
-    
+
     Andere Plugins (wenn installiert) nach Rechten zum öffnen von Fässern checken [true]
     Plugins 'Landlord' und 'Protection Stones' nutzen WorldGuard. 'ClaimChunk' wird nativ unterstützt.
   useVirtualChestPerms: |
@@ -100,11 +106,11 @@ config:
 recipesFile:
   header: |
     -- Rezepte für Getränke --
-    
+
     Proper guide for this section can be found in our wiki here - https://brewery.lumamc.net/guide/recipies/
-    
+
     enabled: true if the recipe should be enabled, false if it should be disabled
-    
+
     name: Verschiedene Namen für schlecht/mittel/gut (Farbcodes möglich: z.b. &6)
     ingredients: Auflistung von 'Material/Anzahl'
       Halte ein Item in der Hand und benutze /brew ItemName um dessen Material herauszufinden und für ein Rezept zu benutzen
@@ -138,14 +144,14 @@ recipesFile:
         Minimale und Maximale Level/Dauer können durch "-" festgelegt werden, Bsp: 'SPEED/1-2/30-40' = Level 1 und 30 sek minimal, Level 2 und 40 sek maximal
         Diese Bereiche funktionieren auch umgekehrt, Bsp: 'POISON/3-1/20-5' für abschwächende Effekte bei guter Qualität
         Längste mögliche Effektdauer: 1638 sek. Es muss keine Dauer für Effekte mit sofortiger Wirkung angegeben werden.
-  
+
 
 cauldronFile:
   header: |
     -- Zutaten im Kessel --
     Hier kann angegeben werden welche Zutaten in den Kessel getan werden können und was mit ihnen geschieht.
     Es braucht nur etwas hier eingetragen werden falls der Basistrank besondere Eigenschaften wie Name und Farbe haben soll
-    
+
     name: Name des Basistrankes der aus dem Kessel kommt (Farbcodes möglich: z.b. &6)
     ingredients: Auflistung von 'Material/Anzahl'
       Halte ein Item in der Hand und benutze /brew ItemName um dessen Material herauszufinden und für ein Rezept zu benutzen
@@ -166,7 +172,7 @@ customItemsFile:
   header: |
     -- Eigene Items Definieren --
     Die festgelegte id kann dann in einem Rezept verwendet werden
-    
+
     matchAny: true wenn es schon reicht wenn eine der Angaben zutrifft
     material: Welche Art das Item haben muss
     name: Welchen Namen das Item haben muss (Farbcodes möglich: z.b. &6)

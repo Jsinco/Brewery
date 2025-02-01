@@ -222,8 +222,8 @@ public class BDistiller {
                 stand.update();
 
                 if (operation == BDistillerOperation.SPLASHABLE) {
-                    // Splashable potions are not distillable, but can be used to make splash potions
                     // This is the only case where we don't want to distill the potions
+                    // TODO: clean this up
                     this.cancel();
                     trackedDistillers.remove(standBlock);
                     for (int slot = 0; slot < 3; slot++) {

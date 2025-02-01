@@ -265,6 +265,8 @@ public class PlayerListener implements Listener {
             return;
         }
 
+        brew.setAlc((int) (brew.getAlc() * config.getSplashableBrewPotencyReduction()));
+
         List<Player> players = event.getAffectedEntities().stream()
             .filter(entity -> entity instanceof Player)
             .map(entity -> (Player) entity).toList();

@@ -49,6 +49,12 @@ config:
   sealingTableBlock: |
     Por defecto, BreweryX utiliza un ahumador como mesa de sellado. Esta opción te permite cambiarlo
     IMPORTANTE: Debe de ser un contenedor - un bloque que pueda contener objetos (por ejemplo, SMOKER, CHEST, BLAST_FURNACE).
+  enableSplashableBrews: |
+    Enables or disables the ability to convert brews into splash potions.
+    Splash potions can be created by using gunpowder instead of glowstone in distillers. [true]
+  splashableBrewPotencyReduction: |
+    Brewery will reduce the alcohol content of a thrown brew by the percentage specified here.
+    0.75 means the brew will have 75% of its original alcohol content when thrown (1.0 = 100%). [1.0]
   alwaysShowQuality: "Muestra siempre las estrellas en el objeto dependiendo de su calidad. Si se desactiva, solo aparecera durante su cocinado [true]"
   alwaysShowAlc: "Muestra siempre el nivel de alcohol del objeto. Si se desactiva, solo se mostrará en el estante de pociones [false]"
   showBrewer: "Si se debería mostrar quien hizo la bebida [false]"
@@ -61,14 +67,14 @@ config:
     Los ingredientes usados y otros datos de cocina están guardados en todos los objetos de BreweryX. para prevernir
     que clientes hack puedan leer exactamente que se utiliza en un objeto, los datos se pueden codificar/revolver.
     Este es un proceso rápido para impedir que los jugadores saquen las recetas con hacks al obtener la bebida.
-    
+
     El punto negativo es que los objetos solo podrán utilizarse en servers que utilicen la misma clave de codificación.
     Cuando utilices varios servidores (como, por ejemplo, con BungeeCord), define una base de datos MySQL en los ajustes de almacenamiento más arriba.
-    
+
     Activa esto cuando quieras hacer más difícil hackear las recetas, y no piensas compartir bebidas a través de descargas del mundo, esquemáticos u otros medios. [false]
   useOtherPlugins: |
     -- Compatibilidad de plugins --
-    
+
     Activa para comprobar otros plugins (si instalados) por permisos de tonel [true]
     Los plugins 'Landlord' y 'Protection Stones' usan WorldGuard Flag. 'ClaimChunk' es soportado nativamente.
   useVirtualChestPerms: |
@@ -97,8 +103,8 @@ config:
   words: |
     Palabras y letras que serán alteradas cuando se use el chat estando borracho.
     Será procesado del primero al último y una frase escrita es alterada en ese orden.
-        
-    replace: Palabra o letra a reemplazar. (Especial: "-space": reemplaza el espacio, "-random": inserta en posición aleatoria, "-all": todo, "-start": al principio, "-end": Al final.)  
+
+    replace: Palabra o letra a reemplazar. (Especial: "-space": reemplaza el espacio, "-random": inserta en posición aleatoria, "-all": todo, "-start": al principio, "-end": Al final.)
     to: Con qué reemplazarlo.
     pre: Palabras y letras antes de la palabra esperada (separar con ",")
     match: true = Una de las palabras "pre" debe estar antes de la palabra esperada, false = ninguna de las palabras "pre" se permite antes de la palabra esperada
@@ -115,43 +121,43 @@ config:
 recipesFile:
   header: |
     -- Recetas para pociones --
-         
+
     Guías más acordes para esta sección se pueden encontrar en nuestra wiki - https://brewery.lumamc.net/guide/recipies/
-         
+
     name: Nombres diferentes para mal/normal/bien (Códigos de formato admitidos: como por ejemplo &6, o hexadecimales como &#123123)
       name: "La peor bebida/Buena bebida/¡El mejor trago de toda mi absoluta existencia!"
-           
+
     ingredients: Lista de "material/cantidad'
       Con un objeto en tu mano, usa /brew ItemName para obtener su material para usarlo en una receta
       Una lista de materiales puede encontrarse aquí: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
       Objetos de plugins con 'plugin:id' (A día de hoy se soportan Brewery, Oraxen, ItemsAdder)
       O un objeto personalizado definido arriba
-         
+
     cookingtime: Tiempo en minutos reales que los ingredientes deben estar hirviendo
-        
+
     distillruns: Cuantas veces debe de ser destilado para la cantidad máxima de alcohol (0=sin destilación)
-        
+
     distilltime: Como de largo (en segundos) debe de ser cada destilado (0=Tiempo por defecto de 40 segundos). El estándar de Minecraft son 20 segundos
-        
+
     wood: Madera del tonel 0=cualquiera 1=Abedul 2=Roble 3=Jungla 4=Abeto 5=Acacia 6=Roble Oscuro 7=Carmesí 8=Distorsionado 9=Manglar 10=Cerezo 11=Bambú 12=Cobre cortado
       El barril de Minecraft está hecho de roble
-        
+
     age: Tiempo, en días de Minecraft, por los que la poción debe envejecer en toneles. 0=No requiere envejecer
-        
+
     color: Color después de destilar/envejecer.
       Colores utilizables: DARK_RED, RED, BRIGHT_RED, ORANGE, YELLOW, PINK, PURPLE, BLUE, CYAN, WATER, TEAL, OLIVE, GREEN, LIME, BLACK, GREY, BRIGHT_GREY, WHITE
       O colores RGB (hexadecimal: por ejemplo '99FF33') (con '') (busca "Color HTML" en internet)
-        
+
     difficulty: 1-10 precisión requerida para obtener buena calidad (1 = poca precisión/fácil, 10 = muy preciso/difícil)
-        
+
     alcohol: Cantidad absoluta de alcohol, 0-100, en una bebida perfecta (será añadido directamente al jugador, 100 implica desmayarse)
-        
+
     lore: Lista de texto adicional en la bebida terminada. (Códigos de formato posibles, como &6)
       Lore específico por calidad es posible, usando + mal, ++ normal, +++ bien, añadidos al principio de la línea.
       - +++ ¡La mejor bebida!
       - ++ Una bebida decente.
       - + Una basura de bebida
-        
+
     servercommands: Lista de comandos ejecutados por el -Servidor- al beber (se puede usar %player_name% %quality%)
       Se pueden especificar comandos por calidad, usando + mal, ++ normal, +++ bien, añadido al principio de la línea.
       - +++ op %player%
@@ -159,7 +165,7 @@ recipesFile:
       - + kill %player%
       El comando puede retrasarse antes de ejecutar añadiendo "/ <cantidad>s" al final, donde "s" significa segundos, como en este ejemplo:
       - op Jsinco / 3s
-        
+
     playercommands: Lista de comandos ejecutados por el -jugador- al beber (se puede usar %player_name%  %quality%)
       Se pueden especificar comandos por calidad, usando + mal, ++ normal, +++ bien, añadido al principio de la línea.
       - +++ spawn
@@ -167,18 +173,18 @@ recipesFile:
       - + suicide
       El comando puede retrasarse antes de ejecutar añadiendo "/ <cantidad>s" al final, donde "s" significa segundos, como en este ejemplo:
       - op Jsinco / 3s
-        
+
     drinkmessage: Mensaje de chat para el jugador al beber
-        
+
     drinktitle: Título en la pantalla del jugador al beber
-        
+
     glint: Booleano si el objeto debiera brillar como un objeto encantado
-        
+
     customModelData: Etiqueta de datos de modelo personalizados. Esto es un número que puede usarse al aplicar texturas personalizadas al objeto.
       Puede especificarse uno para la bebida entera, o uno por cada calidad, separados por /
       customModelData: 1
       customModelData: 1/2/3
-        
+
     effects: Lista de efecto/nivel/duración. Efectos de pocion aplicables al beber, duración en segundos.
       Efectos posibles: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
       Los rangos de nivel o duración pueden especificarse con un "-", por ejemplo 'SPEED/1-2/30-40' = nivel 1 y 30 segundos en la peor calidad, nivel 2 y 40 segundos a la mejor
@@ -194,26 +200,26 @@ cauldronFile:
     -- Ingredientes en el caldero --
     Qué ingredientes son aceptados por el caldero, y la poción base que resulta de ello
     Solo necesitas añadir algo aquí si quieres especificar un nombre o color para la bebida base
-    
+
     name: Nombre de la poción base que sale del caldero (Códigos de formato posibles, como &6)
-    
+
     ingredients: Lista de 'material/cantidad'
       Con un objeto en tu mano, usa /brew ItemName para obtener su material y usarlo en recetas
       (IDs de objetos en lugar de materiales ya no son soportados por bukkit y no funcionarán)
       Una lista de materiales puede encontrarse aquí: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-    
+
     color: Color de la poción base del caldero. Por defecto CYAN
       Colores utilizables: DARK_RED, RED, BRIGHT_RED, ORANGE, YELLOW, PINK, PURPLE, BLUE, CYAN, WATER, TEAL, OLIVE, GREEN, LIME, BLACK, GREY, BRIGHT_GREY, WHITE
       O colores RGB (hexadecimal: por ejemplo '99FF33') (con '') (busca "Color HTML" en internet)
-    
+
     cookParticles:
       Color de las particulas sobre el caldero en puntos diferentes de la preparación
       Color y minuto en el que cada color debería aparecer. Por ejemplo, un color a los 8 minutos, cambiando a otro color a los 18.
       Como lista, cada color como nombre o RGB, como se especifica arriba. Escrito como 'Color/Minuto'
       Se desvanecerá al último color al final. Si solo se establece un color en la lista, se desvanecerá a gris
-    
+
     lore: Lista de texto adicional en la poción base. (Códigos de formato posibles, como &6 o hexadecimal como #&<hex>)
-    
+
     customModelData: Etiqueta de datos de modelo personalizados. Esto es un número que puede usarse al aplicar texturas personalizadas al objeto.
 
 
@@ -221,9 +227,9 @@ customItemsFile:
   header: |
     -- Define objetos personalizados --
     El ID definido puede usarse en recetas
-            
-    matchAny: Establece si con que solo una de las condiciones coincida es suficiente    
+
+    matchAny: Establece si con que solo una de las condiciones coincida es suficiente
     material: El tipo de objeto que se usa
-    name: El nombre que el objeto debe tener (Códigos de formato posibles, como &6 o hexadecimal como &#<hex>)  
-    lore: Que debe estar en el lore del objeto  
+    name: El nombre que el objeto debe tener (Códigos de formato posibles, como &6 o hexadecimal como &#<hex>)
+    lore: Que debe estar en el lore del objeto
     customModelData: El modelo personalizado que el objeto debe de tener, en formato de lista

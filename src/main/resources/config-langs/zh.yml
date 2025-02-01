@@ -54,6 +54,12 @@ config:
   sealingTableBlock: |
     By default, Brewery uses Smoker as a Sealing Table, this option allows you to change it
     IMPORTANT: It needs to be a container - meaning a block that can store items (e.g., SMOKER, CHEST, BLAST_FURNACE).
+  enableSplashableBrews: |
+    Enables or disables the ability to convert brews into splash potions.
+    Splash potions can be created by using gunpowder instead of glowstone in distillers. [true]
+  splashableBrewPotencyReduction: |
+    Brewery will reduce the alcohol content of a thrown brew by the percentage specified here.
+    0.75 means the brew will have 75% of its original alcohol content when thrown (1.0 = 100%). [1.0]
   alwaysShowQuality: "是否始终根据物品质量显示1-5颗星，如果设置为否，则仅在酿造过程中显示星星 [true]"
   alwaysShowAlc: "是否始终在物品上显示酒精含量，如果设置为否，则只在酿造台上显示 [false]"
   showBrewer: "如果我们应该显示谁制作了这杯饮料 [false]"
@@ -88,7 +94,7 @@ config:
   colorInBarrels-Brewer: |
     饮品上是否显示带颜色的提示, 颜色由执行步骤的正误决定
     是否在陈酿酒桶内显示颜色 [true]
-    
+
     是否在酿造台内显示颜色 [true]
   openLargeBarrelEverywhere: |
     大型木桶是否可通过点击其任一方块来开启，不仅仅限于龙头或标志
@@ -111,24 +117,24 @@ config:
   words: |
     words[单词]: 当玩家醉酒时聊天中将被改变的单词和字母
     将按照从前往后的顺序进行处理，并且按照这个顺序改变书写的句子
-  
+
     replace: 要替换的单词或字母
     特殊类型：
     "-space": 替换空格     "-random": 插入到随机位置     "-all": 所有内容
     "-start": 在开始处     "-end": 在结束处
-  
+
     to: 用什么替换它
-  
+
     pre: 在目标单词之前的单词和字母
     用 "," 分隔
-  
+
     match:
     true = 目标单词前必须有一个'pre'单词
     false = 目标单词前不允许有'pre'单词
-  
+
     alcohol[酒精度]: 1-100
     在醉酒程度达到这个值后，这个单词将被替换
-  
+
     percentage[概率]: 单词替换的概率（百分比）
   useOtherFiles: |
     You may declare custom items, recipes, and cauldron ingredients here too, optionally, but using their respective files is recommended.
@@ -141,9 +147,9 @@ config:
 recipesFile:
   header: |
     -- 饮品配方列表 --
-    
+
     Proper guide for this section can be found in our wiki here - https://brewery.lumamc.net/guide/recipies/
-    
+
     enabled: true if the recipe should be enabled, false if it should be disabled
 
     name[名称]：

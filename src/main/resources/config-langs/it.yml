@@ -49,6 +49,12 @@ config:
   sealingTableBlock: |
     By default, Brewery uses Smoker as a Sealing Table, this option allows you to change it
     IMPORTANT: It needs to be a container - meaning a block that can store items (e.g., SMOKER, CHEST, BLAST_FURNACE).
+  enableSplashableBrews: |
+    Enables or disables the ability to convert brews into splash potions.
+    Splash potions can be created by using gunpowder instead of glowstone in distillers. [true]
+  splashableBrewPotencyReduction: |
+    Brewery will reduce the alcohol content of a thrown brew by the percentage specified here.
+    0.75 means the brew will have 75% of its original alcohol content when thrown (1.0 = 100%). [1.0]
   alwaysShowQuality: "Always show the 1-5 stars on the item depending on the quality. If false, they will only appear when brewing [true]"
   alwaysShowAlc: "Always show the alcohol content on the item. If false, it will only show in the brewing stand [false]"
   showBrewer: "If we should show who brewed the drink [false]"
@@ -61,14 +67,14 @@ config:
     The used Ingredients and other brewing-data is saved to all Brewery Items. To prevent
     hacked clients from reading what exactly was used to brew an item, the data can be encoded/scrambled.
     This is a fast process to stop players from hacking out recipes, once they get hold of a brew.
-    
+
     Only drawback: brew items can only be used on another server with the same encodeKey.
     When using Brews on multiple (BungeeCord) Servers, define a MYSQL database in the 'storage' settings.
-    
+
     So enable this if you want to make recipe cheating harder, but don't share any brews by world download, schematics, or other means. [false]
   useOtherPlugins: |
     -- Compatibilità con altri plugin --
-  
+
     Abilita il controllo della presenza di altri plugin per i permessi relativi ai barili[true]
     Plugins 'Landlord' and 'Protection Stones' use the WorldGuard Flag. 'ClaimChunk' is natively supported.
   useVirtualChestPerms: |
@@ -115,9 +121,9 @@ config:
 recipesFile:
   header: |
     -- Ricette per pozioni --
-    
+
     Proper guide for this section can be found in our wiki here - https://brewery.lumamc.net/guide/recipies/
-    
+
     enabled: true if the recipe should be enabled, false if it should be disabled
 
     name: Tre nomi diversi per diverse qualità (cattivo/normale/buono). I codici come &6 possono essere usati.
@@ -161,26 +167,26 @@ cauldronFile:
     -- Ingredients in the Cauldron --
     Which Ingredients are accepted by the Cauldron and the base potion resulting from them
     You only need to add something here if you want to specify a custom name or color for the base potion
-    
+
     name: Name of the base potion coming out of the Cauldron (Formatting codes possible: such as &6)
-    
+
     ingredients: List of 'material/amount'
       With an item in your hand, use /brew ItemName to get its material for use in a recipe
       (Item-ids instead of material are not supported by bukkit anymore and will not work)
       A list of materials can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html
-    
+
     color: Color of the base potion from a cauldron. Defaults to CYAN
       Usable Colors: DARK_RED, RED, BRIGHT_RED, ORANGE, YELLOW, PINK, PURPLE, BLUE, CYAN, WATER, TEAL, OLIVE, GREEN, LIME, BLACK, GREY, BRIGHT_GREY, WHITE
       Or RGB colors (hex: for example '99FF33') (with '') (search for "HTML color" on the internet)
-    
+
     cookParticles:
       Color of the Particles above the cauldron at different cooking-times
       Color and minute during which each color should appear, i.e. one color at 8 minutes fading to another at 18 minutes.
       As List, each Color as name or RGB, see above. Written as 'Color/Minute'
       It will fade to the last color in the end, if there is only one color in the list, it will fade to grey
-    
+
     lore: List of additional text on the base potion. (Formatting codes possible: such as &6 or hex as #&<hex>)
-    
+
     customModelData: Custom Model Data Tag. This is a number that can be used to add custom textures to the item.
 
 
@@ -188,9 +194,9 @@ customItemsFile:
   header: |
     -- Define custom items --
     The defined id can then be used in recipes
-    
-    matchAny: true if it is already enough if one of the info matches     
-    material: Which type the item has to be 
-    name: Which name the item has to be (Formatting codes possible: such as &6 or hex as &#<hex>)  
-    lore: What has to be in the lore of the item   
+
+    matchAny: true if it is already enough if one of the info matches
+    material: Which type the item has to be
+    name: Which name the item has to be (Formatting codes possible: such as &6 or hex as &#<hex>)
+    lore: What has to be in the lore of the item
     customModelData: Custom Model Data Int. Whatever Model data number the item has to have in a list format
